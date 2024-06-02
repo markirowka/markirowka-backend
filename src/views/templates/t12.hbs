@@ -208,7 +208,7 @@ h3 {
             <td class="text-center bb2 no-bb" contenteditable>345678</td>
           </tr>
           <tr>
-           <td colspan="2" class="bb" contenteditable>ИП Хункеров М.М., 056206931398, 141281, г. Ивантеевка, ул. Хлебозаводская, дом 28, корп. 6 кв. 69, <br>р/с 40802810270010175519, в банке МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК", БИК 044525092, к/с 30101810645250000092</td>
+           <td colspan="2" class="bb" contenteditable>{{ user.ceo_full }}, {{ user.inn }}, {{ user.law_address }}<br>р/с 40802810270010175519, в банке МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК", БИК 044525092, к/с 30101810645250000092</td>
             <td class="psm text-right">по ОКПО</td>
             <td class="b bbl bbr text-center" contenteditable></td>
         </tr>
@@ -225,7 +225,7 @@ h3 {
         </tr>
         <tr>
          <td width="105px">Грузополучатель</td>
-         <td class="bb" contenteditable> Елена Корнилова, 424000, Йошкар-Ола, Кирова 3а</td>
+         <td class="bb" contenteditable> {{ user.cargo_recevier }}</td>
           <td class="psm text-right">по ОКПО</td>
           <td class="b bbl bbr text-center" contenteditable></td>
         </tr>
@@ -236,7 +236,7 @@ h3 {
         </tr>
         <tr>  
          <td>Поставщик</td>
-         <td class="bb" contenteditable> ИП Хункеров М.М., 056206931398, 141281, г. Ивантеевка, ул. Хлебозаводская, дом 28, корп. 6 кв. 69, <br>р/с 40802810270010175519, в банке МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК", БИК 044525092, к/с 30101810645250000092</td>
+         <td class="bb" contenteditable>{{ user.ceo_full }}, {{ user.inn }}, {{ user.law_address }}<br>р/с 40802810270010175519, в банке МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК", БИК 044525092, к/с 30101810645250000092</td>
           <td class="psm text-right">по ОКПО</td>
         </tr>
         <tr>
@@ -353,6 +353,7 @@ h3 {
        </tr>
        </thead>
        <tbody class="torg12-content">
+      
        <tr>
          <td class="td1">1</td>
          <td class="td2">Футболка для мальчика 523BNT</td>
@@ -389,23 +390,6 @@ h3 {
          <td class="td15"><nobr>1 080,00</nobr></td>
        </tr>
          
-       <tr>
-         <td class="td1">3</td>
-         <td class="td2">Футболка для мальчика 523BNT</td>
-         <td class="td3"></td>
-         <td class="td4">шт</td>
-         <td class="td5">796</td>
-         <td class="td6"></td>
-         <td class="td7"></td>
-         <td class="td8">10</td>
-         <td class="td9"></td>
-         <td class="td10">10,000</td>
-         <td class="td11">90,00</td>
-         <td class="td12">1 000,00</td>
-         <td class="td13">Без НДС</td>
-         <td class="td14"></td>
-         <td class="td15"><nobr>1 080,00</nobr></td>
-       </tr>
        </tbody>
        <tbody>
          <tr>

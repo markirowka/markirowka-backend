@@ -5,26 +5,31 @@ import puppeteer from 'puppeteer';
 import handlebars from 'handlebars';
 
 
-export async function GenerateT12PDF (owner: User, fileName: string, data: itemData[]) {
+export async function GenerateT12PDF (user: User, fileName: string, data: itemData[]) {
     return new Promise(async (resolve, reject) => {
+
+        console.log("Creation called");
         
         const templatePath = path.join(__dirname, './templates/t12.hbs');
         const templateSource = fs.readFileSync(templatePath, 'utf8');
         const template = handlebars.compile(templateSource);
 
-        // Генерация HTML из шаблона и данных
-        const html = template(data);
+        const combinedData = {
+            user, 
+            items: data
+        }
+        const html = template(combinedData);
         
         const browser = await puppeteer.launch({
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            timeout: 30000 // увеличиваем тайм-аут до 60 секунд
+            timeout: 30000 
         });
         const page = await browser.newPage();
         await page.setContent(html);
 
         const pdfOptions = {
-            path: `files/${owner.id || "0"}/${fileName}`,
-            orientation: 'landscape', // 'portrait'
+            path: `files/${user.id || "0"}/${fileName}`,
+            orientation: 'portrait', // 'landscape', // 'portrait'
             margin: {
                 top: '10mm',
                 right: '10mm',
@@ -34,6 +39,8 @@ export async function GenerateT12PDF (owner: User, fileName: string, data: itemD
             printBackground: true,
             displayHeaderFooter: false
         };
+
+        console.log(pdfOptions)
 
         await page.setContent(html);
         await page.pdf(pdfOptions);

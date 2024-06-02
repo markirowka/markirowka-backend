@@ -27,7 +27,7 @@ export const CreateT12 = async (req: Request, res: Response) => {
 
 
     try {
-        const fileName = await CreateFileNameDBNote (userId, 'specify');
+        const fileName = await CreateFileNameDBNote (userId, 't12');
         const createFile = await GenerateT12PDF (user, fileName, itemList)
     } catch (e: any) {
         console.log(e.message);

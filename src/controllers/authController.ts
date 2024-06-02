@@ -242,7 +242,7 @@ export async function IsAuthCheck (req: Request, res: Response) {
 
 export function UserIdFromAuth (req: Request): number| null {
     const token = req.session.token;
-    console.log("Sign in token: ", token);
+    // console.log("Sign in token: ", token);
 
     if (!token) {
         return null
@@ -250,13 +250,26 @@ export function UserIdFromAuth (req: Request): number| null {
     
       try {
         const decoded = jwt.verify(token, authPrivateKey);
-        console.log(decoded);
+        // console.log(decoded);
         if (typeof decoded === "string") return null;
         return decoded.userId
       } catch (error) {
         console.error('Error verifying token:', error);
         return null;
       }
+}
+
+export async function IsAdmin (args: {id?: number, req?: Request}): Promise<boolean> {
+  if (!args.id && !args.req) {
+    return false
+  }
+  const userId = args.id || (!args.req) ? 0 : (await UserIdFromAuth (args.req)  || 0);
+  if (userId === 0) return false;
+  const userData = await GetUserById (userId);
+  if (!userData) {
+    return false;
+  }
+  return userData.user_role === "ADMIN" ? true : false
 }
 
 export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
@@ -290,6 +303,8 @@ export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
         res.status(401).send({ error: 'Unauthorized' })
       }
 }
+
+
 
 
 export { signup, signin, verifyEmail, recoverPassword };

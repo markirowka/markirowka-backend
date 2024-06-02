@@ -16,6 +16,14 @@ export interface User {
   user_role?: string;
 }
 
+export interface userEditRequest {
+  userId: number;
+  paramsToEdit: {
+    param: keyof User;
+    value: string | number
+  }[]
+}
+
 export interface userFiles {
   id: number;
   owner_id: number;
