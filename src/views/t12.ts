@@ -1,14 +1,14 @@
-import { itemData } from "../models";
+import { User, itemData } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
 import handlebars from 'handlebars';
 
 
-export async function GenerateSpecifyPDF (ownerId: number, data: itemData[]) {
+export async function GenerateT12PDF (owner: User, fileName: string, data: itemData[]) {
     return new Promise(async (resolve, reject) => {
         
-        const templatePath = path.join(__dirname, './templates/specify.hbs');
+        const templatePath = path.join(__dirname, './templates/t12.hbs');
         const templateSource = fs.readFileSync(templatePath, 'utf8');
         const template = handlebars.compile(templateSource);
 
@@ -23,7 +23,7 @@ export async function GenerateSpecifyPDF (ownerId: number, data: itemData[]) {
         await page.setContent(html);
 
         const pdfOptions = {
-            path: `files/${ownerId}/specify_test.pdf`,
+            path: `files/${owner.id || "0"}/${fileName}`,
             orientation: 'landscape', // 'portrait'
             margin: {
                 top: '10mm',

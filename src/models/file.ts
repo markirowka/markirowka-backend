@@ -19,6 +19,24 @@ export interface itemData {
     cardResult?: string;
 }
 
+
+export const sampleItem: itemData = {
+    code: 0,
+    tnved: 1,
+    k3: 1,
+    name: 'Sample Name',
+    tradeMark: 'Sample TradeMark',
+    modelNameType:'',
+    modelNameStr: '',
+    type: 'Sample Type',
+    color: 'Sample Color',
+    size: 42,
+    material: 'Sample Material',
+    tnvedCode: 123456,
+    cardStatus: 'Active',
+    cardResult: 'Success'
+}
+
 export async function GetNewFileId (): Promise<number> {
     const query = `SELECT max("id") FROM "user_files";`
     try {
@@ -38,7 +56,7 @@ export async function CreateFileNameDBNote (ownerId: number, fileType: string): 
    const dt = new Date();
    const fileExt = fileType === 'specify' ? 'xlsx' : 'pdf';
    
-   const newFileName =  `${fileType}_${fileId}_${ownerId}_${dt.getFullYear()}_${dt.getMonth()}_${dt.getDay()}_${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}.${fileExt}`
+   const newFileName =  `${fileType}_${fileId}_${ownerId}_${dt.getFullYear()}_${dt.getMonth()}_${dt.getDay()}_${dt.getHours()}_${dt.getMinutes()}_${dt.getSeconds()}.${fileExt}`
    const fileAddQuery = `
    INSERT INTO public.user_files(
 	file_name, file_type, owner_id)

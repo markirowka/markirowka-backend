@@ -1,4 +1,4 @@
-import { itemData } from "../models";
+import { itemData, sampleItem } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
@@ -28,8 +28,8 @@ export async function GenerateSpecify (ownerId: number, fileName: string, data: 
 
         const stringifiedData: string[][] = data.map((item) => {
             const values: string[] = [];
-            for (let key in item) {
-                values.push(String(item[key as keyof itemData]))
+            for (let key in sampleItem) {
+                values.push(String(item[key as keyof itemData] || ""))
             }
             return values
         })
@@ -37,12 +37,13 @@ export async function GenerateSpecify (ownerId: number, fileName: string, data: 
         const wsData = [header, ...stringifiedData]; 
         const ws = xlsx.utils.aoa_to_sheet(wsData);
        
-        const wb = xlsx.utils.book_new();
-        xlsx.utils.book_append_sheet(wb, ws, 'Items');
+        const workbook = xlsx.utils.book_new();
+        xlsx.utils.book_append_sheet(workbook, ws, 'Items');
 
         try {
-            const filePath = `testfile.xlsx`;  // files/${ownerId}/${fileName}
-            xlsx.writeFile(wb, filePath);
+            const filePath = `files/${ownerId}/${fileName}`;  // files/${ownerId}/${fileName}
+            // fs.openSync(filePath, 'w');
+            xlsx.writeFile(workbook, filePath);
             resolve(true);
         } catch (e: any) {
             console.log(e.message);
