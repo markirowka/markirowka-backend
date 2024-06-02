@@ -55,7 +55,8 @@ app.get("/api/signupconfirm", Users.verifyEmail);
 
 app.post("/api/resetpassword", Users.recoverPassword);
 
-app.get ("/api/createT12", Files.CreateT12);
+app.post ("/api/createT12", Files.CreateT12);
+app.post ("/api/createSpecify", Files.CreateSpecify);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}...`);
