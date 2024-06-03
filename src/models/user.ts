@@ -98,3 +98,15 @@ export async function EditUserParams (
   console.log("Query: ", query, "Values: ", values);
   await pool.query(query, values);
 }
+
+export async function DeleteUser (userId: number) {
+  const query = `DELETE FROM "app_users" WHERE "id" = ${userId};`;
+
+  try {
+    await pool.query(query);
+    return true;
+  } catch (e: any) {
+    console.log(e.message);
+    return false;
+  }
+}

@@ -64,6 +64,8 @@ app.post ("/api/edituser", EditUser.EditUserParamByUser);
 
 app.post ("/api/admin/edituser", EditUser.EditUserParamsByAdmin);
 
+app.delete ("/api/admin/deleteuser/:id", EditUser.DeleteUserByAdmin);
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}...`);
   });

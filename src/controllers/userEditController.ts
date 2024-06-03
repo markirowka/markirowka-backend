@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import 'express-session';
-import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin } from "../models";
+import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin, DeleteUser } from "../models";
 import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController";
 import { IsValidEmail } from "../utils";
 
@@ -58,6 +58,27 @@ export const EditUserParamsByAdmin = async (req: Request, res: Response) => {
     try {
         EditUserParams(params, body.userId);
         res.status(200).send({ message: 'User params updated'});
+    } catch (e: any) {
+        console.log(e.message);
+        res.status(500).send({ message: 'Error in request processing'});
+    }
+}
+
+export const DeleteUserByAdmin = async (req: Request, res: Response) => {
+    const userId = Number(req.params.id);
+    const isFromAdmin = await IsAdmin ({req});
+    if (!isFromAdmin) {
+        res.status(403).send({ error: "No rigths to delete user"});
+        return;
+    }
+    if (isNaN(userId) || userId < 1) {
+        res.status(400).send({ error: "Invalid user id"});
+        return;
+    }
+
+    try {
+        await DeleteUser (userId);
+        res.status(200).send({ message: 'User deleted'});
     } catch (e: any) {
         console.log(e.message);
         res.status(500).send({ message: 'Error in request processing'});
