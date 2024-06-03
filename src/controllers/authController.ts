@@ -68,7 +68,7 @@ const signup = async (req: Request, res: Response) => {
     const result = await pool.query(
       `INSERT INTO app_users 
       ( email,
-        password_hash,
+        password,
         full_name,
         ceo,
         ceo_full,
@@ -143,13 +143,13 @@ const signin = async (req: Request, res: Response) => {
 
     const user: User = result.rows[0];
 
-    if (!user || !user.password_hash) {
+    if (!user || !user.password) {
         return res
         .status(400)
         .json({ success: false, error: "User not found" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res
@@ -293,7 +293,7 @@ export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
             res.status(400).send({ error: 'Invalid user' });
             return;
         }
-        const { password_hash, ...dataToDisplay} = userData;
+        const { password, ...dataToDisplay} = userData;
         res.status(200).send({
             data: dataToDisplay
         })

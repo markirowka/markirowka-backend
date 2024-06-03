@@ -4,7 +4,7 @@ import pool from "./db";
 export interface User {
   id?: number;
   email: string;
-  password_hash?: string;
+  password?: string;
   isConfirmed?: boolean;
   full_name: string;
   ceo?: string;
@@ -81,7 +81,8 @@ export async function EditUserParams (
   params: paramEditData[],
   userId: number 
 ) {
-   const setClauses = params.map((param, index) => `${param.key.toLowerCase()} = $${index + 1}`);
+
+  const setClauses = params.map((param, index) => `${param.key.toLowerCase()} = $${index + 1}`);
 
   const query = `
       UPDATE app_users
@@ -90,7 +91,7 @@ export async function EditUserParams (
     `;
 
   const values = params.map(param => { 
-    const newValue = param.key.toLowerCase() === 'password_hash' ? GeneratePasswordHash (param.value) : param.value
+    const newValue = param.key.toLowerCase() === 'password' ? GeneratePasswordHash (param.value) : param.value
     return newValue
   });
   // values.push(userId);

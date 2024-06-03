@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import 'express-session';
 import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin } from "../models";
 import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController";
+import { IsValidEmail } from "../utils";
 
 
 
@@ -45,6 +46,10 @@ export const EditUserParamsByAdmin = async (req: Request, res: Response) => {
 
     const params = body.paramsToEdit;
     for (let k = 0; k < params.length; k++) {
+        if (params[k].key === 'email' && !IsValidEmail(params[k].value)) {
+            res.status(400).send({ error: "Invalid email"});
+            return;
+        }
         if (forbiddenToEditParamsAdmin.indexOf(params[k].key) > -1) {
             res.status(403).send({ error: "Edit of some params is forbidden"});
             return;
