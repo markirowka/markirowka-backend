@@ -1,3 +1,4 @@
+import { GeneratePasswordHash } from "../utils";
 import pool from "./db";
 
 export interface User {
@@ -16,12 +17,14 @@ export interface User {
   user_role?: string;
 }
 
+export interface paramEditData {
+  key: keyof User;
+  value: any
+}
+
 export interface userEditRequest {
-  userId: number;
-  paramsToEdit: {
-    param: keyof User;
-    value: string | number
-  }[]
+  userId?: number;
+  paramsToEdit: paramEditData[]
 }
 
 export interface userFiles {
@@ -40,6 +43,9 @@ export interface userConfirmTokenData {
 export interface userValidateTokenData extends userConfirmTokenData {
   token: string;
 }
+
+export const forbiddenToEditParams = ['id', 'isconfirmed', 'isConfirmed', 'user_role']
+export const forbiddenToEditParamsAdmin = ['id']
 
 export async function GetUsersByParam(
   param: keyof User,
@@ -69,4 +75,25 @@ export async function GetUserById(
     console.log(e.message);
     return null;
   }
+}
+
+export async function EditUserParams (
+  params: paramEditData[],
+  userId: number 
+) {
+   const setClauses = params.map((param, index) => `${param.key.toLowerCase()} = $${index + 1}`);
+
+  const query = `
+      UPDATE app_users
+      SET ${setClauses.join(', ')}
+      WHERE id = ${userId}
+    `;
+
+  const values = params.map(param => { 
+    const newValue = param.key.toLowerCase() === 'password_hash' ? GeneratePasswordHash (param.value) : param.value
+    return newValue
+  });
+  // values.push(userId);
+  console.log("Query: ", query, "Values: ", values);
+  await pool.query(query, values);
 }

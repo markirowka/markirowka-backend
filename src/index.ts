@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import session from 'express-session';
 import bodyParser from "body-parser";
 import * as Users from "./controllers/authController";
+import * as EditUser from "./controllers/userEditController";
 import * as Files from "./controllers/fileController";
 
 dotenv.config();
@@ -56,7 +57,12 @@ app.get("/api/signupconfirm", Users.verifyEmail);
 app.post("/api/resetpassword", Users.recoverPassword);
 
 app.post ("/api/createT12", Files.CreateT12);
+
 app.post ("/api/createSpecify", Files.CreateSpecify);
+
+app.post ("/api/edituser", EditUser.EditUserParamByUser);
+
+app.post ("/api/admin/edituser", EditUser.EditUserParamsByAdmin);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}...`);
