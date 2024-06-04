@@ -4,6 +4,7 @@ import session from 'express-session';
 import bodyParser from "body-parser";
 import * as Users from "./controllers/authController";
 import * as EditUser from "./controllers/userEditController";
+import * as Download from "./controllers/downloadController";
 import * as Files from "./controllers/fileController";
 
 dotenv.config();
@@ -54,11 +55,17 @@ app.get("/api/userdata", Users.GetAuthorizedUserData);
 
 app.get("/api/signupconfirm", Users.verifyEmail);
 
+app.get ("/api/downloads", Download.GetUserDownloadList);
+
+app.get ("/api/file/:id/:filename", Download.DownloadFileByOwner);
+
 app.post("/api/resetpassword", Users.recoverPassword);
 
 app.post ("/api/createT12", Files.CreateT12);
 
 app.post ("/api/createSpecify", Files.CreateSpecify);
+
+app.post ("/api/edituser", EditUser.EditUserParamByUser);
 
 app.post ("/api/edituser", EditUser.EditUserParamByUser);
 

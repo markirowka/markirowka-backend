@@ -1,4 +1,4 @@
-import { User, itemData } from "../models";
+import { User, itemData, rootFolder } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
@@ -28,7 +28,7 @@ export async function GenerateT12PDF (user: User, fileName: string, data: itemDa
         await page.setContent(html);
 
         const pdfOptions = {
-            path: `files/${user.id || "0"}/${fileName}`,
+            path: `${rootFolder}${user.id || "0"}/${fileName}`,
             orientation: 'portrait', // 'landscape', // 'portrait'
             margin: {
                 top: '10mm',

@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import pool from "./db";
 
+export const rootFolder = process.env.FILE_ROOT_FOLDER || "files/"
+
 export interface itemData {
     code?: number;
     tnved?: number;
@@ -35,6 +37,17 @@ export const sampleItem: itemData = {
     tnvedCode: 123456,
     cardStatus: 'Active',
     cardResult: 'Success'
+}
+
+export interface fileDownloadData {
+    id: number;
+    owner_id: number;
+    file_name: string;
+    file_type: string;
+}
+
+export interface paymentDocumentData {
+
 }
 
 export async function GetNewFileId (): Promise<number> {
@@ -72,7 +85,7 @@ export async function CreateFileNameDBNote (ownerId: number, fileType: string): 
 }
 
 export async function CheckAndCreateOwnerFolder (ownerId: number) : Promise<boolean> {
-    const dirPath = `files/${ownerId}`;
+    const dirPath = `${rootFolder}${ownerId}`;
     try {
         await fs.promises.access(dirPath, fs.constants.F_OK);
         return true;
@@ -85,4 +98,18 @@ export async function CheckAndCreateOwnerFolder (ownerId: number) : Promise<bool
             return false;
         }
     }
+}export async function GetDownloads (userId: number): Promise<fileDownloadData[]> {
+    const files: fileDownloadData[] = []
+    const query = `SELECT * FROM "user_files" WHERE "owner_id" = ${userId};`;
+    
+    try {
+        const result = await pool.query(query);
+        result.rows.forEach((row) => {
+            files.push(row)
+        })
+    } catch (e: any) {
+        console.log(e.message);
+    }
+
+    return files;
 }

@@ -1,4 +1,4 @@
-import { itemData, sampleItem } from "../models";
+import { itemData, rootFolder, sampleItem } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
@@ -41,7 +41,7 @@ export async function GenerateSpecify (ownerId: number, fileName: string, data: 
         xlsx.utils.book_append_sheet(workbook, ws, 'Items');
 
         try {
-            const filePath = `files/${ownerId}/${fileName}`;  // files/${ownerId}/${fileName}
+            const filePath = `${rootFolder}${ownerId}/${fileName}`;  // files/${ownerId}/${fileName}
             // fs.openSync(filePath, 'w');
             xlsx.writeFile(workbook, filePath);
             resolve(true);
