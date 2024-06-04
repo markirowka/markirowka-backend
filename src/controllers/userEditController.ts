@@ -5,7 +5,6 @@ import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController
 import { IsValidEmail } from "../utils";
 
 
-
 export const EditUserParamByUser = async (req: Request, res: Response) => {
     const body: userEditRequest = req.body;
     const requesterId = await UserIdFromAuth (req);

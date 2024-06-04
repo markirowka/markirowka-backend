@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { GeneratePasswordHash } from "../utils";
 import pool from "./db";
 
@@ -12,6 +13,10 @@ export interface User {
   ceo_genitive?: string;
   law_address?: string;
   inn: number;
+  bank_account?: string;
+  corr_account?: string;
+  bank_code?: string;
+  bank_name?: string;
   cargo_recevier?: string;
   cargo_city?: string;
   user_role?: string;
@@ -46,6 +51,77 @@ export interface userValidateTokenData extends userConfirmTokenData {
 
 export const forbiddenToEditParams = ['id', 'isconfirmed', 'isConfirmed', 'user_role']
 export const forbiddenToEditParamsAdmin = ['id']
+
+export async function CreateUser (userData: User) {
+  const {
+    email,
+    password,
+    full_name,
+    ceo,
+    ceo_full,
+    ceo_genitive,
+    law_address,
+    inn,
+    cargo_recevier,
+    cargo_city,
+    bank_account,
+    corr_account,
+    bank_code,
+    bank_name
+  } = userData;
+  if (!password || !email) {
+    return null;
+  }
+  const password_hash = await bcrypt.hash(password, 10);
+  
+  try {
+    const result = await pool.query(
+      `INSERT INTO app_users 
+      ( email,
+        password,
+        full_name,
+        ceo,
+        ceo_full,
+        ceo_genitive,
+        law_address,
+        inn,
+        cargo_recevier,
+        cargo_city,
+        isconfirmed,
+        user_role,
+        bank_account,
+        corr_account,
+        bank_code,
+        bank_name ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`,
+      [email, 
+        password_hash, 
+        full_name || "", 
+        ceo || "", 
+        ceo_full || "", 
+        ceo_genitive || "", 
+        law_address || "",
+        inn,
+        cargo_recevier || "",
+        cargo_city || "",
+        false, 
+        "USER",
+        bank_account,
+        corr_account,
+        bank_code,
+        bank_name
+        ]
+    );
+    const user: User = result.rows[0];
+  
+    const userId = user.id;
+    return userId
+  } catch (e: any) {
+    console.log(e.message);
+    return null;
+  }
+
+}
 
 export async function GetUsersByParam(
   param: keyof User,

@@ -32,7 +32,10 @@ const signup = async (req: Request, res: Response) => {
     inn,
     cargo_recevier,
     cargo_city,
-    user_role,
+    bank_account,
+    corr_account,
+    bank_code,
+    bank_name
   } = req.body;
 
   if (!email) {
@@ -78,8 +81,12 @@ const signup = async (req: Request, res: Response) => {
         cargo_recevier,
         cargo_city,
         isconfirmed,
-        user_role ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
+        user_role,
+        bank_account,
+        corr_account,
+        bank_code,
+        bank_name ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`,
       [email, 
         password_hash, 
         full_name || "", 
@@ -91,7 +98,12 @@ const signup = async (req: Request, res: Response) => {
         cargo_recevier || "",
         cargo_city || "",
         false, 
-        "USER"]
+        "USER",
+        bank_account,
+        corr_account,
+        bank_code,
+        bank_name
+        ]
     );
 
     const user: User = result.rows[0];
