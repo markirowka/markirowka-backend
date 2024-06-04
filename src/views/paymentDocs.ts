@@ -1,16 +1,16 @@
-import { User, itemData, rootFolder } from "../models";
+import { User, itemData, paymentDocumentData, rootFolder } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
 import handlebars from 'handlebars';
 
 
-export async function GenerateT12PDF (user: User, fileName: string, data: itemData[]) {
+export async function GeneratePaymentPDF (user: User, fileName: string, data: paymentDocumentData[], kind: string) {
     return new Promise(async (resolve, reject) => {
 
         console.log("Creation called");
         
-        const templatePath = path.join(__dirname, './templates/t12.hbs');
+        const templatePath = path.join(__dirname, `./templates/${kind}.hbs`);
         const templateSource = fs.readFileSync(templatePath, 'utf8');
         const template = handlebars.compile(templateSource);
 
@@ -18,6 +18,9 @@ export async function GenerateT12PDF (user: User, fileName: string, data: itemDa
             user, 
             items: data
         }
+
+        console.log("Generation data: ", combinedData);
+
         const html = template(combinedData);
         
         const browser = await puppeteer.launch({
@@ -29,7 +32,7 @@ export async function GenerateT12PDF (user: User, fileName: string, data: itemDa
 
         const pdfOptions = {
             path: `${rootFolder}${user.id || "0"}/${fileName}`,
-            orientation: 'portrait', // 'landscape', // 'portrait'
+            orientation: kind === 't12' ? 'portrait' : 'landscape', // 'landscape', // 'portrait'
             margin: {
                 top: '10mm',
                 right: '10mm',

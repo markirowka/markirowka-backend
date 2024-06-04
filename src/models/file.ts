@@ -47,7 +47,10 @@ export interface fileDownloadData {
 }
 
 export interface paymentDocumentData {
-
+    category: string;
+    name: string;
+    quantity: number;
+    price: number;
 }
 
 export async function GetNewFileId (): Promise<number> {

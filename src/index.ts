@@ -61,7 +61,7 @@ app.get ("/api/file/:id/:filename", Download.DownloadFileByOwner);
 
 app.post("/api/resetpassword", Users.recoverPassword);
 
-app.post ("/api/createT12", Files.CreateT12);
+app.post ("/api/createpayments", Files.CreatePaymentFiles);
 
 app.post ("/api/createSpecify", Files.CreateSpecify);
 
