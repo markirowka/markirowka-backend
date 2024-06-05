@@ -5,7 +5,7 @@ const creationQuery = `
 CREATE TABLE IF NOT EXISTS app_users (
     id serial PRIMARY KEY,
     email VARCHAR(254) NOT NULL UNIQUE,
-    password_hash varchar(256),
+    password varchar(256),
     isConfirmed boolean,
     full_name varchar(256) NOT NULL,
     ceo varchar(64),
