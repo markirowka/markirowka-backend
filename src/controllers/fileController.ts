@@ -38,9 +38,9 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
       CreateFileNameDBNote(userId, "agreement"),
     ]);
 
-    GeneratePaymentPDF(user, fileNames[0], itemList, "t12");
-    GeneratePaymentPDF(user, fileNames[1], itemList, "invoice");
-    GeneratePaymentPDF(user, fileNames[2], itemList, "agreement");
+    GeneratePaymentPDF(user, fileNames[0].name, itemList, "t12", fileNames[0].id);
+    GeneratePaymentPDF(user, fileNames[1].name, itemList, "invoice", fileNames[1].id);
+    GeneratePaymentPDF(user, fileNames[2].name, itemList, "agreement", fileNames[2].id);
     res
       .status(200)
       .send({ message: `Files created for ${userId}`, files: fileNames });
@@ -64,8 +64,8 @@ export const CreateSpecify = async (req: Request, res: Response) => {
 
   const itemList: itemData[] = req.body.items;
   await CheckAndCreateOwnerFolder(userId);
-  const fileName = await CreateFileNameDBNote(userId, "specify");
-  const file = await GenerateSpecify(userId, fileName, itemList);
+  const fileDt = await CreateFileNameDBNote(userId, "specify");
+  const file = await GenerateSpecify(userId, fileDt.name, itemList);
 
   res.status(200).send({ message: `File created for ${userId}` });
 };

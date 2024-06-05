@@ -208,9 +208,10 @@ h3 {
             <td class="text-center bb2 no-bb" contenteditable>345678</td>
           </tr>
           <tr>
-           <td colspan="2" class="bb" contenteditable>{{ user.ceo_full }}, {{ user.inn }}, {{ user.law_address }}<br>р/с 40802810270010175519, в банке МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК", БИК 044525092, к/с 30101810645250000092</td>
+           <td colspan="2" class="bb" contenteditable>ИП Ахмедов Сабир Табассумович, ИНН: 502765138514, Российская Федерация, 358007, Республика
+              Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.<br>р/с 40802810424435209932, в банке ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО), БИК 044525411, к/с 30101810145250000411</td>
             <td class="psm text-right">по ОКПО</td>
-            <td class="b bbl bbr text-center" contenteditable></td>
+            <td class="b bbl bbr text-center" contenteditable>0153735163</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация-грузоотправитель, адрес, телефон, факс, банковские реквизиты)</td>
@@ -231,7 +232,7 @@ h3 {
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
-          <td></td>
+          <td>{{user.full_name}}, ИНН: {{user.inn}}, {{user.law_address}}</td>
           <td class="b bbl bbr text-center" rowspan="2" contenteditable></td>
         </tr>
         <tr>  
@@ -246,7 +247,7 @@ h3 {
           </tr>
         <tr>
          <td>Плательщик</td>
-         <td class="bb" contenteditable> Елена Корнилова, 424000, Йошкар-Ола, Кирова 3а</td>
+         <td class="bb" contenteditable>{{ user.ceo_full }}, {{ user.inn }}, {{ user.law_address }}</td>
           <td class="psm text-right">по ОКПО</td>
         </tr>
         <tr>
@@ -295,8 +296,8 @@ h3 {
                <td>Дата составления</td>
               </tr>
               <tr>
-               <td contenteditable="">512</td>
-               <td contenteditable="">27.05.2019</td>
+               <td contenteditable="">Н{{id}}</td>
+               <td contenteditable="">{{dateDay}} {{dateMonth}} {{dateYear}}</td>
               </tr>
              </table>
           </td>
@@ -353,23 +354,23 @@ h3 {
        </tr>
        </thead>
        <tbody class="torg12-content">
-      {{#each combinedData.items}}
+      {{#each items}}
        <tr>
-         <td class="td1">1</td>
-         <td class="td2">Футболка для мальчика 523BNT</td>
+         <td class="td1">{{rowNum}}</td>
+         <td class="td2">{{name}}</td>
          <td class="td3"></td>
          <td class="td4">шт</td>
          <td class="td5">796</td>
          <td class="td6"></td>
          <td class="td7"></td>
-         <td class="td8">12</td>
+         <td class="td8"></td>
          <td class="td9"></td>
-         <td class="td10">12,000</td>
-         <td class="td11">90,00</td>
-         <td class="td12">1 080,00</td>
+         <td class="td10">{{price}},00</td>
+         <td class="td11">{{quantity}},00</td>
+         <td class="td12">{{sum}},00</td>
          <td class="td13">Без НДС</td>
          <td class="td14"></td>
-         <td class="td15"><nobr>1 080,00</nobr></td>
+         <td class="td15"><nobr>{{sum}},00</nobr></td>
        </tr>
        {{/each}}
          
@@ -377,14 +378,14 @@ h3 {
        <tbody>
          <tr>
           <td colspan="7" align="right" class="no-b psm">Итого </td>
-          <td align="center">34</td>
+          <td align="center">{{totalCount}}</td>
           <td></td>
-          <td align="center">34,000</td>
+          <td align="center">{{totalCount}},000</td>
           <td align="center">X</td>
-          <td align="right">203 868,00</td>
+          <td align="right">{{totalPrice}},00</td>
           <td align="center">X</td>
           <td></td>
-          <td align="right">203 868,00</td>
+          <td align="right">{{totalPrice}},00</td>
         </tr>
         <tr class="sale-row">
           <td colspan="7" align="right" class="no-b psm">Скидка: </td>
@@ -392,21 +393,21 @@ h3 {
           <td class="no-b"></td>
           <td class="no-b"></td>
           <td align="center">X</td>
-          <td align="right">1 000,00</td>
+          <td align="right">0,00</td>
           <td align="center">X</td>
           <td></td>
-          <td align="right">1 000,00</td>
+          <td align="right">0,00</td>
          </tr>
          <tr>
           <td colspan="7" align="right" class="no-b psm">Всего по накладной </td>
-          <td align="center">34</td>
+          <td align="center">{{totalCount}}</td>
           <td></td>
-          <td align="center">34,000</td>
+          <td align="center">{{totalCount}},000</td>
           <td align="center">X</td>
-          <td align="right">202 868,00</td>
+          <td align="right">{{totalPrice}},00</td>
           <td align="center">X</td>
           <td></td>
-          <td align="right">202 868,00</td>
+          <td align="right">{{totalPrice}},00</td>
          </tr>
       </tbody>
        </table>
@@ -425,7 +426,7 @@ h3 {
            <table width="100%">
             <tbody><tr>
              <td>и содержит</td>
-             <td class="bb" colspan="2" width="45%" contenteditable>Сорок четрые</td>
+             <td class="bb" colspan="2" width="45%" contenteditable>{{wordRowCount}}</td>
              <td>порядковых номеров записей</td>
             </tr>
             <tr><td class="row-desc" colspan="3">(прописью)</td></tr>
@@ -480,7 +481,7 @@ h3 {
                 <td></td>
               </tr>
               <tr>
-                <td colspan="3" class="text-bold bb">Всего отпущено на сумму<br>Двести две тысячи восемьсот шестьдесят восемь рублей 00 копеек</td>
+                <td colspan="3" class="text-bold bb">Всего отпущено на сумму<br> {{wordSum}} рублей 00 копеек</td>
               </tr>
               <tr><td colspan="3" class="row-desc">(прописью)</td></tr>
             </table>
@@ -492,7 +493,7 @@ h3 {
                 <td class="w20"></td>
                 <td class="bb" width="100"></td>
                 <td class="w20"></td>
-                <td class="bb" width="140" align="center" contenteditable>Хункеров М.М.</td>
+                <td class="bb" width="140" align="center" contenteditable>Ахмедов С. T.</td>
               </tr>
               <tr>
                 <td></td>
@@ -522,7 +523,7 @@ h3 {
                 <td class="w20"></td>
                 <td class="bb" width="100"></td>
                 <td class="w20"></td>
-                <td class="bb" width="140" align="center" contenteditable>Хункеров М.М.</td>
+                <td class="bb" width="140" align="center" contenteditable>Ахмедов С. T.</td>
               </tr>
               <tr>
                 <td></td>

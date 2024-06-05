@@ -67,7 +67,7 @@ export async function GetNewFileId (): Promise<number> {
       }
 }
 
-export async function CreateFileNameDBNote (ownerId: number, fileType: string): Promise<string> {
+export async function CreateFileNameDBNote (ownerId: number, fileType: string): Promise<{id: number; name: string}> {
    const fileId = await GetNewFileId();
    const dt = new Date();
    const fileExt = fileType === 'specify' ? 'xlsx' : 'pdf';
@@ -80,10 +80,10 @@ export async function CreateFileNameDBNote (ownerId: number, fileType: string): 
    `
    try {
     const result = await pool.query(fileAddQuery);
-    return newFileName
+    return {id: fileId, name: newFileName}
   } catch (e: any) {
     console.log(e.message);
-    return "";
+    return {id: 0, name: ""};
   }
 }
 
