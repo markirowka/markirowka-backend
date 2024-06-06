@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS app_users (
     full_name varchar(256) NOT NULL,
     ceo varchar(64),
     ceo_full varchar(128),
+    ceo_base varchar(128),
     ceo_genitive varchar(64),
     law_address varchar(256),
     bank_account varchar(32),

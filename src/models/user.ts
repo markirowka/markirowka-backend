@@ -10,6 +10,7 @@ export interface User {
   full_name: string;
   ceo?: string;
   ceo_full?: string;
+  ceo_base?: string;
   ceo_genitive?: string;
   law_address?: string;
   inn: number;
