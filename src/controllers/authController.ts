@@ -18,7 +18,7 @@ if (!process.env.JWT_SECRET_KEY) {
   throw new Error("Auth key is not defined");
 }
 
-const authPrivateKey = String(process.env.JWT_SECRET_KEY);
+export const authPrivateKey = String(process.env.JWT_SECRET_KEY);
 
 const signup = async (req: Request, res: Response) => {
   const {
@@ -124,7 +124,7 @@ const signup = async (req: Request, res: Response) => {
 
     console.log(emailVerifyLink);
 
-    sendEmail(user.email, "Sign up verification", "verifyEmail", {
+    sendEmail(user.email, "Подтверждение регистрации", "verifyEmail", {
         link: emailVerifyLink,
         user: user.full_name || user.inn
     })
@@ -200,33 +200,6 @@ const verifyEmail = async (req: Request, res: Response) => {
     ]);
 
     res.json({ message: "Email verified successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-const recoverPassword = async (req: Request, res: Response) => {
-  const { email } = req.body;
-
-  try {
-    const result = await pool.query(
-      "SELECT * FROM app_users WHERE email = $1",
-      [email]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(400).json({ error: "User not found" });
-    }
-
-    const user = result.rows[0];
-    const token = jwt.sign({ userId: user.id }, authPrivateKey, {
-      expiresIn: "1h",
-    });
-
-    // Send password reset email logic here
-
-    res.json({ message: "Password reset email sent" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -319,4 +292,4 @@ export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
 
 
 
-export { signup, signin, verifyEmail, recoverPassword };
+export { signup, signin, verifyEmail };

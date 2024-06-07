@@ -6,6 +6,7 @@ import * as Users from "./controllers/authController";
 import * as EditUser from "./controllers/userEditController";
 import * as Download from "./controllers/downloadController";
 import * as Files from "./controllers/fileController";
+import * as Recover from './controllers/recoverController';
 
 dotenv.config();
 const app = express();
@@ -59,7 +60,9 @@ app.get ("/api/downloads", Download.GetUserDownloadList);
 
 app.get ("/api/file/:id/:filename", Download.DownloadFileByOwner);
 
-app.post("/api/resetpassword", Users.recoverPassword);
+app.post("/api/resetpassword", Recover.RequestToRecoverPassword);
+
+app.post("/api/setnewpassword", Recover.SetupNewPassword);
 
 app.post ("/api/createpayments", Files.CreatePaymentFiles);
 
