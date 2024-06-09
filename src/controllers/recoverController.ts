@@ -11,7 +11,7 @@ import { authPrivateKey } from "./authController";
 import { SetupHeaders } from "./indexController";
 
 export const RequestToRecoverPassword = async (req: Request, res: Response) => {
-    SetupHeaders (res);
+    // SetupHeaders (res);
     const { email } = req.body;
     try {
         const userResult = await pool.query('SELECT * FROM app_users WHERE email = $1', [email]);
@@ -51,7 +51,7 @@ export const RequestToRecoverPassword = async (req: Request, res: Response) => {
 }
 
 export const SetupNewPassword = async (req: Request, res: Response) => {
-    SetupHeaders (res);
+    // SetupHeaders (res);
     const { token, newPassword } = req.body;
 
     let payload;

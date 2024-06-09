@@ -6,7 +6,7 @@ import { GetDownloads, rootFolder } from "../models";
 import { SetupHeaders } from "./indexController";
 
 export const GetUserDownloadList = async (req: Request, res: Response) => {
-    SetupHeaders (res);
+    // SetupHeaders (res);
     const userId = UserIdFromAuth (req);
     if (!userId) {
         res.status(401).send({ error: 'Unauthorized' })
@@ -21,7 +21,7 @@ export const GetUserDownloadList = async (req: Request, res: Response) => {
 }
 
 export const DownloadFileByOwner = async (req: Request, res: Response) => {
-    SetupHeaders (res);
+    // SetupHeaders (res);
     const userId = UserIdFromAuth (req);
     const { id, filename } = req.params;
 

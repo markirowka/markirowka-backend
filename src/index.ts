@@ -7,6 +7,7 @@ import * as EditUser from "./controllers/userEditController";
 import * as Download from "./controllers/downloadController";
 import * as Files from "./controllers/fileController";
 import * as Recover from './controllers/recoverController';
+import { SetupHeadersGlobal } from "./controllers/indexController";
 
 dotenv.config();
 const app = express();
@@ -25,7 +26,7 @@ app.use(session({
     cookie: { secure: false } // Set to true if using HTTPS
   }));
 
-
+app.use(SetupHeadersGlobal);
 app.use(express.json());
 
 app.use(

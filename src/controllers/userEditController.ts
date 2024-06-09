@@ -7,7 +7,7 @@ import { SetupHeaders } from "./indexController";
 
 
 export const EditUserParamByUser = async (req: Request, res: Response) => {
-    SetupHeaders (res);
+    // SetupHeaders (res);
     const body: userEditRequest = req.body;
     const requesterId = await UserIdFromAuth (req);
     if (!requesterId) {
@@ -67,7 +67,7 @@ export const EditUserParamsByAdmin = async (req: Request, res: Response) => {
 }
 
 export const DeleteUserByAdmin = async (req: Request, res: Response) => {
-    SetupHeaders (res);
+    // SetupHeaders (res);
     const userId = Number(req.params.id);
     const isFromAdmin = await IsAdmin ({req});
     if (!isFromAdmin) {

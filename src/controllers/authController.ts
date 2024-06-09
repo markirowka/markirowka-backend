@@ -22,7 +22,7 @@ if (!process.env.JWT_SECRET_KEY) {
 export const authPrivateKey = String(process.env.JWT_SECRET_KEY);
 
 const signup = async (req: Request, res: Response) => {
-  SetupHeaders (res);
+  // SetupHeaders (res);
   const {
     email,
     password,
@@ -141,7 +141,7 @@ const signup = async (req: Request, res: Response) => {
 };
 
 const signin = async (req: Request, res: Response) => {
-  SetupHeaders (res);
+  // SetupHeaders (res);
   const { email, password } = req.body;
 
   try {
@@ -187,7 +187,7 @@ const signin = async (req: Request, res: Response) => {
 };
 
 const verifyEmail = async (req: Request, res: Response) => {
-  SetupHeaders (res);
+  // SetupHeaders (res);
   console.log("Params: ", req.params, "Query: ", req.query)
   const token = req.query.token;
  if (!token) {
@@ -263,7 +263,7 @@ export async function IsAdmin (args: {id?: number, req?: Request}): Promise<bool
 }
 
 export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
-    SetupHeaders (res);
+    // SetupHeaders (res);
     const token = req.session.token;
     console.log("Sign in token: ", token);
 
