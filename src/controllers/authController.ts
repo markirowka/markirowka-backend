@@ -7,6 +7,7 @@ import nodemailer from "nodemailer";
 import { GetUserById, GetUsersByParam, User } from "../models/user";
 import { IsValidEmail } from "../utils";
 import sendEmail from "./emailController";
+import { SetupHeaders } from "./indexController";
 
 declare module 'express-session' {
     export interface SessionData {
@@ -21,6 +22,7 @@ if (!process.env.JWT_SECRET_KEY) {
 export const authPrivateKey = String(process.env.JWT_SECRET_KEY);
 
 const signup = async (req: Request, res: Response) => {
+  SetupHeaders (res);
   const {
     email,
     password,
@@ -139,6 +141,7 @@ const signup = async (req: Request, res: Response) => {
 };
 
 const signin = async (req: Request, res: Response) => {
+  SetupHeaders (res);
   const { email, password } = req.body;
 
   try {
@@ -184,6 +187,7 @@ const signin = async (req: Request, res: Response) => {
 };
 
 const verifyEmail = async (req: Request, res: Response) => {
+  SetupHeaders (res);
   console.log("Params: ", req.params, "Query: ", req.query)
   const token = req.query.token;
  if (!token) {
@@ -208,6 +212,7 @@ const verifyEmail = async (req: Request, res: Response) => {
 
 
 export async function IsAuthCheck (req: Request, res: Response) {
+    SetupHeaders (res);
     const token = req.session.token;
     console.log("Sign in token: ", token);
 
@@ -258,6 +263,7 @@ export async function IsAdmin (args: {id?: number, req?: Request}): Promise<bool
 }
 
 export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
+    SetupHeaders (res);
     const token = req.session.token;
     console.log("Sign in token: ", token);
 

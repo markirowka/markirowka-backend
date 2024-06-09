@@ -10,8 +10,10 @@ import {
 } from "../models";
 import { GenerateSpecify } from "../views/specify";
 import { GeneratePaymentPDF } from "../views/paymentDocs";
+import { SetupHeaders } from "./indexController";
 
 export const CreatePaymentFiles = async (req: Request, res: Response) => {
+  SetupHeaders (res);
   const userId = UserIdFromAuth(req);
   if (!userId) {
     res.status(401).send({ error: "Unauthorized" });
@@ -52,6 +54,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
 };
 
 export const CreateSpecify = async (req: Request, res: Response) => {
+  SetupHeaders (res);
   const userId = UserIdFromAuth(req);
   if (!userId) {
     res.status(401).send({ error: "Unauthorized" });

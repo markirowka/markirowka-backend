@@ -3,9 +3,11 @@ import 'express-session';
 import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin, DeleteUser } from "../models";
 import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController";
 import { IsValidEmail } from "../utils";
+import { SetupHeaders } from "./indexController";
 
 
 export const EditUserParamByUser = async (req: Request, res: Response) => {
+    SetupHeaders (res);
     const body: userEditRequest = req.body;
     const requesterId = await UserIdFromAuth (req);
     if (!requesterId) {
@@ -31,6 +33,7 @@ export const EditUserParamByUser = async (req: Request, res: Response) => {
 }
 
 export const EditUserParamsByAdmin = async (req: Request, res: Response) => {
+    SetupHeaders (res);
     const body: userEditRequest = req.body;
     const isFromAdmin = await IsAdmin ({req});
     if (!isFromAdmin) {
@@ -64,6 +67,7 @@ export const EditUserParamsByAdmin = async (req: Request, res: Response) => {
 }
 
 export const DeleteUserByAdmin = async (req: Request, res: Response) => {
+    SetupHeaders (res);
     const userId = Number(req.params.id);
     const isFromAdmin = await IsAdmin ({req});
     if (!isFromAdmin) {
