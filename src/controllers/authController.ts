@@ -296,6 +296,18 @@ export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
 }
 
 
+const logout = (req: Request, res: Response) => {
+  try {
+    req.session.destroy((err) =>{
+      if (err) {
+        res.status(400).send({ message: 'Logout failed'});
+        return;
+      }
+      res.status(200).send({ message: 'Logout success'})
+   })
+  } catch (e) {
+    res.status(500).send({ error: 'Server error'})
+  }
+};
 
-
-export { signup, signin, verifyEmail };
+export { signup, signin, verifyEmail, logout };

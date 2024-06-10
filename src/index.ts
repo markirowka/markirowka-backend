@@ -57,6 +57,8 @@ app.get("/api/userdata", Users.GetAuthorizedUserData);
 
 app.post("/api/signupconfirm", Users.verifyEmail);
 
+app.post('/api/logout', Users.logout);
+
 app.get ("/api/downloads", Download.GetUserDownloadList);
 
 app.get ("/api/file/:id/:filename", Download.DownloadFileByOwner);
