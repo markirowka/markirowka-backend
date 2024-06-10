@@ -33,9 +33,24 @@ CREATE TABLE IF NOT EXISTS user_files (
 
 `
 
+const cleaningQuery = `
+    TRUNCATE TABLE "app_users";
+    TRUNCATE TABLE "user_files";
+`
+
 export async function CreateDB (): Promise<boolean> {
     try {
         await pool.query(creationQuery);
+        return true
+    } catch (e: any) {
+        console.log(e.message);
+        return false;
+    }
+}
+
+export async function CleanDB (): Promise<boolean> {
+    try {
+        await pool.query(cleaningQuery);
         return true
     } catch (e: any) {
         console.log(e.message);
