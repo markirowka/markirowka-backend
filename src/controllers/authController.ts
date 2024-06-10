@@ -212,7 +212,6 @@ const verifyEmail = async (req: Request, res: Response) => {
 
 
 export async function IsAuthCheck (req: Request, res: Response) {
-    SetupHeaders (res);
     const token = req.session.token;
     console.log("Sign in token: ", token);
 
@@ -226,7 +225,7 @@ export async function IsAuthCheck (req: Request, res: Response) {
         res.status(200).json({ success: true })
       } catch (error) {
         console.error('Error verifying token:', error);
-        res.status(401).json({ error: 'Unauthorized' });
+        res.status(403).json({ error: 'Unauthorized' });
       }
 }
 
@@ -274,9 +273,9 @@ export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
     
       try {
         const decoded = jwt.verify(token, authPrivateKey);
-        console.log(decoded);
+        console.log("Decoded data: ", decoded);
         if (typeof decoded === "string") {
-            res.status(401).send({ error: 'Unauthorized' });
+            res.status(403).send({ error: 'Invalid auth token' });
             return;
         }
         const userData =  await GetUserById(Number(decoded.userId));
