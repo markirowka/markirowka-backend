@@ -178,8 +178,15 @@ const signin = async (req: Request, res: Response) => {
       expiresIn: "1d",
     });
     req.session.token = token;
-
-    res.json({ token, userId });
+    req.session.save((err) => {
+      if (err) {
+        console.error('Ошибка сохранения сессии:', err);
+        return res.status(500).send({ error: 'Failed to save session'});
+      }
+      res.json({ token, userId });
+      return;
+    });
+    // res.json({ token, userId });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
