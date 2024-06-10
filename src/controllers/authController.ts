@@ -122,7 +122,7 @@ const signup = async (req: Request, res: Response) => {
     const host = process.env.HTTP_HOST
     const port = process.env.HTTP_PORT
 
-    const emailVerifyLink = `${protocol}://${host}:${port}/api/signupconfirm?token=${token}`;
+    const emailVerifyLink = `${protocol}://${host}:${port}/signupconfirm?token=${token}`;
 
     console.log(emailVerifyLink);
 
@@ -143,7 +143,7 @@ const signup = async (req: Request, res: Response) => {
 const signin = async (req: Request, res: Response) => {
   // SetupHeaders (res);
   const { email, password } = req.body;
-
+  console.log("Received body: ", req.body);
   try {
     const result = await pool.query(
       "SELECT * FROM app_users WHERE email = $1",
@@ -189,7 +189,7 @@ const signin = async (req: Request, res: Response) => {
 const verifyEmail = async (req: Request, res: Response) => {
   // SetupHeaders (res);
   console.log("Params: ", req.params, "Query: ", req.query)
-  const token = req.query.token;
+  const token = req.body.token;
  if (!token) {
     res.status(400).json({ error: "Token is missed" });
     return;
@@ -203,7 +203,7 @@ const verifyEmail = async (req: Request, res: Response) => {
       userId,
     ]);
 
-    res.json({ message: "Email verified successfully" });
+    res.status(200).json({ message: "Email verified successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

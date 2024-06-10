@@ -55,7 +55,7 @@ app.get("/api/signcheck", Users.IsAuthCheck);
 
 app.get("/api/userdata", Users.GetAuthorizedUserData);
 
-app.get("/api/signupconfirm", Users.verifyEmail);
+app.post("/api/signupconfirm", Users.verifyEmail);
 
 app.get ("/api/downloads", Download.GetUserDownloadList);
 
