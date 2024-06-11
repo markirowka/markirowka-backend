@@ -19,6 +19,8 @@ if (!process.env.JWT_SECRET_KEY) {
   
 const authPrivateKey = String(process.env.JWT_SECRET_KEY);
 
+app.set('trust proxy', 1);
+
 app.use(session({
     secret: authPrivateKey, // Replace with your secret key
     resave: true,
