@@ -21,7 +21,7 @@ const authPrivateKey = String(process.env.JWT_SECRET_KEY);
 
 app.use(session({
     secret: authPrivateKey, // Replace with your secret key
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: { secure: true } // Set to true if using HTTPS
   }));
