@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import session from 'express-session';
+import https from "https";
+import fs from 'fs';
 import bodyParser from "body-parser";
 import * as Users from "./controllers/authController";
 import * as EditUser from "./controllers/userEditController";
@@ -85,9 +87,18 @@ app.post ("/api/admin/edituser", EditUser.EditUserParamsByAdmin);
 
 app.delete ("/api/admin/deleteuser/:id", EditUser.DeleteUserByAdmin);
 
-app.listen(port, () => {
+const https_options = {
+  key: fs.readFileSync(process.env.HTTPS_PRIVATE_KEY_PATH || "../"),
+  cert: fs.readFileSync(process.env.HTTPS_CERT_PATH || "../")
+};
+
+https.createServer(https_options, app).listen(port, () => {
+  console.log(`Listening on port ${port}...`);
+});
+
+/* app.listen(port, () => {
     console.log(`Listening on port ${port}...`);
-  });
+  }); */
   
 
 
