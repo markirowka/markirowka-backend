@@ -19,13 +19,17 @@ if (!process.env.JWT_SECRET_KEY) {
   
 const authPrivateKey = String(process.env.JWT_SECRET_KEY);
 
-// app.set('trust proxy', 1);
+app.set('trust proxy', 1);
 
 app.use(session({
     secret: authPrivateKey, // Replace with your secret key
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true } // Set to true if using HTTPS
+    cookie: {
+      secure: true,   // Ensure the cookie is only sent over HTTPS
+      httpOnly: true, // Helps prevent cross-site scripting (XSS) attacks
+      sameSite: 'strict' // Helps prevent cross-site request forgery (CSRF) attacks
+    }
   }));
 
 app.use(SetupHeadersGlobal);
