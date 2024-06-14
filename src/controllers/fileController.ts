@@ -34,6 +34,8 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
   }
 
   try {
+    await CheckAndCreateOwnerFolder(userId);
+    
     const fileNames = await Promise.all([
       CreateFileNameDBNote(userId, "t12"),
       CreateFileNameDBNote(userId, "invoice"),

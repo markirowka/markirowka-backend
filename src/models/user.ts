@@ -68,7 +68,8 @@ export async function CreateUser (userData: User) {
     bank_account,
     corr_account,
     bank_code,
-    bank_name
+    bank_name,
+    ceo_base
   } = userData;
   if (!password || !email) {
     return null;
@@ -93,8 +94,9 @@ export async function CreateUser (userData: User) {
         bank_account,
         corr_account,
         bank_code,
-        bank_name ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`,
+        bank_name,
+        ceo_base ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *`,
       [email, 
         password_hash, 
         full_name || "", 
@@ -110,13 +112,12 @@ export async function CreateUser (userData: User) {
         bank_account,
         corr_account,
         bank_code,
-        bank_name
+        bank_name,
+        ceo_base
         ]
     );
     const user: User = result.rows[0];
-  
-    const userId = user.id;
-    return userId
+    return user
   } catch (e: any) {
     console.log(e.message);
     return null;

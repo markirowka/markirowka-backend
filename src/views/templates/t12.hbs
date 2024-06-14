@@ -107,7 +107,7 @@ h3 {
 // text
 .text-bold {font-weight: 700;}
 .text-center {text-align: center;}
-.text-right {text-align: right;}
+.text-right {text-align: right; padding-right: 10px;}
 .text-lead {font-size: 11pt;}
 // height & width
 .h20 {height: 20px;padding-top: 0;padding-bottom: 0;}
@@ -205,45 +205,46 @@ h3 {
           </tr>
           <tr>
             <td colspan="3" class="h17 psm text-right">Форма по ОКУД</td>
-            <td class="text-center bb2 no-bb" contenteditable>345678</td>
+            <td class="text-center bb2" contenteditable>345678</td>
           </tr>
           <tr>
            <td colspan="2" class="bb" contenteditable>ИП Ахмедов Сабир Табассумович, ИНН: 502765138514, Российская Федерация, 358007, Республика
-              Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.<br>р/с 40802810424435209932, в банке ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО), БИК 044525411, к/с 30101810145250000411</td>
+              Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.</td>
             <td class="psm text-right">по ОКПО</td>
             <td class="b bbl bbr text-center" contenteditable>0153735163</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация-грузоотправитель, адрес, телефон, факс, банковские реквизиты)</td>
           <td></td>
-          <td class="b bbl bbr text-center" rowspan="2" contenteditable></td>
+          <td class="b bb2 text-center" rowspan="2" contenteditable></td>
           </tr>
         <tr><td colspan="3" class="bb" contenteditable></td></tr>
         <tr>
           <td colspan="2" class="row-desc">(структурное подразделение)</td>
           <td>Вид деятельности по ОКДП</td>
-          <td class="b bbl bbr text-center" contenteditable></td>
+          <td class="b bb2 text-center" contenteditable></td>
         </tr>
         <tr>
          <td width="105px">Грузополучатель</td>
          <td class="bb" contenteditable> {{ user.cargo_recevier }}</td>
           <td class="psm text-right">по ОКПО</td>
-          <td class="b bbl bbr text-center" contenteditable></td>
+          <td class="b bb2 text-center" contenteditable></td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
-          <td>{{user.full_name}}, ИНН: {{user.inn}}, {{user.law_address}}</td>
-          <td class="b bbl bbr text-center" rowspan="2" contenteditable></td>
+          <td></td>
+          <td class="b bb2 text-center" rowspan="2" contenteditable></td>
         </tr>
         <tr>  
          <td>Поставщик</td>
-         <td class="bb" contenteditable>{{ user.ceo_full }}, {{ user.inn }}, {{ user.law_address }}<br>р/с 40802810270010175519, в банке МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК", БИК 044525092, к/с 30101810645250000092</td>
+         <td class="bb" contenteditable>ИП Ахмедов Сабир Табассумович, ИНН: 502765138514, Российская Федерация, 358007, Республика
+              Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73., р/с 40802810270010175519, в банке МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК", БИК 044525092, к/с 3010181064525000009</td>
           <td class="psm text-right">по ОКПО</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
           <td></td>
-          <td class="b bbl bbr text-center" rowspan="2" contenteditable></td>
+          <td class="b bb2 text-center" rowspan="2" contenteditable></td>
           </tr>
         <tr>
          <td>Плательщик</td>
@@ -296,7 +297,7 @@ h3 {
                <td>Дата составления</td>
               </tr>
               <tr>
-               <td contenteditable="">Н{{id}}</td>
+               <td contenteditable="">Н{{id }}</td>
                <td contenteditable="">{{dateDay}} {{dateMonth}} {{dateYear}}</td>
               </tr>
              </table>
@@ -523,7 +524,9 @@ h3 {
                 <td class="w20"></td>
                 <td class="bb" width="100"></td>
                 <td class="w20"></td>
-                <td class="bb" width="140" align="center" contenteditable>Ахмедов С. T.</td>
+                <td class="bb" width="140" align="center" contenteditable>Ахмедов С. T.
+                  <img style="position: absolute; bottom: 200px; left: 200px" src="signs/ahmedov.png" width="100" height="100" />
+                </td>
               </tr>
               <tr>
                 <td></td>
@@ -539,9 +542,9 @@ h3 {
               <tbody>
                <tr>
                <td width="25%">М.П.</td>
-               <td>" 27 "</td>
-               <td width="25%" class="bb">мая</td>
-               <td>2019 года</td>
+               <td>" {{dateDay}} "</td>
+               <td width="25%" class="bb">{{dateMonth}}</td>
+               <td>{{dateYear}}</td>
                <td width="25%"></td>
               </tr>
              </tbody>  
@@ -620,5 +623,6 @@ h3 {
   </tr>
   
 </table>
+
 </body>
 </html>

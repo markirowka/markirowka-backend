@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import pool from "../models/db";
 import nodemailer from "nodemailer";
-import { GetUserById, GetUsersByParam, User } from "../models/user";
+import { CreateUser, GetUserById, GetUsersByParam, User } from "../models/user";
 import { IsValidEmail } from "../utils";
 import sendEmail from "./emailController";
 import { SetupHeaders } from "./indexController";
@@ -23,44 +23,29 @@ export const authPrivateKey = String(process.env.JWT_SECRET_KEY);
 
 const signup = async (req: Request, res: Response) => {
   // SetupHeaders (res);
-  const {
-    email,
-    password,
-    full_name,
-    ceo,
-    ceo_full,
-    ceo_genitive,
-    law_address,
-    inn,
-    cargo_recevier,
-    cargo_city,
-    bank_account,
-    corr_account,
-    bank_code,
-    bank_name
-  } = req.body;
+  const userData: User = req.body;
 
-  if (!email) {
+  if (!userData.email) {
     res.status(400).send({ success: false, error: "Email is missed" });
     return;
   }
 
-  if (!inn) {
+  if (!userData.inn) {
     res.status(400).send({ success: false, error: "Inn is missed" });
     return;
   }
 
-  if (!password) {
+  if (!userData.password) {
     res.status(400).send({ success: false, error: "Password is missed" });
     return;
   }
 
-  if (!IsValidEmail(email)) {
+  if (!IsValidEmail(userData.email)) {
     res.status(400).send({ success: false, error: "Email is invalid" });
     return;
   }
 
-  const ExistUser = await GetUsersByParam ("inn", inn)
+  const ExistUser = await GetUsersByParam ("inn", userData.inn)
 
   if (ExistUser.length > 0) {
     res.status(400).send({ success: false, error: "User is already exists" });
@@ -68,47 +53,12 @@ const signup = async (req: Request, res: Response) => {
   }
 
   try {
-    const password_hash = await bcrypt.hash(password, 10);
+    const user = await CreateUser(userData)
 
-    const result = await pool.query(
-      `INSERT INTO app_users 
-      ( email,
-        password,
-        full_name,
-        ceo,
-        ceo_full,
-        ceo_genitive,
-        law_address,
-        inn,
-        cargo_recevier,
-        cargo_city,
-        isconfirmed,
-        user_role,
-        bank_account,
-        corr_account,
-        bank_code,
-        bank_name ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`,
-      [email, 
-        password_hash, 
-        full_name || "", 
-        ceo || "", 
-        ceo_full || "", 
-        ceo_genitive || "", 
-        law_address || "",
-        inn,
-        cargo_recevier || "",
-        cargo_city || "",
-        false, 
-        "USER",
-        bank_account,
-        corr_account,
-        bank_code,
-        bank_name
-        ]
-    );
-
-    const user: User = result.rows[0];
+    if (!user) {
+      res.status(500).send({ error: "User creation failed" })
+      return;
+    }
 
     const userId = user.id
 

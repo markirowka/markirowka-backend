@@ -57,10 +57,11 @@ export async function GetNewFileId (): Promise<number> {
     const query = `SELECT max("id") FROM "user_files";`
     try {
         const result = await pool.query(query);
+        console.log("File selection result: ", result.rows)
         if (result.rows.length === 0) {
             return 1;
         }
-        return result.rows[0].id ? Number(result.rows[0].id) + 1 : 1;
+        return result.rows[0].max ? Number(result.rows[0].max ) + 1 : 1;
       } catch (e: any) {
         console.log(e.message);
         return 1;

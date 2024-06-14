@@ -8,7 +8,7 @@ import { calculateTotals, getMonthName, numberToWords } from "../utils";
 
 export async function GeneratePaymentPDF (user: User, fileName: string, data: paymentDocumentData[], kind: string, docId: number) {
     return new Promise(async (resolve, reject) => {
-
+        let result = false;
         console.log("Creation called");
         
         const templatePath = path.join(__dirname, `./templates/${kind}.hbs`);
@@ -51,27 +51,40 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
             timeout: 30000 
         });
-        const page = await browser.newPage();
-        await page.setContent(html);
 
-        const pdfOptions = {
-            path: `${rootFolder}${user.id || "0"}/${fileName}`,
-            orientation: kind === 't12' ? 'portrait' : 'landscape', // 'landscape', // 'portrait'
-            margin: {
-                top: '10mm',
-                right: '10mm',
-                bottom: '10mm',
-                left: '10mm'
-            },
-            printBackground: true,
-            displayHeaderFooter: false
-        };
+        try {
+            const page = await browser.newPage();
+    
+            await page.setContent(html);
+    
+            const pdfOptions = {
+                path: `${rootFolder}${user.id || "0"}/${fileName}`,
+                orientation: kind === 't12' ? 'portrait' : 'landscape', // 'landscape', // 'portrait'
+                landscape: kind === 't12' ? true : false,
+                margin: {
+                    top: '10mm',
+                    right: '10mm',
+                    bottom: '10mm',
+                    left: '10mm'
+                },
+                printBackground: true,
+                displayHeaderFooter: false
+            };
 
-        console.log(pdfOptions)
+            console.log(pdfOptions)
+            const content = await page.content();
+            fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
 
-        await page.setContent(html);
-        await page.pdf(pdfOptions);
-        await browser.close();
-        resolve(true);
+            await page.setContent(html);
+            await page.pdf(pdfOptions);
+            result = true
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            if (browser) {
+                await browser.close();
+            }
+        }
+        resolve(result)
     })
 }
