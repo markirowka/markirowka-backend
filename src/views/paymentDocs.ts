@@ -14,6 +14,7 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
         const templatePath = path.join(__dirname, `./templates/${kind}.hbs`);
         const templateSource = fs.readFileSync(templatePath, 'utf8');
         const template = handlebars.compile(templateSource);
+        const printImagePath = path.join(__dirname, './templates/ahmedov.png');
         
         const totals = calculateTotals (data);
         const wordSum = numberToWords (totals.totalCost);
@@ -40,6 +41,7 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
             totalCount: totals.totalQuantity,
             totalPrice: totals.totalCost,
             wordSum,
+            printPath: printImagePath,
             wordRowCount
         }
 

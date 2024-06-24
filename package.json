@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "copyfiles -u 1 src/views/templates/*.hbs dist && tsc",
+    "build": "copyfiles -u 1 src/views/templates/* dist && tsc",
     "createDB": "node dist/fillDatabase.js",
     "cleanDB": "node dist/cleanDatabase.js",
     "start": "node dist/index.js",

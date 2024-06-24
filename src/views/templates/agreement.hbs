@@ -14,6 +14,21 @@
       box-sizing: border-box; } h1 { text-align: center; } .rRow { width: 100%;
       display: flex; flex-wrap: nowrap; justify-content: space-between; }
       .rColumn { width: 49%; }
+      .totalInfoColumn {
+        min-height: 420px;
+        position: relative
+      }
+
+      .printPlace {
+        position: absolute;
+        bottom: 20px;
+      }
+
+      .printImg {
+        position: absolute;
+        top: 1200px;
+        left: 300px;
+      }
     </style>
   </head>
   <body>
@@ -82,7 +97,7 @@
 
         <h2>5. Адреса, банковские реквизиты и подписи сторон</h2>
         <div class="rRow">
-          <div class="rColumn">
+          <div class="rColumn totalInfoColumn">
             <p>ПОСТАВЩИК: ИП Ахмедов Сабир Табассумович</p>
             <p>Юридический адрес: Российская Федерация, 358007, Республика
               Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.</p>
@@ -95,11 +110,13 @@
             <p>ОКПО: 0153735163</p>
             <p>Тел./факс: +7(993)909-74-42</p>
             <p>e-mail: veselnikoff@inbox.ru</p>
-
-            <p>Индивидуальный предприниматель Ахмедов С. Т. / __________________</p>
-            <p>М.П.</p>
+            <div class="printPlace">
+              <p>Индивидуальный предприниматель Ахмедов С. Т. / __________________</p>
+              <p>М.П.</p>
+            </div>
           </div>
-          <div class="rColumn">
+          <img class="printImg" src={{printPath}} width="100" height="100" />
+          <div class="rColumn totalInfoColumn">
             <p>ПОКУПАТЕЛЬ: {{user.full_name}}</p>
             <p>Юридический адрес: {{user.law_address}}</p>
             <p>ИНН: УПН: {{user.inn}}</p>
@@ -108,11 +125,12 @@
             <p>БИК: {{user.bank_code}}</p>
             <p>К/с: {{user.corr_account}}</p>
             <p>e-mail: {{user.email}}</p>
-
-            <p>Индивидуальный предприниматель
-              {{user.ceo}}
-              / __________________</p>
-            <p>М.П.</p>
+            <div class="printPlace">
+              <p>Индивидуальный предприниматель
+                {{user.ceo}}
+               / __________________</p>
+              <p>М.П.</p>
+            </div>
           </div>
         </div>
 
