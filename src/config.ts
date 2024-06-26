@@ -1,1 +1,1 @@
-export const frontend_url = "*";
+export const frontend_url = "https://websiteonlytest.ru";

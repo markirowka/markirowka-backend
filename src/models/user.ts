@@ -109,9 +109,9 @@ export async function CreateUser (userData: User) {
         cargo_city || "",
         false, 
         "USER",
-        bank_account,
-        corr_account,
-        bank_code,
+        bank_account?.toString(),
+        corr_account?.toString(),
+        bank_code?.toString(),
         bank_name,
         ceo_base
         ]
