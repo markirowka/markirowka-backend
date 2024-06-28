@@ -14,21 +14,32 @@ export const EditUserParamByUser = async (req: Request, res: Response) => {
         res.status(403).send({ error: "No rigths to edit user"});
         return;
     }
-
     const params = body.paramsToEdit;
-    for (let k = 0; k < params.length; k++) {
-        if (forbiddenToEditParams.indexOf(params[k].key) > -1) {
-            res.status(403).send({ error: "Edit of some params is forbidden"});
-            return;
-        } 
+
+    if (!params) {
+        res.status(400).send({ error: "Edit params nod found"});
+                return;
+    }
+    try {
+        for (let k = 0; k < params.length; k++) {
+            if (forbiddenToEditParams.indexOf(params[k].key) > -1) {
+                res.status(403).send({ error: "Edit of some params is forbidden"});
+                return;
+            } 
+        }
+    } catch (e) {
+        res.status(500).send({ message: 'Error in params resolve'});
+        return;
     }
 
     try {
         EditUserParams(params, requesterId);
         res.status(200).send({ message: 'User params updated'});
+        return;
     } catch (e: any) {
         console.log(e.message);
         res.status(500).send({ message: 'Error in request processing'});
+        return;
     }
 }
 

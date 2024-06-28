@@ -259,6 +259,7 @@ const logout = (req: Request, res: Response) => {
         res.status(400).send({ message: 'Logout failed'});
         return;
       }
+      res.clearCookie('connect.sid'); 
       res.status(200).send({ message: 'Logout success'})
    })
   } catch (e) {

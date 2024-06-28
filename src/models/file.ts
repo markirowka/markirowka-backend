@@ -21,6 +21,10 @@ export interface itemData {
     cardResult?: string;
 }
 
+export interface itamDataShoes {
+    
+}
+
 
 export const sampleItem: itemData = {
     code: 0,
