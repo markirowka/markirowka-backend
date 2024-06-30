@@ -10,7 +10,7 @@ import { ahmedovPrint64 } from "./prints/ahmedov64";
 export async function GeneratePaymentPDF (user: User, fileName: string, data: paymentDocumentData[], kind: string, docId: number) {
     return new Promise(async (resolve, reject) => {
         let result = false;
-        console.log("Creation called");
+        // console.log("Creation called");
         
         const templatePath = path.join(__dirname, `./templates/${kind}.hbs`);
         const templateSource = fs.readFileSync(templatePath, 'utf8');
@@ -46,7 +46,7 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
             wordRowCount
         }
 
-        console.log("Generation data: ", combinedData);
+        // console.log("Generation data: ", combinedData);
 
         const html = template(combinedData);
         
@@ -74,7 +74,7 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
                 displayHeaderFooter: false
             };
 
-            console.log(pdfOptions)
+            // console.log(pdfOptions)
             // const content = await page.content();
             // fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
 

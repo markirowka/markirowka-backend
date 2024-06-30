@@ -100,15 +100,20 @@ export const DeleteUserByAdmin = async (req: Request, res: Response) => {
 }
 
 export const GetUsers = async (req: Request, res: Response) => {
-    const isFromAdmin = await IsAdmin ({req});
+    const isFromAdmin = await IsAdmin ({req: req});
     if (!isFromAdmin) {
-        res.status(403).send({ error: "No rigths to delete user"});
+        res.status(403).send({ error: "No rigths to watch all users"});
         return;
     }
 
     try {
        const users = await GetUserList();
-       res.status(200).send({ users })
+       res.status(200).send({ users: users?.map((item) => {
+         const {id, email, full_name, inn, user_role} = item
+         return({
+            id, email, full_name, inn, user_role
+         })
+       }) })
     } catch (e: any) {
         console.log(e.message);
         res.status(500).send({error: "Failed to get users"})

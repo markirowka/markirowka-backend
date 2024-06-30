@@ -11,6 +11,7 @@ import {
 import { GenerateSpecify } from "../views/specify";
 import { GeneratePaymentPDF } from "../views/paymentDocs";
 import { SetupHeaders } from "./indexController";
+import { WriteOrder } from "../models/orderHistory";
 
 export const CreatePaymentFiles = async (req: Request, res: Response) => {
   // SetupHeaders (res);
@@ -45,6 +46,10 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     GeneratePaymentPDF(user, fileNames[0].name, itemList, "t12", fileNames[0].id);
     GeneratePaymentPDF(user, fileNames[1].name, itemList, "invoice", fileNames[1].id);
     GeneratePaymentPDF(user, fileNames[2].name, itemList, "agreement", fileNames[2].id);
+
+    await WriteOrder(fileNames.map((file): number => {
+      return file.id
+    }), userId)
     res
       .status(200)
       .send({ message: `Files created for ${userId}`, files: fileNames });
@@ -71,6 +76,8 @@ export const CreateSpecify = async (req: Request, res: Response) => {
   await CheckAndCreateOwnerFolder(userId);
   const fileDt = await CreateFileNameDBNote(userId, "specify");
   const file = await GenerateSpecify(userId, fileDt.name, itemList);
+
+  await WriteOrder ([fileDt.id], userId)
 
   res.status(200).send({ message: `File created for ${userId}` });
 };

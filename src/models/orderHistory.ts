@@ -1,15 +1,15 @@
 import { arrayToPostgresArrayString } from "../utils";
-import pool from "./db";
+import pool, { Q } from "./db";
 
-export async function WriteOrder(documentIds: number[], status = 'new', date?: number) {
+export async function WriteOrder(documentIds: number[], user_id: number, status = 'new', date?: number) {
     const orderDate = date || Math.round(new Date().getTime() / 1000);
 
     const query = `
-      INSERT INTO order_history (order_date, order_status, document_ids)
-      VALUES ($1, $2, $3)
+      INSERT INTO order_history (order_date, user_id, order_status, document_ids)
+      VALUES ($1, $2, $3, $4)
       RETURNING id;
     `;
-    const values = [orderDate, status, arrayToPostgresArrayString(documentIds)];
+    const values = [orderDate, user_id, status, arrayToPostgresArrayString(documentIds)];
     
     try {
       const result = await pool.query(query, values);
@@ -70,5 +70,13 @@ export async function getOrderList() {
       console.log(e.message);
       return [];
     }
+  }
+
+export async function getUserOrderList( user_id: number) {
+    const query = `
+      SELECT * FROM order_history WHERE "user_id" = ${user_id};
+    `;
+    
+    return await Q(query, true);
   }
   

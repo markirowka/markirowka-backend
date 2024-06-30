@@ -9,6 +9,7 @@ import * as EditUser from "./controllers/userEditController";
 import * as Download from "./controllers/downloadController";
 import * as Files from "./controllers/fileController";
 import * as Recover from './controllers/recoverController';
+import * as History from './controllers/historyController';
 import { SetupHeadersGlobal } from "./controllers/indexController";
 
 dotenv.config();
@@ -67,6 +68,8 @@ app.post("/api/signupconfirm", Users.verifyEmail);
 
 app.post('/api/logout', Users.logout);
 
+app.get("/api/orderhistory", History.GetOrderHistory);
+
 app.get ("/api/downloads", Download.GetUserDownloadList);
 
 app.get ("/api/file/:id/:filename", Download.DownloadFileByOwner);
@@ -82,6 +85,10 @@ app.post ("/api/createSpecify", Files.CreateSpecify);
 app.post ("/api/edituser", EditUser.EditUserParamByUser);
 
 app.post ("/api/admin/edituser", EditUser.EditUserParamsByAdmin);
+
+app.get ("/api/admin/allusers", EditUser.GetUsers);
+
+app.get ("/api/admin/allorders", History.GetTotalOrderHistory);
 
 app.delete ("/api/admin/deleteuser/:id", EditUser.DeleteUserByAdmin);
 

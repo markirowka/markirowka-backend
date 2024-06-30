@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS user_files (
 
 CREATE TABLE IF NOT EXISTS order_history (
     id serial PRIMARY KEY,
+    user_id Integer,
     order_date Integer,
     order_status varchar(64),
     document_ids integer[]

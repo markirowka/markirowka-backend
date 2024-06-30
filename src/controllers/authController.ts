@@ -191,12 +191,13 @@ export function UserIdFromAuth (req: Request): number| null {
     // console.log("Sign in token: ", token);
 
     if (!token) {
+        console.log("No token")
         return null
       }
     
       try {
         const decoded = jwt.verify(token, authPrivateKey);
-        // console.log(decoded);
+        console.log("Decoded: ", decoded);
         if (typeof decoded === "string") return null;
         return decoded.userId
       } catch (error) {
@@ -207,11 +208,15 @@ export function UserIdFromAuth (req: Request): number| null {
 
 export async function IsAdmin (args: {id?: number, req?: Request}): Promise<boolean> {
   if (!args.id && !args.req) {
+    console.log("No args")
     return false
   }
-  const userId = args.id || (!args.req) ? 0 : (await UserIdFromAuth (args.req)  || 0);
+  console.log("arg: ", args.req ? true : false)
+  const userId = args.id || (!args.req) ? 0 : (UserIdFromAuth (args.req)  || 0);
+  console.log("User data: ", userId, "Must be: ", args.req ? UserIdFromAuth (args.req) : 0)
   if (userId === 0) return false;
   const userData = await GetUserById (userId);
+  console.log("USer data: ", userData)
   if (!userData) {
     return false;
   }
