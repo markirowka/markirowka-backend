@@ -76,3 +76,8 @@ export function numberToWords(num: number) {
 
   return words.trim();
 }
+
+export function arrayToPostgresArrayString(arr: any[]) {
+    return `{${arr.join(', ')}}`;
+  }
+  

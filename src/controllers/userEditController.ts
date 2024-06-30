@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import 'express-session';
-import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin, DeleteUser } from "../models";
+import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin, DeleteUser, GetUserList } from "../models";
 import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController";
 import { IsValidEmail } from "../utils";
 import { SetupHeaders } from "./indexController";
@@ -96,5 +96,21 @@ export const DeleteUserByAdmin = async (req: Request, res: Response) => {
     } catch (e: any) {
         console.log(e.message);
         res.status(500).send({ message: 'Error in request processing'});
+    }
+}
+
+export const GetUsers = async (req: Request, res: Response) => {
+    const isFromAdmin = await IsAdmin ({req});
+    if (!isFromAdmin) {
+        res.status(403).send({ error: "No rigths to delete user"});
+        return;
+    }
+
+    try {
+       const users = await GetUserList();
+       res.status(200).send({ users })
+    } catch (e: any) {
+        console.log(e.message);
+        res.status(500).send({error: "Failed to get users"})
     }
 }

@@ -31,6 +31,25 @@ CREATE TABLE IF NOT EXISTS user_files (
     owner_id Integer
  );
 
+CREATE TABLE IF NOT EXISTS order_history (
+    id serial PRIMARY KEY,
+    order_date Integer,
+    order_status varchar(64),
+    document_ids integer[]
+ );
+
+CREATE TABLE IF NOT EXISTS menu_items (
+    id serial PRIMARY KEY,
+    name varchar(64),
+    url varchar(256)
+ );
+
+CREATE TABLE IF NOT EXISTS articles (
+    id serial PRIMARY KEY,
+    url_name varchar(64),
+    title varchar(128),
+    content TEXT
+ );
 `
 
 const cleaningQuery = `

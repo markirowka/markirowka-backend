@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { GeneratePasswordHash } from "../utils";
-import pool from "./db";
+import pool, { Q } from "./db";
 
 export interface User {
   id?: number;
@@ -187,4 +187,9 @@ export async function DeleteUser (userId: number) {
     console.log(e.message);
     return false;
   }
+}
+
+export async function GetUserList() {
+  const query = `SELECT * FROM "app_users";`
+  return await Q(query, true)
 }
