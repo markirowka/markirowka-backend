@@ -64,11 +64,13 @@ app.get("/api/signcheck", Users.IsAuthCheck);
 
 app.get("/api/userdata", Users.GetAuthorizedUserData);
 
+app.get("/api/userordercount", History.GetOrderCountPerUser);
+
 app.post("/api/signupconfirm", Users.verifyEmail);
 
 app.post('/api/logout', Users.logout);
 
-app.get("/api/orderhistory", History.GetOrderHistory);
+app.get("/api/orderhistory/:page", History.GetOrderHistory);
 
 app.get ("/api/downloads", Download.GetUserDownloadList);
 
@@ -88,7 +90,9 @@ app.post ("/api/admin/edituser", EditUser.EditUserParamsByAdmin);
 
 app.get ("/api/admin/allusers", EditUser.GetUsers);
 
-app.get ("/api/admin/allorders", History.GetTotalOrderHistory);
+app.get ("/api/admin/ordercount", History.GetOrderCount);
+
+app.get ("/api/admin/allorders/:page", History.GetTotalOrderHistory);
 
 app.delete ("/api/admin/deleteuser/:id", EditUser.DeleteUserByAdmin);
 

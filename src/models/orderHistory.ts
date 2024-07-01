@@ -1,3 +1,4 @@
+import { amount_perpage } from "../config";
 import { arrayToPostgresArrayString } from "../utils";
 import pool, { Q } from "./db";
 
@@ -58,9 +59,11 @@ export async function updateOrderStatus(id: number, newStatus: string) {
   }
   
   // Получение списка записей
-export async function getOrderList() {
+export async function getOrderList( page: number = 1 ) {
+    const idStart = (page - 1) * amount_perpage;
+    const idEnd = idStart + amount_perpage;
     const query = `
-      SELECT * FROM order_history;
+      SELECT * FROM "order_history" WHERE "id" BETWEEN ${idStart} AND ${idEnd} ORDER BY "id";
     `;
     
     try {
@@ -72,11 +75,26 @@ export async function getOrderList() {
     }
   }
 
-export async function getUserOrderList( user_id: number) {
+export async function getUserOrderList( user_id: number, page: number = 1) {
+    const idStart = (page - 1) * amount_perpage;
+    const idEnd = idStart + amount_perpage;
     const query = `
-      SELECT * FROM order_history WHERE "user_id" = ${user_id};
+      SELECT * FROM order_history WHERE "user_id" = ${user_id} AND "id" BETWEEN ${idStart} AND ${idEnd} ORDER BY "id";
     `;
     
     return await Q(query, true);
   }
   
+export async function getUserOrderCount ( user_id: number ) {
+  const query = `SELECT COUNT(*) FROM  order_history WHERE "user_id" = ${user_id};`;
+
+  const result = await Q(query, true);
+  return result && result.length > 0 ? result[0].count : 0
+}
+
+export async function getTotalOrderCount () {
+  const query = `SELECT COUNT(*) FROM  order_history;`;
+
+  const result = await Q(query, true);
+  return result && result.length > 0 ? result[0].count : 0
+}
