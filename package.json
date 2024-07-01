@@ -9,7 +9,7 @@
     "createDB": "node dist/fillDatabase.js",
     "cleanDB": "node dist/cleanDatabase.js",
     "start": "node dist/index.js",
-	"stop": "pm2 stop marksapp",
+    "stop": "pm2 stop marksapp",
     "restart": "pm2 restart marksapp"
   },
   "keywords": [],
@@ -22,6 +22,7 @@
     "express": "^4.19.2",
     "handlebars": "^4.7.8",
     "jsonwebtoken": "^9.0.2",
+    "mime-types": "^2.1.35",
     "nodemailer": "^6.9.13",
     "pdf-generator": "^1.0.4",
     "pg": "^8.11.5",

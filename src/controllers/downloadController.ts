@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import 'express-session';
+import mime from "mime";
 import fs from 'fs';
 import { UserIdFromAuth } from "./authController";
 import { GetDownloads, rootFolder } from "../models";
@@ -41,7 +42,10 @@ export const DownloadFileByOwner = async (req: Request, res: Response) => {
         if (err) {
             return res.status(404).send('File not found');
         }
-        
+        /* const mimeType = mime.lookup(filePath);
+        if (mimeType) {
+            res.setHeader('Content-Type', mimeType);
+        } */
         res.download(filePath, (err) => {
             if (err) {
                 return res.status(500).send('Error downloading file');
