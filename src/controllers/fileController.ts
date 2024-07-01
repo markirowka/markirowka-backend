@@ -47,9 +47,9 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     GeneratePaymentPDF(user, fileNames[1].name, itemList, "invoice", fileNames[1].id);
     GeneratePaymentPDF(user, fileNames[2].name, itemList, "agreement", fileNames[2].id);
 
-    await WriteOrder(fileNames.map((file): number => {
+    /* await WriteOrder(fileNames.map((file): number => {
       return file.id
-    }), userId)
+    }), userId) */
     res
       .status(200)
       .send({ message: `Files created for ${userId}`, files: fileNames });
