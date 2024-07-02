@@ -51,25 +51,29 @@ export const EditUserParamsByAdmin = async (req: Request, res: Response) => {
         res.status(403).send({ error: "No rigths to edit"});
         return;
     }
+    const params = body.paramsToEdit;
 
-    if (!body.userId) {
+    if (!params || !params.find((p) => {
+        return p.key === "id"
+    })) {
         res.status(400).send({ error: "User is not defined"});
         return;
     }
 
-    const params = body.paramsToEdit;
     for (let k = 0; k < params.length; k++) {
         if (params[k].key === 'email' && !IsValidEmail(params[k].value)) {
             res.status(400).send({ error: "Invalid email"});
             return;
         }
-        if (forbiddenToEditParamsAdmin.indexOf(params[k].key) > -1) {
+        /* if (forbiddenToEditParamsAdmin.indexOf(params[k].key) > -1) {
             res.status(403).send({ error: "Edit of some params is forbidden"});
             return;
-        } 
+        } */
     }
     try {
-        EditUserParams(params, body.userId);
+        EditUserParams(params, params.find((p) => {
+            return p.key === "id"
+        })?.value);
         res.status(200).send({ message: 'User params updated'});
     } catch (e: any) {
         console.log(e.message);

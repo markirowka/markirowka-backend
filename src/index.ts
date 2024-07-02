@@ -10,6 +10,7 @@ import * as Download from "./controllers/downloadController";
 import * as Files from "./controllers/fileController";
 import * as Recover from './controllers/recoverController';
 import * as History from './controllers/historyController';
+import * as Menu from './controllers/menuController';
 import { SetupHeadersGlobal } from "./controllers/indexController";
 
 dotenv.config();
@@ -70,6 +71,8 @@ app.post("/api/signupconfirm", Users.verifyEmail);
 
 app.post('/api/logout', Users.logout);
 
+app.post('/api/menu', Menu.GetMenu);
+
 app.get("/api/orderhistory/:page", History.GetOrderHistory);
 
 app.get ("/api/downloads", Download.GetUserDownloadList);
@@ -95,6 +98,14 @@ app.get ("/api/admin/ordercount", History.GetOrderCount);
 app.get ("/api/admin/allorders/:page", History.GetTotalOrderHistory);
 
 app.delete ("/api/admin/deleteuser/:id", EditUser.DeleteUserByAdmin);
+
+// Menu admin
+
+app.post("/api/admin/addmenu", Menu.CreateMenuItems);
+
+app.post("/api/admin/updatemenu", Menu.UpdateMenuItems);
+
+app.post("/api/admin/deletemenu", Menu.DeleteMenuItems);
 
 const https_options = {
   key: fs.readFileSync(process.env.HTTPS_PRIVATE_KEY_PATH || "../"),
