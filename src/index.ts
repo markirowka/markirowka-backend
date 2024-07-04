@@ -71,7 +71,7 @@ app.post("/api/signupconfirm", Users.verifyEmail);
 
 app.post('/api/logout', Users.logout);
 
-app.post('/api/menu', Menu.GetMenu);
+app.get('/api/menu', Menu.GetMenu);
 
 app.get("/api/orderhistory/:page", History.GetOrderHistory);
 
