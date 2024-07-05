@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS menu_items (
 
 CREATE TABLE IF NOT EXISTS articles (
     id serial PRIMARY KEY,
-    url_name varchar(64),
+    url_name varchar(64) NOT NULL UNIQUE,
     title varchar(128),
     content TEXT
  );

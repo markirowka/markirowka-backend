@@ -11,6 +11,7 @@ import * as Files from "./controllers/fileController";
 import * as Recover from './controllers/recoverController';
 import * as History from './controllers/historyController';
 import * as Menu from './controllers/menuController';
+import * as Content from './controllers/contentController';
 import { SetupHeadersGlobal } from "./controllers/indexController";
 
 dotenv.config();
@@ -106,6 +107,14 @@ app.post("/api/admin/addmenu", Menu.CreateMenuItems);
 app.post("/api/admin/updatemenu", Menu.UpdateMenuItems);
 
 app.post("/api/admin/deletemenu", Menu.DeleteMenuItems);
+
+// Content admin
+
+app.post("/api/admin/setcontent", Content.SetContent);
+
+app.post("/api/admin/deletecontent", Content.DeletePage);
+
+app.post("/api/content/:url", Content.GetPage);
 
 const https_options = {
   key: fs.readFileSync(process.env.HTTPS_PRIVATE_KEY_PATH || "../"),

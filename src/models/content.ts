@@ -21,9 +21,33 @@ export async function updateArticle(
   return await Q(query, true);
 }
 
-// Удаление статьи
+export async function updateArticleByUrl(
+  url_name: string,
+  title?: string,
+  content?: string
+): Promise<any> {
+  const updates = [];
+
+  if (title !== undefined) {
+    updates.push(`title = '${title}'`);
+  }
+  if (content !== undefined) {
+    updates.push(`content = '${content}'`);
+  }
+  const query = `UPDATE articles 
+    SET ${updates.join(', ')} 
+    WHERE "url_name" = '${url_name}' 
+    RETURNING *;`;
+  return await Q(query, true);
+}
+
 export async function deleteArticle(id: number): Promise<any> {
   const query = `DELETE FROM articles WHERE id = ${id} RETURNING *;`;
+  return await Q(query, true);
+}
+
+export async function deleteArticleByUrl(url: string): Promise<any> {
+  const query = `DELETE FROM articles WHERE "url_name" = '${url}' RETURNING *;`;
   return await Q(query, true);
 }
 
@@ -42,7 +66,14 @@ export async function getArticles(): Promise<any> {
   return await Q(query, true);
 }
 
-export async function getArticle(id: number): Promise<any> {
-  const query = `SELECT * FROM articles WHERE id = ${id};`;
+export async function getArticleByUrl(url: string): Promise<any[] | null> {
+  const query = `SELECT * FROM articles WHERE "url_name" = '${url};'`;
   return await Q(query, true);
 }
+
+
+export async function getArticle(id: number): Promise<any[] | null> {
+  const query = `SELECT * FROM articles WHERE "id" = ${id};`;
+  return await Q(query, true);
+}
+
