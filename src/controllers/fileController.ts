@@ -13,6 +13,7 @@ import { GeneratePaymentPDF } from "../views/paymentDocs";
 import { WriteOrder } from "../models/orderHistory";
 import { GenerateSpecifyShoes } from "../views/specifyShoes";
 import { GenerateSpecifyClothes } from "../views/specifyClothes";
+import { GenerateSpecifyOrder } from "../views/specifyOrder";
 
 export const CreatePaymentFiles = async (req: Request, res: Response) => {
   // SetupHeaders (res);
@@ -39,18 +40,20 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     await CheckAndCreateOwnerFolder(userId);
     
     const fileNames = await Promise.all([
+      CreateFileNameDBNote(userId, "specify"),
       CreateFileNameDBNote(userId, "t12"),
       CreateFileNameDBNote(userId, "invoice"),
       CreateFileNameDBNote(userId, "agreement"),
     ]);
+    
+    await GenerateSpecifyOrder(userId, fileNames[0].name, itemList);
+    await GeneratePaymentPDF(user, fileNames[1].name, itemList, "t12", fileNames[0].id);
+    await GeneratePaymentPDF(user, fileNames[2].name, itemList, "invoice", fileNames[1].id);
+    await GeneratePaymentPDF(user, fileNames[3].name, itemList, "agreement", fileNames[2].id);
 
-    GeneratePaymentPDF(user, fileNames[0].name, itemList, "t12", fileNames[0].id);
-    GeneratePaymentPDF(user, fileNames[1].name, itemList, "invoice", fileNames[1].id);
-    GeneratePaymentPDF(user, fileNames[2].name, itemList, "agreement", fileNames[2].id);
-
-    /* await WriteOrder(fileNames.map((file): number => {
+    await WriteOrder(fileNames.map((file): number => {
       return file.id
-    }), userId) */
+    }), userId);
     res
       .status(200)
       .send({ message: `Files created for ${userId}`, files: fileNames });
