@@ -67,7 +67,7 @@ export async function getArticles(): Promise<any> {
 }
 
 export async function getArticleByUrl(url: string): Promise<any[] | null> {
-  const query = `SELECT * FROM articles WHERE "url_name" = '${url};'`;
+  const query = `SELECT * FROM articles WHERE "url_name" = '${url}';`;
   return await Q(query, true);
 }
 

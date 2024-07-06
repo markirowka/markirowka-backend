@@ -5,13 +5,14 @@ import {
   CheckAndCreateOwnerFolder,
   CreateFileNameDBNote,
   GetUserById,
-  itemData,
+  itemDataClothes,
+  itemDataShoes,
   paymentDocumentData,
 } from "../models";
-import { GenerateSpecify } from "../views/specify";
 import { GeneratePaymentPDF } from "../views/paymentDocs";
-import { SetupHeaders } from "./indexController";
 import { WriteOrder } from "../models/orderHistory";
+import { GenerateSpecifyShoes } from "../views/specifyShoes";
+import { GenerateSpecifyClothes } from "../views/specifyClothes";
 
 export const CreatePaymentFiles = async (req: Request, res: Response) => {
   // SetupHeaders (res);
@@ -60,7 +61,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
   }
 };
 
-export const CreateSpecify = async (req: Request, res: Response) => {
+export const CreateSpecifyShoes = async (req: Request, res: Response) => {
   // SetupHeaders (res);
   const userId = UserIdFromAuth(req);
   if (!userId) {
@@ -72,12 +73,34 @@ export const CreateSpecify = async (req: Request, res: Response) => {
     res.status(400).send({ error: "Request has no any items" });
   }
 
-  const itemList: itemData[] = req.body.items;
+  const itemList: itemDataShoes[] = req.body.items;
   await CheckAndCreateOwnerFolder(userId);
   const fileDt = await CreateFileNameDBNote(userId, "specify");
-  const file = await GenerateSpecify(userId, fileDt.name, itemList);
+  const file = await GenerateSpecifyShoes(userId, fileDt.name, itemList);
 
   await WriteOrder ([fileDt.id], userId)
 
-  res.status(200).send({ message: `File created for ${userId}` });
+  res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });
+};
+
+export const CreateSpecifyClothes = async (req: Request, res: Response) => {
+  // SetupHeaders (res);
+  const userId = UserIdFromAuth(req);
+  if (!userId) {
+    res.status(401).send({ error: "Unauthorized" });
+    return;
+  }
+
+  if (!req.body.items) {
+    res.status(400).send({ error: "Request has no any items" });
+  }
+
+  const itemList: itemDataClothes[] = req.body.items;
+  await CheckAndCreateOwnerFolder(userId);
+  const fileDt = await CreateFileNameDBNote(userId, "specify");
+  const file = await GenerateSpecifyClothes(userId, fileDt.name, itemList);
+
+  await WriteOrder ([fileDt.id], userId)
+
+  res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });
 };

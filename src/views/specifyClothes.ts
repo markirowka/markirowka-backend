@@ -1,4 +1,4 @@
-import { itemDataShoes, rootFolder, sampleItemShoes } from "../models";
+import { itemDataClothes, itemDataShoes, rootFolder, sampleItemShoes } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
@@ -6,39 +6,9 @@ import handlebars from 'handlebars';
 import xlsx from 'xlsx';
 
 
-export async function GenerateSpecifyShoes (ownerId: number, fileName: string, data: itemDataShoes[]) {
+export async function GenerateSpecifyClothes (ownerId: number, fileName: string, data: itemDataClothes[]) {
     return new Promise(async (resolve, reject) => {
         const workbook = xlsx.utils.book_new();
-
-        /* 
-        1. Код ТНВЭД (Числовой, Необязательный, если не проставят оставляем пустым)
-2. Код категории (Не редактируемое берем из второго листа таблицы, или добавить отдельной настройкой (Он статичный для одной категории))
-3. Полное наименование товара (Только для Excel таблицы) (Формировать из следующих пунктов по шаблону: ${Вид товара} “${Товарный знак}” арт. ${Артикул производителя}. Цвет: ${Цвет}. Размер: ${Размер})
-4. Товарный знак (Текстовое значение)
-5. Модель/Артикул производителя (Select из двух значений) 
-6. Модель/Артикул производителя (Само значение) 
-7. Вид товара (Текстовое значение, взять значения из справочника: второй лист)
-8. Цвет (Текстовое значение, взять значения из справочника: второй лист)
-9. Размер (Текстовое значение, взять значения из справочника: второй лист)
-10.Материал верха (Текстовое значение)
-11.Материал подкладки (Текстовое значение)
-12.Материал низа/подошвы (Текстовое значение)
-        */
-
-        const header = [
-            'Код ТНВЭД',
-            'Код категории',
-            'Полное наименование товара',
-            'Товарный знак',
-            'Модель/Артикул производителя',
-            'Модель/Артикул производителя',
-            'Вид товара',
-            'Цвет',
-            'Размер',
-            'Материал верха',
-            'Материал подкладки',
-            'Материал низа/подошвы',
-        ];
 
         const headers = [
             'Код ТНВЭД',
@@ -50,15 +20,13 @@ export async function GenerateSpecifyShoes (ownerId: number, fileName: string, d
             'Вид товара',
             'Цвет',
             'Размер',
-            'Материал верха',
-            'Материал подкладки',
-            'Материал низа/подошвы'
+            'Состав',
           ];
           
         const subHeaders = [
             undefined, undefined, undefined, undefined,
             'тип', 'текст', undefined, undefined, undefined, 
-            undefined, undefined, undefined
+            undefined
           ];
 
         const rows = data.map(item => [
@@ -68,12 +36,10 @@ export async function GenerateSpecifyShoes (ownerId: number, fileName: string, d
             item.tradeMark,
             item.articleType,
             item.articleName,
-            item.shoesType,
+            item.clothesType,
             item.color,
             item.size,
-            item.upperMaterial,
-            item.liningMaterial,
-            item.bottomMaterial
+            item.composition,
           ]);
 
         rows.unshift(subHeaders);

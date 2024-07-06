@@ -86,7 +86,9 @@ app.post("/api/setnewpassword", Recover.SetupNewPassword);
 
 app.post ("/api/createpayments", Files.CreatePaymentFiles);
 
-app.post ("/api/createSpecify", Files.CreateSpecify);
+app.post ("/api/createSpecify/shoes", Files.CreateSpecifyShoes);
+
+app.post ("/api/createSpecify/clothes", Files.CreateSpecifyClothes);
 
 app.post ("/api/edituser", EditUser.EditUserParamByUser);
 
@@ -114,7 +116,7 @@ app.post("/api/admin/setcontent", Content.SetContent);
 
 app.post("/api/admin/deletecontent", Content.DeletePage);
 
-app.post("/api/content/:url", Content.GetPage);
+app.get("/api/content/:url", Content.GetPage);
 
 const https_options = {
   key: fs.readFileSync(process.env.HTTPS_PRIVATE_KEY_PATH || "../"),

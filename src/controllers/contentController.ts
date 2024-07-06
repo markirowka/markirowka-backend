@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import "express-session";
 import { IsAdmin } from "./authController";
 import { createArticle, deleteArticleByUrl, getArticle, getArticleByUrl, updateArticle, updateArticleByUrl } from "../models/content";
+import { urlNamingFilter } from "../utils";
 
 
 export const SetContent = async (req: Request, res: Response) => {
@@ -19,11 +20,12 @@ export const SetContent = async (req: Request, res: Response) => {
   }
   try {
     const existArticle = await getArticleByUrl(body.pageUrl);
-    if (!existArticle) {
-      await createArticle(body.pageUrl, body.pageTitle || "", body.content || "");
+    if (!existArticle || existArticle.length === 0) {
+      await createArticle(urlNamingFilter(body.pageUrl), body.pageTitle || "", body.content || "");
     } else {
-      await updateArticleByUrl(body.pageUrl, body.pageTitle, body.content);
+      await updateArticleByUrl(urlNamingFilter(body.pageUrl), body.pageTitle || "", body.content || "");
     }
+
     res.status(200).send({ success: true })
   } catch (e: any) {
     console.log(e);
@@ -58,12 +60,26 @@ export const DeletePage = async (req: Request, res: Response) => {
 
 export const GetPage = async (req: Request, res: Response) => { 
     const url = req.params.url;
-    if (!url) res.status(404).send({ error: "Page not found" });
+    console.log("Called width: ", url)
+    if (!url) {
+        console.log("No url")
+        res.status(404).send({ error: "Page not found" });
+        return;
+    }
 
     try {
         const page = await getArticleByUrl(url);
-        if (!page) res.status(404).send({ error: "Page not found" });
-        res.status(200).send({ page })
+        if (!page || page.length === 0){ 
+            console.log("No page")
+            res.status(404).send({ error: "Page not found" });
+            return;
+        }
+        res.status(200).send({ page: {
+            id: page[0].id,
+            pageTitle: page[0].title,
+            content: page[0].content,
+            url_name: page[0].url_name
+        } })
       } catch (e: any) {
         console.log(e);
         res.status(500).send({ error: "Failed to save content"})

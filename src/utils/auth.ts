@@ -10,6 +10,11 @@ export function GeneratePasswordHash (password: string): string {
     return createHash('sha256').update(password).digest('hex');
 }
 
+export function urlNamingFilter (url: string) : string {
+    return url.startsWith('/') ? url.substring(1) : url
+}
+
+
 export function GenerateAuthConfirmToken (data: userConfirmTokenData) {
 
 }

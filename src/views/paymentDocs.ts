@@ -1,4 +1,4 @@
-import { User, itemData, paymentDocumentData, rootFolder } from "../models";
+import { User, paymentDocumentData, rootFolder } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';

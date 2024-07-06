@@ -63,7 +63,7 @@ export async function getOrderList( page: number = 1 ) {
     const idStart = (page - 1) * amount_perpage;
     const idEnd = idStart + amount_perpage;
     const query = `
-      SELECT * FROM "order_history" WHERE "id" BETWEEN ${idStart} AND ${idEnd} ORDER BY "id";
+      SELECT * FROM "order_history" WHERE "id" BETWEEN ${idStart} AND ${idEnd} ORDER BY "id" DESC;
     `;
     
     try {

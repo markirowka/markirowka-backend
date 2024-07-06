@@ -4,44 +4,80 @@ import pool from "./db";
 
 export const rootFolder = process.env.FILE_ROOT_FOLDER || "files/"
 
-export interface itemData {
-    code?: number;
-    tnved?: number;
-    k3?: number;
-    name?: string;
-    tradeMark?: string;
-    modelNameType?: string;
-    modelNameStr?: string;
-    type?: string;
-    color?: string;
-    size?: number;
-    material?: string;
-    tnvedCode?: number;
-    cardStatus?: string;
-    cardResult?: string;
+
+/* 
+        const header = [
+            'Код ТНВЭД',
+            'Код категории',
+            'Полное наименование товара',
+            'Товарный знак',
+            'Модель/Артикул производителя',
+            'Модель/Артикул производителя',
+            'Вид товара',
+            'Цвет',
+            'Размер',
+            'Материал верха',
+            'Материал подкладки',
+            'Материал низа/подошвы',
+        ];
+*/
+
+export interface itemDataShoes {
+    fullName?: string;
+	tradeMark?: string;
+	articleType?: string;
+	articleName?: string;
+	shoesType?: string;
+	color?: string;
+	size?: string;
+	upperMaterial?: string;
+	liningMaterial?: string;
+	bottomMaterial?: string;
+	tnved?: string;
+}
+
+export interface itemDataClothes {
+    fullName?: string;
+	tradeMark?: string;
+	articleType?: string;
+	articleName?: string;
+	clothesType?: string;
+	color?: string;
+	size?: string;
+	composition?: string;
+    tnved?: string;
+}
+
+export const sampleItemShoes: itemDataShoes =  {
+    fullName: "",
+	tradeMark: "",
+	articleType: "",
+	articleName: "",
+	shoesType: "",
+	color: "",
+	size: "",
+	upperMaterial: "",
+	liningMaterial: "",
+	bottomMaterial: "",
+	tnved: ""
+}
+
+export const sampleItemClothes: itemDataClothes = {
+    fullName: "",
+    tradeMark: "",
+    articleType: "",
+    articleName: "",
+    clothesType: "",
+    color: "",
+    size: "",
+    composition: "",
+    tnved: "",
 }
 
 export interface itamDataShoes {
     
 }
 
-
-export const sampleItem: itemData = {
-    code: 0,
-    tnved: 1,
-    k3: 1,
-    name: 'Sample Name',
-    tradeMark: 'Sample TradeMark',
-    modelNameType:'',
-    modelNameStr: '',
-    type: 'Sample Type',
-    color: 'Sample Color',
-    size: 42,
-    material: 'Sample Material',
-    tnvedCode: 123456,
-    cardStatus: 'Active',
-    cardResult: 'Success'
-}
 
 export interface fileDownloadData {
     id: number;
