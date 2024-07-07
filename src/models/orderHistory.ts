@@ -60,10 +60,12 @@ export async function updateOrderStatus(id: number, newStatus: string) {
   
   // Получение списка записей
 export async function getOrderList( page: number = 1 ) {
-    const idStart = (page - 1) * amount_perpage;
-    const idEnd = idStart + amount_perpage;
+    const offset = (page - 1) * amount_perpage;
     const query = `
-      SELECT * FROM "order_history" WHERE "id" BETWEEN ${idStart} AND ${idEnd} ORDER BY "id" DESC;
+      SELECT * FROM "order_history"
+      ORDER BY "id"
+      OFFSET ${offset}
+      LIMIT ${amount_perpage};
     `;
     
     try {
@@ -79,7 +81,10 @@ export async function getUserOrderList( user_id: number, page: number = 1) {
     const idStart = (page - 1) * amount_perpage;
     const idEnd = idStart + amount_perpage;
     const query = `
-      SELECT * FROM order_history WHERE "user_id" = ${user_id} AND "id" BETWEEN ${idStart} AND ${idEnd} ORDER BY "id";
+      WITH ordered_orders AS (
+        SELECT * FROM order_history WHERE "user_id" = ${user_id} ORDER BY "id"
+      )
+      SELECT * FROM order_history OFFSET ${idStart} LIMIT ${amount_perpage};
     `;
     
     return await Q(query, true);

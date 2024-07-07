@@ -5,6 +5,7 @@ import puppeteer from 'puppeteer';
 import handlebars from 'handlebars';
 import { calculateTotals, getMonthName, numberToWords } from "../utils";
 import { ahmedovPrint64 } from "./prints/ahmedov64";
+import { ahmedovSign } from "./prints/ahmedovSign";
 
 
 export async function GeneratePaymentPDF (user: User, fileName: string, data: paymentDocumentData[], kind: string, docId: number) {
@@ -16,6 +17,7 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
         const templateSource = fs.readFileSync(templatePath, 'utf8');
         const template = handlebars.compile(templateSource);
         const imageBase64Url = ahmedovPrint64;
+        const signB64 = ahmedovSign;
         
         const totals = calculateTotals (data);
         const wordSum = numberToWords (totals.totalCost);
@@ -43,6 +45,7 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
             totalPrice: totals.totalCost,
             wordSum,
             print: imageBase64Url,
+            sign: signB64,
             wordRowCount
         }
 
