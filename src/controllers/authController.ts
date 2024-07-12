@@ -70,9 +70,8 @@ const signup = async (req: Request, res: Response) => {
     console.log("Verify token: ", token)
     const protocol = process.env.HTTP_PROTOCOL
     const host = process.env.HTTP_HOST
-    const port = process.env.HTTP_PORT
 
-    const emailVerifyLink = `${protocol}://${host}:${port}/signupconfirm?token=${token}`;
+    const emailVerifyLink = `${protocol}://${host}/signupconfirm?token=${token}`;
 
     console.log(emailVerifyLink);
 

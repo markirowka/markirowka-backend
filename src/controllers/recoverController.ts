@@ -32,10 +32,10 @@ export const RequestToRecoverPassword = async (req: Request, res: Response) => {
 
         const protocol = process.env.HTTP_PROTOCOL
         const host = process.env.HTTP_HOST
-        const port = process.env.HTTP_PORT
+
         
         const token = jwt.sign({ userId: user.id }, authPrivateKey, { expiresIn: '1h' });
-        const emailRecoverink = `${protocol}://${host}:${port}/recoverpassword?token=${token}`;
+        const emailRecoverink = `${protocol}://${host}/recoverpassword?token=${token}`;
 
         await sendEmail (email, "Восстановление пароля", "recoverEmail", {
             link: emailRecoverink,

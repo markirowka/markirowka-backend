@@ -8,6 +8,7 @@ export interface User {
   password?: string;
   isConfirmed?: boolean;
   full_name: string;
+  phone: string;
   ceo?: string;
   ceo_full?: string;
   ceo_base?: string;
@@ -56,6 +57,7 @@ export const forbiddenToEditParamsAdmin = ['id']
 export async function CreateUser (userData: User) {
   const {
     email,
+    phone,
     password,
     full_name,
     ceo,
@@ -95,8 +97,9 @@ export async function CreateUser (userData: User) {
         corr_account,
         bank_code,
         bank_name,
-        ceo_base ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *`,
+        ceo_base,
+        phone ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *`,
       [email, 
         password_hash, 
         full_name || "", 
@@ -113,7 +116,8 @@ export async function CreateUser (userData: User) {
         corr_account?.toString(),
         bank_code?.toString(),
         bank_name,
-        ceo_base
+        ceo_base,
+        phone
         ]
     );
     const user: User = result.rows[0];

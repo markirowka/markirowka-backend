@@ -32,7 +32,7 @@ export const GetTotalOrderHistory = async (req: Request, res: Response) => {
 export const GetOrderCount = async (req: Request, res: Response) => { 
     const isFromAdmin = await IsAdmin ({req});
     if (!isFromAdmin) {
-        res.status(403).send({ error: "No rigths to delete user"});
+        res.status(403).send({ error: "No rigths to watch value"});
         return;
     }
 

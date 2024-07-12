@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS app_users (
     password varchar(256),
     isConfirmed boolean,
     full_name varchar(256) NOT NULL,
+    phone varchar(64),
     ceo varchar(64),
     ceo_full varchar(128),
     ceo_base varchar(128),
@@ -17,7 +18,7 @@ CREATE TABLE IF NOT EXISTS app_users (
     corr_account varchar(32),
     bank_code varchar(32),
     bank_name varchar(32),
-    inn BIGINT UNIQUE,
+    inn BIGINT,
     cargo_recevier varchar(256),
     cargo_city varchar(64),
     user_role varchar(32)

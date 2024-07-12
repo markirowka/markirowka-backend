@@ -3,6 +3,7 @@ import { CreateDB } from "./models/createDb";
 
 const defaultAdmin: User = {
     email: 'admin@example.com',
+    phone: '1111111111',
     password: 'default',
     full_name: 'master_admin',
     isConfirmed: true,
