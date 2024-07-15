@@ -6,16 +6,18 @@
     <style>
       body { 
         margin: 0; 
-        font-size: 12px;
+        font-size: 10px;
         padding: 0; background: #FFF; font-family: Arial,
-      sans-serif; } .container { width: 210mm; /* ширина листа A4 */ min-height:
-      295mm; /* высота листа A4 */ margin: 0 auto; padding: 10mm 20mm; box-sizing:
-      border-box; background: #FFF; } .text-grid { width: 100%; padding: 10px;
-      box-sizing: border-box; } h1 { text-align: center; } .rRow { width: 100%;
+      sans-serif; } .container { width: 210mm; /* ширина листа A4 */ height:
+      293mm; overflow-y: hidden; /* высота листа A4 */ margin: 0 auto; padding: 10mm; box-sizing:
+      border-box; background: #FFF; } 
+      .text-grid { width: 100%; padding: 5px;
+      box-sizing: border-box; 
+      } h1 { text-align: center; font-size: 14px;} .rRow { width: 100%;
       display: flex; flex-wrap: nowrap; justify-content: space-between; }
       .rColumn { width: 49%; }
       .totalInfoColumn {
-        min-height: 420px;
+        min-height: 340px;
         position: relative
       }
 
@@ -26,8 +28,17 @@
 
       .printImg {
         position: absolute;
-        top: 1330px;
-        left: 150px;
+        top: 900px;
+        left: 100px;
+      }
+
+      p {
+        line-height: 1;
+      }
+
+      h2 {
+        font-size: 12px;
+        line-height: 1;
       }
     </style>
   </head>
@@ -73,10 +84,8 @@
           Поставщиком товара, он обязуется обеспечить сохранность (ответственное
           хранение) этого товара и незамедлительно уведомить Поставщика о своем
           отказе принятого товара с указанием причины отказа.</p>
-
         <h2>3. Цены по договору и порядок расчетов</h2>
         <!-- Ваши данные о ценах и расчетах -->
-
         <h2>4. Ответственность сторон</h2>
         <p>4.1 Любая из сторон настоящего договора, не исполнившая обязательства
           по договору или исполнившая их ненадлежащим образом, несет
@@ -94,7 +103,6 @@
         <p>4.5 В случае изменения юридического адреса или обслуживающего банка
           стороны договора обязаны в семидневный срок уведомить об этом друг
           друга.</p>
-
         <h2>5. Адреса, банковские реквизиты и подписи сторон</h2>
         <div class="rRow">
           <div class="rColumn totalInfoColumn">
@@ -134,7 +142,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </body>

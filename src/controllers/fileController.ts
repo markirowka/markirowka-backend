@@ -14,6 +14,10 @@ import { WriteOrder } from "../models/orderHistory";
 import { GenerateSpecifyShoes } from "../views/specifyShoes";
 import { GenerateSpecifyClothes } from "../views/specifyClothes";
 import { GenerateSpecifyOrder } from "../views/specifyOrder";
+import sendEmail from "./emailController";
+import { orderSendTo } from "../config";
+
+const sendTo = orderSendTo;
 
 export const CreatePaymentFiles = async (req: Request, res: Response) => {
   // SetupHeaders (res);
@@ -80,8 +84,15 @@ export const CreateSpecifyShoes = async (req: Request, res: Response) => {
   await CheckAndCreateOwnerFolder(userId);
   const fileDt = await CreateFileNameDBNote(userId, "specify");
   const file = await GenerateSpecifyShoes(userId, fileDt.name, itemList);
-
+  const user = await GetUserById(userId);
   await WriteOrder ([fileDt.id], userId)
+
+  console.log("Data to send: ", file, user, sendTo)
+
+  if (user && sendTo && file) {
+    console.log("Sending order file: ")
+    sendEmail(sendTo, "Заявка с сайта: обувь", "orderEmail", {phone: user.phone, email: user.email, full_name: user.full_name}, [file])
+  }
 
   res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });
 };
@@ -102,8 +113,15 @@ export const CreateSpecifyClothes = async (req: Request, res: Response) => {
   await CheckAndCreateOwnerFolder(userId);
   const fileDt = await CreateFileNameDBNote(userId, "specify");
   const file = await GenerateSpecifyClothes(userId, fileDt.name, itemList);
+  const user = await GetUserById(userId);
+  await WriteOrder ([fileDt.id], userId);
 
-  await WriteOrder ([fileDt.id], userId)
+  console.log("Data to send: ", file, user, sendTo)
+
+  if (user && sendTo && file) {
+    console.log("Sending order file: ")
+    sendEmail(sendTo, "Заявка с сайта: одежда", "orderEmail", {phone: user.phone, email: user.email, full_name: user.full_name}, [file])
+  }
 
   res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });
 };

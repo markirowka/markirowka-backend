@@ -6,7 +6,7 @@ import handlebars from 'handlebars';
 import xlsx from 'xlsx';
 
 
-export async function GenerateSpecifyShoes (ownerId: number, fileName: string, data: itemDataShoes[]) {
+export async function GenerateSpecifyShoes (ownerId: number, fileName: string, data: itemDataShoes[]): Promise<string | null> {
     return new Promise(async (resolve, reject) => {
         const workbook = xlsx.utils.book_new();
 
@@ -123,10 +123,10 @@ export async function GenerateSpecifyShoes (ownerId: number, fileName: string, d
             const filePath = `${rootFolder}${ownerId}/${fileName}`;  
             xlsx.writeFile(workbook, filePath);
             console.log(`Workbook generated at ${filePath}`);
-            resolve(true);
+            resolve(filePath);
         } catch (e: any) {
             console.log(e.message);
-            resolve(false)
+            resolve(null)
         }
     })
 }

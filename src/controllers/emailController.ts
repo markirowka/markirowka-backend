@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import renderTemplate from '../views/email';
 
-const sendEmail = async (to: string, subject: string, templateName: string, templateData: object) => {
+const sendEmail = async (to: string, subject: string, templateName: string, templateData: object, attachmentFilePaths?: string[]) => {
     // Render the email template
     const html = renderTemplate(templateName, templateData);
   
@@ -22,19 +22,39 @@ const sendEmail = async (to: string, subject: string, templateName: string, temp
           rejectUnauthorized: false
         }
     });
+
+    const mailAttachments: {
+      filename: any,
+      content: any
+    }[] = [];
+
+    attachmentFilePaths?.forEach((f) => {
+      try {
+        const attachmentContent = fs.readFileSync(f);
+        const attachmentFileName = path.basename(f);
   
-    // Define the email options
+        mailAttachments.push({
+          filename: attachmentFileName,
+          content: attachmentContent
+        })
+
+      } catch (error) {
+        console.error('Error reading attachment file:', error);
+      }
+    })
+  
     const mailOptions = {
-      from: process.env.EMAIL_FROM_ADDRESS, // replace with your email
+      from: process.env.EMAIL_FROM_ADDRESS, 
       to,
       subject,
       html,
+      attachments: mailAttachments 
     };
   
     // Send the email
     try {
-      await transporter.sendMail(mailOptions);
-      console.log('Email sent successfully');
+      const sendResult = await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully', sendResult);
     } catch (error) {
       console.error('Error sending email:', error);
     }

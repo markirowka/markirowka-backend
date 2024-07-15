@@ -70,7 +70,7 @@ app.get("/api/userordercount", History.GetOrderCountPerUser);
 
 app.post("/api/signupconfirm", Users.verifyEmail);
 
-app.post('/api/logout', Users.logout);
+app.get('/api/logout', Users.logout);
 
 app.get('/api/menu', Menu.GetMenu);
 

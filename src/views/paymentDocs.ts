@@ -28,7 +28,7 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
         const dateDay = dt.getDate(); // День месяца
         const dateMonth = getMonthName(dt.getMonth()); // Название месяца
         const dateYear = dt.getFullYear();
-
+        const signBaseOffset = 600 + (data.length * 20)
         
         const combinedData = {
             id: docId,
@@ -46,7 +46,10 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
             wordSum,
             print: imageBase64Url,
             sign: signB64,
-            wordRowCount
+            wordRowCount,
+            signOffset1: signBaseOffset,
+            signOffset2: signBaseOffset + 40,
+            signOffset3: signBaseOffset + 90,
         }
 
         // console.log("Generation data: ", combinedData);
@@ -65,8 +68,8 @@ export async function GeneratePaymentPDF (user: User, fileName: string, data: pa
     
             const pdfOptions = {
                 path: `${rootFolder}${user.id || "0"}/${fileName}`,
-                orientation: kind === 't12' ? 'portrait' : 'landscape', // 'landscape', // 'portrait'
-                landscape: kind === 't12' ? true : false,
+                orientation: 'portrait', // kind === 't12' ? 'portrait' : 'landscape', // 'landscape', // 'portrait'
+                landscape: false, // kind === 't12' ? true : false,
                 margin: {
                     top: '10mm',
                     right: '10mm',
