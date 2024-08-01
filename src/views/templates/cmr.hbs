@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            body{
+                font-family: "DejaVu Sans";
+                letter-spacing: -0.3px;
+                font-size:5px;
+            }
+            table {
+              width: 100%;
+            }
+            table, th, td, tr{
+                border-collapse: collapse;
+                vertical-align: top;
+                border:1px solid black;
+            }
+            .cmrBody{
+                width:700px;
+                height:842px;
+            }
+            .num{
+                font-size: 14px;
+                float:left;
+                padding-right:10px;
+            }
+            .bigNum{
+                font-size: 18px;
+                float:left;
+                margin:10px;
+            }
+            .name {
+                font-size: 8px;
+            }
+            .tableInside table{
+                width:100%;
+                border-collapse:collapse;
+                border:1px solid black;
+            }
+            .tableInside tr{
+
+            }
+            .tableInside td{
+
+            }
+            hr{
+                border: 0;
+                height: 1px;
+                background: black;
+            }
+            .cell21{
+                font-size:6px;
+                line-height:4px;
+                float:left;
+            }
+            p{
+                margin:0px;
+                padding:0px;
+            }
+            .watermark {
+                position: fixed;
+                top: 396px;
+                left: 175px;
+                z-index: -1;
+            }
+            .filledCell {
+                font-size:8px;
+                border:none;
+            }
+            .cellToFill {
+                min-height: 35px;
+                border-left: none;
+                border-right: none;
+            }
+            .senderSign {
+                position: fixed;
+                top: 750px;
+                left: 100px;
+                z-index: 3;
+            }
+            .specifyInfo td {
+                font-size: 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="watermark">
+            <img src={{cmrWaterMark}} width="350" height="100" />
+        </div>
+        <div class="cmrBody">
+            <table>
+                <tr>
+                    <td colspan="2" style="height:65px;width:50%;border-right:none;">
+                        <span class="num">1</span>Отправитель ( Фамилия или название, адрес, страна )<br>
+                                    Consignor (Name, address, country)<br>
+                        <table style="border:none;width:100%;">
+                            <tr class="filledCell">
+                                <td style="border:none;"></td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td style="border:none;">ИП Ахмедов Сабир Табассумович</td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td style="border:none;">Российская Федерация, 358007, Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.</td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td style="border:none;">Россия</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td colspan="2" style="height:65px;width:50%;">
+                        МЕЖДУНАРОДНАЯ АВТОМОБИЛЬНАЯ НАКЛАДНАЯ<br>
+                        INTERNATIONAL CONSIGNMENT NOTE<br>
+                        <div style="margin:0 auto; position:relative;width:70px;height:40px;top:-20px;">
+                            <img src="https://www.maro-pack.pl/assets/images/cmr.jpg"/>
+                        </div>
+                        <br>
+                        Настоящая перевозка подлежит положениям конвенции о договоре международной
+                        дорожной перевозки грузов (CMR) несмотря на любое противоречащее положение.<br>
+                        This carriage is subject notwithstanding any
+                        clause to the contrary, to the Convention on
+                        the Contract for the international Carriage of
+                        goods by road (CMR)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="height:65px;width:50%;">
+                        <span class="num">2</span>Получатель ( Фамилия или название, адрес, страна )<br>
+                        Consignee (Name, address, country)<br>
+                        <table style="border:none;width:100%;">
+                            <tr class="filledCell">
+                                <td style="border:none;"></td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td style="border:none;">{{user.full_name}}</td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td style="border:none;">{{user.cargo_city}}, {{user.law_address}}</td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td style="border:none;">{{country}}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td colspan="2" style="border:2px solid black;border-bottom:none;width:50%;">
+                        <span class="num">16</span>Перевозчик (фамилия или название, адрес, страна)<br>
+                        Carrier (Name, address, country)<br>
+                        <table style="border:none;width:100%;">
+                            <tr class="cellToFill">
+                                <td style="border:none;" style="height: 30px;"></td>
+                            </tr>
+                            <tr class="cellToFill">
+                                <td class="cellToFill" style="height: 30px;"></td>
+                            </tr>
+                            <tr class="cellToFill">
+                                <td class="cellToFill" style="height: 30px;"></td>
+                            </tr>
+                            <tr class="cellToFill">
+                                <td class="cellToFill" style="height: 30px;"></td>
+                            </tr>
+                        </table>
+                    </td>
+                <tr>
+                    <td colspan="2" style="height:50px;">
+                        <span class="num">3</span>Место разгрузки груза<br>
+                        Place of delivery of the goods (name, address, country)<br>
+                        <table style="border:none;width:100%;">
+                            <tr style="font-size:8px;border:none;">
+                                <td style="border:none;"></td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td class="filledCell">{{user.cargo_city}}</td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td class="filledCell">{{country}}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td colspan="2" style="border:2px solid black; border-bottom:none;border-top:none;">
+                        <span class="num">17</span>Последующие перевозчики ( Фамилия или название, адрес, страна )<br>
+                        Successive carriers (name, address, country)<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="height:35px;border:1px solid black;">
+                        <span class="num">4</span> Место и дата загрузки ( Населенный пункт, страна, дата )<br>
+                        Place and date of taking over the goods (place, country, date)<br>
+                        <table style="border:none;width:100%;">
+                            <tr class="filledCell">
+                                <td style="border:none;"></td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td class="filledCell">Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.</td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td class="filledCell">Россия</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td colspan="2" style="border:2px solid black;border-bottom:none;border-top:none;">
+                        <hr>
+                        <span class="num">18</span> Замечания и оговорки перевозчика<br>
+                        Carrier’s reservations and observations<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:1px solid black;height:35px;">
+                        <span class="num">5</span> Приложенные документы<br>
+                        Documents attached<br>
+                        <table style="border:none;width:100%;">
+                            <tr class="filledCell">
+                                <td style="border:none;"></td>
+                            </tr>
+                            <tr class="filledCell">
+                                <td class="filledCell">Накладная ТОРГ-12 №Н{{id }} от {{dateDay}} {{dateMonth}} {{dateYear}}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td colspan="2" style="border:2px solid black;border-top:none;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="height:180px;border:none;">
+                        <table style="width:100%;border:none;">
+                            <tr>
+                                <td style="border:none;height:30px;width:14.28%"><span class="num">6</span>Отметки и номера<br>
+                                    Marks and Nos<br>
+                                </td>
+                                <td style="border:none;width:14.28%"><span class="num">7</span>Количество мест<br>
+                                    Number of packages<br>
+                                </td>
+                                <td style="border:none;width:14.28%"><span class="num">8</span>Способ упаковки<br>
+                                    Method of packing <br>
+                                </td>
+                                <td style="border:none;width:14.28%"><span class="num">9</span>Вид товара<br>
+                                    Nature of the goods<br>
+                                </td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;width:14.28%"><span class="num">10</span>Статистический номер<br>
+                                    Statistical number<br>
+                                </td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;width:14.28%"><span class="num">11</span>Масса брутто в кг<br>
+                                    Gross weight in kg<br>
+                                </td>
+                                <td style="border:1px solid black;border-right:none;border-bottom:none;border-top:none;width:14.28%"><span class="num">12</span>Объем в м3<br>
+                                    Volume in m3<br>
+                                </td>
+                            </tr>
+                            <tr class="specifyInfo">
+                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;height:30px;">
+                                </td>
+                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;">
+                                </td>
+                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;">
+                                                                        Мест {{totalCount}} в упаковочных пакетах
+                                </td>
+                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;">
+                                                                        {{category}}
+                                </td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;">
+                                                                        {{categoryCode}}
+                                </td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-right:none;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;height:30px;"></td>
+                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-right:none;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;height:30px;"></td>
+                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-right:none;"></td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;height:30px;"></td>
+                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
+                                <td style="border:1px solid black;border-bottom:none;border-right:none;"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="border:none;">
+                                    <table style="width:100%;border:none;">
+                                        <tr>
+                                            <td style="border:none;width:20%;height:30px;">Номер UN<br>
+                                                Number UN<br>
+                                            </td>
+                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:20%;">См. пункт 9<br>
+                                                See point 9<br>
+                                            </td>
+                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:20%;">Класс<br>
+                                                Class<br>
+                                            </td>
+                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:20%;">Цифровой номер<br>
+                                                Material number<br>
+                                            </td>
+                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:20%;">Фирменное наименование<br>
+                                                Commercial description<br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;height:30px;"></td>
+                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;"></td>
+                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;"></td>
+                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;"></td>
+                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td colspan="3" style="border:none;">
+                                    <table style="width:100%;border:none;">
+                                        <tr>
+                                            <td style="border:none;width:50%;height:30px;">ОПАСНЫЕ ГРУЗЫ<br>
+                                                DANGEROUS GOODS<br>
+                                            </td>
+                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:50%;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;height:30px;"></td>
+                                            <td style="border:1px solid black;border-left:none;border-bottom:none;"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:1px solid black;height:50px;">
+                        <span class="num">13</span>
+                        Указания отправителя (К сведению перевозчика)<br>
+                        Consignor's instructions (to the carrier)<br>
+                        <br>
+                        <br>
+                        <table style="width:100%;border:none;">
+                                        <tr>
+                                            <td style="border:none;width:50%;height:30px;font-size: 8px;">
+                                                Объявленная стоимость груза<br>
+                                                Declared value of goods<br><br>
+                                            </td>
+                                            <td style="border:none;width:50%;height:30px;font-size: 8px;">
+                                                {{totalPrice}},00 руб.
+                                            </td>
+                                        </tr>
+                                    </table>
+                    </td>
+                    <td colspan="2" style="border:2px solid black;border-top:none;">
+                        <span class="num">19</span>Дополнительные замечания<br>
+                        Additional remarks<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:1px solid black;height:50px;">
+                        <span class="num">14</span>Таможенные и другие официальные расходы<br>
+                        Customs and other official charges<br>
+                    </td>
+                    <td colspan="2" style="border:2px solid black;border-top:none;">
+                        <span class="num">20</span>Плата за перевозку (за счет отправителя, получателя и т.д.)<br>
+                        Carriage charges (payer: consignor, consignee, etc.)<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:1px solid black;height:40px;">
+                        <span class="num">15</span>Место и дата составления<br>
+                        Place and date of the consignment note<br>
+                    </td>
+                    <td colspan="2" style="border:2px solid black;border-top:none;">
+                        <span class="num">21</span>Подпись и печать перевозчика<br>
+                        Carrier’s signature and stamp<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="border:none;height:50px;">
+                        <table style="width:100%;border:none;">
+                            <tr>
+                                <td style="border:none;width:50%;height:50px;">
+                                    <span class="num">22</span>Отправитель (подпись и печать)<br>
+                                    Consignor (signature and stamp)<br>
+                                       <img style="position: absolute;margin-top:-20px;margin-left:140px;" src="{{sign}}" width="50" height="50" />
+                                       <img style="position: absolute;margin-top:-20px;margin-left:100px;" src="{{print}}" width="100" height="100" />
+                                </td>
+                                <td style="border:none;width:50%;height:50px;">
+                                    <span class="num">23</span>Получатель (подпись и печать)<br>
+                                    Consignee (signature and stamp)<br>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

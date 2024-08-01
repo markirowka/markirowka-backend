@@ -81,3 +81,20 @@ export function arrayToPostgresArrayString(arr: any[]) {
     return `{${arr.join(', ')}}`;
   }
   
+  export function getCategoryCode(category: string): number {
+    const categoryMap: { [key: string]: number } = {
+        'одежда': 6202920000,
+        'обувь': 6403519900,
+        'косметика': 3304200000,
+        'головные уборы': 6505003000,
+        'изделия-штучные': 6307109000,
+        'ткани': 5804109000,
+        'духи': 3303001000,
+        'автозапчасти': 8419908509,
+        'сумки': 4202119000,
+        'электросамокаты': 8711900000,
+        'цветы искусственные': 6004100000
+    };
+
+    return categoryMap[category.toLowerCase()] || 0;
+}

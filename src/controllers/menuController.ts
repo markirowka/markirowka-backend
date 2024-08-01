@@ -30,7 +30,7 @@ export const UpdateMenuItems = async (req: Request, res: Response) => {
 
   try {
     items.forEach((item) => {
-      updateMenuItem(item.id, item.name, item.url);
+      updateMenuItem(item.id, item.name, item.url, item.sort_index);
     });
     res.status(200).send({ success: true });
   } catch (e) {
@@ -55,7 +55,7 @@ export const CreateMenuItems = async (req: Request, res: Response) => {
 
   try {
     items.forEach((item) => {
-      createMenuItem(item.name, item.url);
+      createMenuItem(item.name, item.url, item.sort_index);
     });
     res.status(200).send({ success: true });
   } catch (e) {

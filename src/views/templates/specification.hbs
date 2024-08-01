@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спецификация</title>
+    <style>
+        body {
+            margin: 0;
+            font-size: 10px;
+            padding: 0;
+            background: #FFF;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 210mm; /* ширина листа A4 */
+            height: 287mm; /* высота листа A4 */
+            margin: 0 auto;
+            padding: 10mm;
+            box-sizing: border-box;
+            background: #FFF;
+        }
+        h1, h2 {
+            text-align: center;
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: left;
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            width: calc(100% - 20mm);
+            text-align: right;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .upColontitle {
+            position: absolute;
+            top: 10px;
+            right: 50px;
+        }
+
+        .upColontitle p{
+           text-align: right;
+        }
+              body { 
+        margin: 0; 
+        font-size: 10px;
+        padding: 0; background: #FFF; font-family: Arial,
+      sans-serif; } .container { width: 210mm; /* ширина листа A4 */ height:
+      287mm; overflow-y: hidden; /* высота листа A4 */ margin: 0 auto; padding: 10mm; box-sizing:
+      border-box; background: #FFF; } 
+      .text-grid { width: 70%; padding: 5px;
+      box-sizing: border-box; 
+      } h1 { text-align: center; font-size: 14px;} .rRow { 
+        width: 100%;
+        height: 120px;
+      display: flex; flex-wrap: nowrap; justify-content: space-between; }
+      .rColumn { width: 49%; }
+      .totalInfoColumn {
+        position: relative
+      }
+
+      .printPlace {
+        position: absolute;
+        bottom: 20px;
+        display: flex;
+        flex-direction:column;
+      }
+
+      .printImg.print {
+        position:absolute;
+        margin-top: -60px;
+      }
+
+      .printImg.sign {
+        position:absolute;
+        margin-left: 48px;
+        margin-top: -73px;
+      }
+
+      p {
+        line-height: 1;
+      }
+
+      h2 {
+        font-size: 12px;
+        line-height: 1;
+      }
+      .headingBlock {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-grid">
+        <div className="headingBlock">
+            <h1 class="specifyHeading">СПЕЦИФИКАЦИЯ</h1>
+            <h3>К договору поставки №Д{{id}} от {{dateDay}} {{dateMonth}} {{dateYear}}</h3>
+        </div>
+        <div class="upColontitle">
+            <p> Приложение №1<br>
+                К договору поставки №Д{{id}} <br>
+             от {{dateDay}} {{dateMonth}} {{dateYear}}</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Товары</th>
+                    <th>Кол-во</th>
+                    <th>Ед. изм.</th>
+                    <th>Цена за единицу, руб.</th>
+                    <th>Стоимость, руб.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Бюстгальтер VE.NU.S Артикул: 90030</td>
+                    <td>36</td>
+                    <td>шт</td>
+                    <td>150,00</td>
+                    <td>5 400,00</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Бюстгальтер VE.NU.S Артикул: 3001</td>
+                    <td>24</td>
+                    <td>шт</td>
+                    <td>150,00</td>
+                    <td>3 600,00</td>
+                </tr>
+                <!-- Add additional rows as per the provided PDF -->
+                <tr>
+                    <td>3</td>
+                    <td>Бюстгальтер VE.NU.S Артикул: 6968</td>
+                    <td>42</td>
+                    <td>шт</td>
+                    <td>150,00</td>
+                    <td>6 300,00</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Бюстгальтер VE.NU.S Артикул: 3023</td>
+                    <td>18</td>
+                    <td>шт</td>
+                    <td>150,00</td>
+                    <td>2 700,00</td>
+                </tr>
+                <!-- Add additional rows as needed -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">Итого:</td>
+                    <td>{{totalPrice}},00</td>
+                </tr>
+            </tfoot>
+        </table>
+        <p>Итого: Цена (Общая стоимость) по настоящей Спецификации составляет {{totalPrice}},00 руб. ({{ wordSum }}) руб.00 коп. Указанная цена является фиксированной и изменению не подлежит.
+ Настоящее Приложение является неотъемлемой частью Договора поставки № 4406 от "15" июня 2024 года, составлено и 
+подписано в двух идентичных экземплярах, каждый из которых имеет одинаковую юридическую силу, по одному 
+экземпляру каждой из сторон.</p>
+                <div class="rRow">
+          <div class="rColumn totalInfoColumn">
+            <div class="printPlace">
+              <div class="printTextBlock">
+              <p>Индивидуальный предприниматель Ахмедов С. Т. / __________________</p>
+              <p>М.П.</p>
+              <img class="printImg sign" src={{sign}} width="50" height="50" alt="Подпись" />
+              <img class="printImg print" src={{print}} width="100" height="100" alt="Печать" />
+              </div>
+            </div>
+          </div>
+          <div class="rColumn totalInfoColumn">
+            <div class="printPlace">
+                <div class="printTextBlock">
+                    <p>Индивидуальный предприниматель
+                {{user.ceo}}
+               / __________________</p>
+              <p>М.П.</p>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -84,7 +84,8 @@ export async function getUserOrderList( user_id: number, page: number = 1) {
       WITH ordered_orders AS (
         SELECT * FROM order_history WHERE "user_id" = ${user_id} ORDER BY "id"
       )
-      SELECT * FROM order_history OFFSET ${idStart} LIMIT ${amount_perpage};
+      SELECT * FROM order_history  WHERE "user_id" = ${user_id} 
+      OFFSET ${idStart} LIMIT ${amount_perpage};
     `;
     
     return await Q(query, true);

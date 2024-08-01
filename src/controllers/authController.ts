@@ -29,12 +29,7 @@ const signup = async (req: Request, res: Response) => {
     res.status(400).send({ success: false, error: "Email is missed" });
     return;
   }
-
-  if (!userData.inn) {
-    res.status(400).send({ success: false, error: "Inn is missed" });
-    return;
-  }
-
+  
   if (!userData.password) {
     res.status(400).send({ success: false, error: "Password is missed" });
     return;

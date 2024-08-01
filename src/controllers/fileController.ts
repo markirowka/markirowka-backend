@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
 import "express-session";
+import archiver from 'archiver';
 import { GetAuthorizedUserData, UserIdFromAuth } from "./authController";
 import {
   CheckAndCreateOwnerFolder,
+  createFileName,
   CreateFileNameDBNote,
   GetUserById,
   itemDataClothes,
   itemDataShoes,
   paymentDocumentData,
+  rootFolder,
 } from "../models";
-import { GeneratePaymentPDF } from "../views/paymentDocs";
+import { GeneratePaymentPDF, generateZipArchive } from "../views/paymentDocs";
 import { WriteOrder } from "../models/orderHistory";
 import { GenerateSpecifyShoes } from "../views/specifyShoes";
 import { GenerateSpecifyClothes } from "../views/specifyClothes";
@@ -42,25 +45,31 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
 
   try {
     await CheckAndCreateOwnerFolder(userId);
+    const orderFile = await CreateFileNameDBNote(userId, "specify");
+    const archiveName = await CreateFileNameDBNote(userId, "zip");
     
-    const fileNames = await Promise.all([
-      CreateFileNameDBNote(userId, "specify"),
-      CreateFileNameDBNote(userId, "t12"),
-      CreateFileNameDBNote(userId, "invoice"),
-      CreateFileNameDBNote(userId, "agreement"),
-    ]);
-    
-    await GenerateSpecifyOrder(userId, fileNames[0].name, itemList);
-    await GeneratePaymentPDF(user, fileNames[1].name, itemList, "t12", fileNames[0].id);
-    await GeneratePaymentPDF(user, fileNames[2].name, itemList, "invoice", fileNames[1].id);
-    await GeneratePaymentPDF(user, fileNames[3].name, itemList, "agreement", fileNames[2].id);
+    await GenerateSpecifyOrder(userId, orderFile.name, itemList);
+    const filePaths: string[] = (await Promise.all([
+      GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, "t12", archiveName.id),
+      GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, "invoice", archiveName.id),
+      GeneratePaymentPDF(user, createFileName(userId, "agreement"), itemList, "agreement", archiveName.id),
+      GeneratePaymentPDF(user, createFileName(userId, "cmr"), itemList, "cmr", archiveName.id),
+      GeneratePaymentPDF(user, createFileName(userId, "specification"), itemList, "specification", archiveName.id)
+    ])).map((item: { path: string}) => {
+        return item.path
+    });
 
-    await WriteOrder(fileNames.map((file): number => {
-      return file.id
-    }), userId);
+    await generateZipArchive(user, archiveName.name, filePaths)
+
+    if (user && sendTo && orderFile) {
+      console.log("Sending order file, attachment: ", `${rootFolder}${userId}/${orderFile.name}`);
+      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user}, [`${rootFolder}${userId}/${orderFile.name}`])
+    }
+
+    await WriteOrder([archiveName.id], userId);
     res
       .status(200)
-      .send({ message: `Files created for ${userId}`, files: fileNames });
+      .send({ message: `Files created for ${userId}`, files: [archiveName] });
   } catch (e: any) {
     console.log(e.message);
     res.status(500).send({ error: `File creation failed` });
@@ -91,7 +100,7 @@ export const CreateSpecifyShoes = async (req: Request, res: Response) => {
 
   if (user && sendTo && file) {
     console.log("Sending order file: ")
-    sendEmail(sendTo, "Заявка с сайта: обувь", "orderEmail", {phone: user.phone, email: user.email, full_name: user.full_name}, [file])
+    sendEmail(sendTo, "Заявка с сайта: обувь", "orderEmail", {...user}, [file])
   }
 
   res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });
@@ -120,7 +129,7 @@ export const CreateSpecifyClothes = async (req: Request, res: Response) => {
 
   if (user && sendTo && file) {
     console.log("Sending order file: ")
-    sendEmail(sendTo, "Заявка с сайта: одежда", "orderEmail", {phone: user.phone, email: user.email, full_name: user.full_name}, [file])
+    sendEmail(sendTo, "Заявка с сайта: одежда", "orderEmail", {...user}, [file])
   }
 
   res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });

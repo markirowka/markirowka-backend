@@ -7,3 +7,5 @@ console.log("From env: ", process.env, orderSendTo)
 
 export const frontend_url = "https://websiteonlytest.ru";
 export const amount_perpage = 5;
+
+export const apiVersion = 112;

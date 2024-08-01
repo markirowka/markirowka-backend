@@ -43,7 +43,8 @@ CREATE TABLE IF NOT EXISTS order_history (
 CREATE TABLE IF NOT EXISTS menu_items (
     id serial PRIMARY KEY,
     name varchar(64),
-    url varchar(256)
+    url varchar(256),
+    sort_index Integer
  );
 
 CREATE TABLE IF NOT EXISTS articles (

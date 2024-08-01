@@ -9,7 +9,7 @@
         font-size: 10px;
         padding: 0; background: #FFF; font-family: Arial,
       sans-serif; } .container { width: 210mm; /* ширина листа A4 */ height:
-      293mm; overflow-y: hidden; /* высота листа A4 */ margin: 0 auto; padding: 10mm; box-sizing:
+      287mm; overflow-y: hidden; /* высота листа A4 */ margin: 0 auto; padding: 10mm; box-sizing:
       border-box; background: #FFF; } 
       .text-grid { width: 100%; padding: 5px;
       box-sizing: border-box; 
@@ -26,10 +26,16 @@
         bottom: 20px;
       }
 
-      .printImg {
-        position: absolute;
-        top: 900px;
-        left: 100px;
+      
+      .printImg.print {
+        position:absolute;
+        margin-top: -73px;
+      }
+
+      .printImg.sign {
+        position:absolute;
+        margin-left: 48px;
+        margin-top: -73px;
       }
 
       p {
@@ -119,12 +125,14 @@
             <p>Тел./факс: +7(993)909-74-42</p>
             <p>e-mail: veselnikoff@inbox.ru</p>
             <div class="printPlace">
+              <div class="printTextBlock">
               <p>Индивидуальный предприниматель Ахмедов С. Т. / __________________</p>
               <p>М.П.</p>
+              <img class="printImg sign" src={{sign}} width="50" height="50" alt="Подпись" />
+              <img class="printImg print" src={{print}} width="100" height="100" alt="Печать" />
+              </div>
             </div>
           </div>
-          <img class="printImg" src={{print}} width="100" height="100" alt="Печать" />
-          <img class="printImg" src={{sign}} width="50" height="50" alt="Подпись" />
           <div class="rColumn totalInfoColumn">
             <p>ПОКУПАТЕЛЬ: {{user.full_name}}</p>
             <p>Юридический адрес: {{user.law_address}}</p>
