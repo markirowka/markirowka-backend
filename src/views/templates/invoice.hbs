@@ -4,9 +4,9 @@
     <style>
         .main
 {
-  width: 978px;
+  width: 70%;   /* 978px */
   margin: 0 auto;
-  font-size: 17px;
+  font-size: 6px;
 }
     </style>
 </head>
@@ -14,20 +14,18 @@
 <div class="main">
 <table width="100%" style="font-family: Arial;">
     <tr >
-        <td style="width: 68%; padding: 20px 0;">
-            <div style="text-align: justify; font-size: 11pt;">Внимание! Оплата данного счета означает согласие с условиями поставки товара. Счет действителен в течение 5(пяти) банковских дней, не считая дня выписки счета. Уведомление об оплате  обязательно, в противном случае НЕ ГАРАНТИРУЕТСЯ наличие товара на складе. Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</div>
+        <td style="padding: 10px 0;">
+            <div style="text-align: justify;">Внимание! Оплата данного счета означает согласие с условиями поставки товара. Счет действителен в течение 5(пяти) банковских дней, не считая дня выписки счета. Уведомление об оплате  обязательно, в противном случае НЕ ГАРАНТИРУЕТСЯ наличие товара на складе. Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.</div>
         </td>
-      <td style="width: 32%; text-align: center; padding: 30px 0;">
-        <img src="<!--Лого url-->" style="width: 70%;"></td>
     </tr>
     
 </table>
 
 
-<table width="100%" border="2" style="border-collapse: collapse; width: 100%; font-family: Arial;" cellpadding="2" cellspacing="2">
+<table border="2" style="border-collapse: collapse; width: 70%; font-family: Arial;" cellpadding="2" cellspacing="2">
     <tr style="">
-        <td colspan="2" rowspan="2" style="min-height:13mm; width: 105mm;">
-            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="height: 13mm;">
+        <td colspan="2" rowspan="2" style="min-height:9mm; width: 95mm;">
+            <table border="0" cellpadding="0" cellspacing="0" style="height: 9mm;">
                 <tr>
                     <td valign="top">
                         <div>ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО)</div>
@@ -35,42 +33,42 @@
                 </tr>
                 <tr>
                     <td valign="bottom" style="height: 3mm;">
-                        <div style="font-size:10pt;">Банк получателя</div>
+                        <div style="">Банк получателя</div>
                     </td>
                 </tr>
             </table>
         </td>
-        <td style="min-height:7mm;height:auto; width: 25mm;">
+        <td style="min-height:7mm;height:auto; width: 26mm;">
             <div>БИK</div>
         </td>
-        <td rowspan="2" style="vertical-align: top; width: 60mm;">
+        <td rowspan="2" style="vertical-align: top; width: 55mm;">
             <div style=" height: 7mm; line-height: 7mm; vertical-align: middle;">044525411</div>
             <div>30101810145250000411</div>
         </td>
     </tr>
     <tr>
-        <td style="width: 25mm;">
+        <td style="width: 18mm;">
             <div>Сч. №</div>
         </td>
     </tr>
     <tr>
-        <td style="min-height:6mm; height:auto; width: 50mm;">
+        <td style="min-height:6mm; height:auto; width: 44mm;">
             <div>ИНН 502765138514</div>
         </td>
-        <td style="min-height:6mm; height:auto; width: 55mm;">
+        <td style="min-height:6mm; height:auto; width: 48mm;">
             <div>КПП </div>
         </td>
-        <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 25mm;">
+        <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 24mm;">
             <div>40802810424435209932</div>
         </td>
-        <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 60mm;">
+        <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 50mm;">
             <div></div>
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="min-height:13mm; height:auto;">
+        <td colspan="2" style="min-height:8mm; height:auto;">
 
-            <table border="0" cellpadding="0" cellspacing="0" style="height: 13mm; width: 105mm;">
+            <table border="0" cellpadding="0" cellspacing="0" style="height: 8mm; width: 88mm;">
                 <tr>
                     <td valign="top">
                         <div>ИП Ахмедов Сабир Табассумович</div>
@@ -78,7 +76,7 @@
                 </tr>
                 <tr>
                     <td valign="bottom" style="height: 3mm;">
-                        <div style="font-size: 10pt;">Получатель</div>
+                        <div style="">Получатель</div>
                     </td>
                 </tr>
             </table>
@@ -88,7 +86,7 @@
 </table>
 <br/>
 
-<div style="font-weight: bold; font-size: 25pt; padding-left:5px; font-family: Arial;">
+<div style="font-weight: bold; font-size: 16px; padding-left:5px; font-family: Arial;">
     Счет № С{{ id }} от {{dateDay}} {{dateMonth}} {{dateYear}}</div>
 <br/>
 
@@ -121,23 +119,23 @@
 <table border="2" width="100%" cellpadding="2" cellspacing="2" style="border-collapse: collapse; width: 100%; font-family: Arial;">
     <thead>
     <tr>
-        <th style="width:13mm; ">№</th>
+        <th style="width:4mm; ">№</th>
        
-        <th>Товары (работы, услуги)</th>
-        <th style="width:20mm; ">Кол-во</th>
-        <th style="width:17mm; ">Ед.</th>
-        <th style="width:27mm;  ">Цена</th>
-        <th style="width:27mm;  ">Сумма</th>
+        <th style="width:120mm; ">Товары (работы, услуги)</th>
+        <th style="width:6mm; ">Кол-во</th>
+        <th style="width:6mm; ">Ед.</th>
+        <th style="width:12mm;  ">Цена</th>
+        <th style="width:12mm;  ">Сумма</th>
     </tr>
     </thead>
     <tbody >
       <tr>
-        <td style="width:13mm; ">№</td>   
-        <td>Товар</td>
-        <td style="width:20mm; ">Кол-во</td>
-        <td style="width:17mm; ">Шт.</td>
-        <td style="width:27mm; text-align: center; ">Цена</td>
-        <td style="width:27mm; text-align: center; ">Сумма</td>
+        <td style="width:5mm; ">№</td>   
+        <td style="width:120mm; ">Товар</td>
+        <td style="width:6mm; ">Кол-во</td>
+        <td style="width:6mm; ">Шт.</td>
+        <td style="width:12mm; text-align: center; ">Цена</td>
+        <td style="width:12mm; text-align: center; ">Сумма</td>
     </tr>
     {{#each items}}
     <tr>
@@ -177,14 +175,14 @@
 <br /><br />
 <div style="background-color:#000000; width:100%; font-size:1px; height:2px;">&nbsp;</div>
 <br/>
-  <div style="font-family: Arial; font-size: 10pt;">
+  <div style="font-family: Arial;">
 1. Счет действителен в течении 5 (пяти) банковских дней, не считая дня выписки счета. В случае нарушения срока оплаты сохранение цены на товар и наличие товара на складе НЕ ГАРАНТИРУЕТСЯ.<br />
 2. Оплата данного счета означает согласие с условиями изложенными в п.1</div>
   <br /><br />
-<div style="background: url('{{print}}');  background-repeat: no-repeat; width: 200px;
-height: 200px;background-size: 100%;">
-<div style="background: url('{{sign}}');  background-repeat: no-repeat; width: 200px;
-height: 200px;background-size: 100%;">
+<div style="background: url('{{print}}');  background-repeat: no-repeat; width: 120px;
+height: 120px;background-size: 100%;">
+<div style="background: url('{{sign}}');  background-repeat: no-repeat; width: 80px;
+height: 80px;background-size: 100%;">
 <div>Руководитель ______________________ </div>
 <br/>  <br /><br />
 

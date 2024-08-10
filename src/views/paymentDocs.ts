@@ -36,6 +36,7 @@ export async function GeneratePaymentPDF(
     const dateYear = dt.getFullYear();
     const signBaseOffset = 660 + data.length * 20;
     const ctgr = data[0]?.category || "";
+    const isNeedScale = data.length > 20 ? true : false;
 
     const combinedData = {
       id: docId,
@@ -45,6 +46,7 @@ export async function GeneratePaymentPDF(
         ...item,
         sum: item.quantity * item.price,
       })),
+      isNeedScale,
       dateYear: dateYear,
       dateMonth: dateMonth,
       dateDay: dateDay,
@@ -92,9 +94,8 @@ export async function GeneratePaymentPDF(
         height: '297mm'
       };
 
-      // console.log(pdfOptions)
-      // const content = await page.content();
-      // fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
+      const content = await page.content();
+      fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
 
       await page.setContent(html);
       await page.pdf(pdfOptions);

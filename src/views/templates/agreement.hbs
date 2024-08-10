@@ -6,14 +6,14 @@
     <style>
       body { 
         margin: 0; 
-        font-size: 10px;
-        padding: 0; background: #FFF; font-family: Arial,
+        font-size: 12px;
+        padding: 0; background: #FFF; font-family: 'Times New Roman', Times, serif,
       sans-serif; } .container { width: 210mm; /* ширина листа A4 */ height:
       287mm; overflow-y: hidden; /* высота листа A4 */ margin: 0 auto; padding: 10mm; box-sizing:
       border-box; background: #FFF; } 
       .text-grid { width: 100%; padding: 5px;
       box-sizing: border-box; 
-      } h1 { text-align: center; font-size: 14px;} .rRow { width: 100%;
+      } h1 { text-align: center; font-size: 10px;} .rRow { width: 100%;
       display: flex; flex-wrap: nowrap; justify-content: space-between; }
       .rColumn { width: 49%; }
       .totalInfoColumn {
@@ -39,11 +39,13 @@
       }
 
       p {
-        line-height: 1;
+        line-height: 1.1;
+        margin:4px 0;
+        text-wrap: balance;
       }
 
       h2 {
-        font-size: 12px;
+        font-size: 10px;
         line-height: 1;
       }
     </style>
@@ -52,8 +54,9 @@
     <div id="content" class="container clearfix">
       <div class="text-grid">
         <h1>ДОГОВОР ПОСТАВКИ С УСЛОВИЕМ ОБ ОТСРОЧКЕ ПЛАТЕЖА №Д{{id}}</h1>
-
+        <div style="width: 100%;display: flex;justify-content: flex-end;">
         <p>{{dateDay}} {{dateMonth}} {{dateYear}}</p>
+        </div>
 
         <p>ИП Ахмедов Сабир Табассумович, именуемое в дальнейшем “Поставщик”, в
           лице Индивидуального предпринимателя Ахмедова С. Т., действующего на

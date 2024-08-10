@@ -19,6 +19,7 @@ import { GenerateSpecifyClothes } from "../views/specifyClothes";
 import { GenerateSpecifyOrder } from "../views/specifyOrder";
 import sendEmail from "./emailController";
 import { orderSendTo } from "../config";
+import { getMonthName } from "../utils";
 
 const sendTo = orderSendTo;
 
@@ -60,10 +61,15 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     });
 
     await generateZipArchive(user, archiveName.name, filePaths)
-
+    const dt = new Date();
+    const dateDay = dt.getDate(); // День месяца
+    const dateMonth = getMonthName(dt.getMonth()); // Название месяца
+    const dateYear = dt.getFullYear();
+    const date = `${dateDay}-${dateMonth}-${dateYear}`;
+    
     if (user && sendTo && orderFile) {
       console.log("Sending order file, attachment: ", `${rootFolder}${userId}/${orderFile.name}`);
-      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user}, [`${rootFolder}${userId}/${orderFile.name}`])
+      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date}, [`${rootFolder}${userId}/${orderFile.name}`])
     }
 
     await WriteOrder([archiveName.id], userId);
