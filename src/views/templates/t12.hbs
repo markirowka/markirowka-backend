@@ -57,10 +57,11 @@ abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underli
 
 body {
   font-family: Arial;
-  font-size: 10px;
+  font-size: 5px;
 }
 table {
-  font-size: 10px;
+  font-size: 5px;
+  padding: 2px;
 }
 table thead td {
   text-align: center;
@@ -192,96 +193,145 @@ h3 {
     .td15 {width: 65px;text-align: right;}
   }
 }
+
+.right-hat td {
+  height: 9px;
+}
+
+.bordered {
+  border-collapse: separate;
+  border-spacing: 0; 
+  border: 2px solid #000;
+} 
     </style>
 </head>
 <body>
+  <div style="position:absolute;top:32px;left:80.1%">Форма по ОКУД</div>
 <table class="print ttn">
   <tr><td colspan="2" class="text-right row-desc"><p>Унифицированная форма № ТОРГ-12 Утверждена постановлением Госкомстата России от 25.12.98 № 132</p></td></tr>
   <tr><td colspan="2" class="pt-5"></td></tr>
   <tr>
     <td>
-      <table class="valign-middle" width="100%">
+      <table class="valign-middle" width="99%">
         <tbody>
-          <tr>
+          <tr style="height:10px;">
             <td colspan="3"></td>
-            <td class="b text-center" width="100">Код</td>
+          </tr>
+          <tr style="height:5px;">
+            <td colspan="3"></td>
           </tr>
           <tr>
-            <td colspan="3" class="h17 psm text-right">Форма по ОКУД</td>
-            <td class="text-center bb2" contenteditable>345678</td>
-          </tr>
-          <tr>
-           <td colspan="2" class="bb" contenteditable>ИП Ахмедов Сабир Табассумович, ИНН: 502765138514, Российская Федерация, 358007, Республика
-              Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.</td>
-            <td class="psm text-right">по ОКПО</td>
-            <td class="b bbl bbr text-center" contenteditable>0153735163</td>
+           <td colspan="2" class="bb" style="height: 10px;" contenteditable>ИП Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика
+              Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73..; ИНН:502765138514; Расчетный 
+счет 40802810424435209932; Банк ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО); кор. Счет 30101810145250000411; БИК 044525411</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация-грузоотправитель, адрес, телефон, факс, банковские реквизиты)</td>
-          <td></td>
-          <td class="b bb2 text-center" rowspan="2" contenteditable></td>
           </tr>
         <tr><td colspan="3" class="bb" contenteditable></td></tr>
         <tr>
           <td colspan="2" class="row-desc">(структурное подразделение)</td>
-          <td>Вид деятельности по ОКДП</td>
-          <td class="b bb2 text-center" contenteditable></td>
         </tr>
         <tr>
          <td width="105px">Грузополучатель</td>
          <td class="bb" contenteditable> {{ user.cargo_recevier }}</td>
-          <td class="psm text-right">по ОКПО</td>
-          <td class="b bb2 text-center" contenteditable></td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
-          <td></td>
-          <td class="b bb2 text-center" rowspan="2" contenteditable></td>
         </tr>
         <tr>  
          <td>Поставщик</td>
-         <td class="bb" contenteditable>ИП Ахмедов Сабир Табассумович, ИНН: 502765138514, Российская Федерация, 358007, Республика
-              Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73., р/с 40802810270010175519, в банке МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК", БИК 044525092, к/с 3010181064525000009</td>
-          <td class="psm text-right">по ОКПО</td>
+         <td class="bb" contenteditable>ИП Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73. ; ИНН:502765138514; 
+Расчетный счет 40802810424435209932; Банк ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО); кор. Счет 30101810145250000411; БИК 044525411</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
-          <td></td>
-          <td class="b bb2 text-center" rowspan="2" contenteditable></td>
           </tr>
         <tr>
          <td>Плательщик</td>
          <td class="bb" contenteditable>{{ user.ceo_full }}, {{ user.inn }}, {{ user.law_address }}</td>
-          <td class="psm text-right">по ОКПО</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
-          <td class="b text-right psm" rowspan="2">номер</td>
-          <td class="b bbl bbr text-center" rowspan="2" contenteditable></td>
           </tr>
         <tr>
          <td class="col-4 no-bb">Основание</td>
-         <td class="bb" contenteditable>–</td>
+         <td class="bb" contenteditable>Основной договор</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(договор, заказ-наряд)</td>
-          <td class="b h17 text-right psm">дата</td>
-          <td class="b bbl bbr text-center" contenteditable></td>
         </tr>
         <tr>
-          <td colspan="2"><p class="text-lead text-right psm">Транспортная накладная</p></td>
-          <td class="b h17 psm text-right">номер</td>
-          <td class="b bbl bbr text-center" contenteditable></td>
+          <td colspan="2"><p class="text-lead psm" style="padding-right: 0;text-align: right;">Транспортная накладная</p></td>
           </tr>
          <tr>
             <td colspan="2"></td>
-            <td class="b h17 text-right psm">дата</td>
-            <td class="b bbl bbr text-center" contenteditable></td>
          </tr>
          <tr>
-            <td colspan="3" class="text-right psm">Вид операции</td>
-            <td class="b bbb bbl bbr h17 text-center" contenteditable></td>
-
+            <td colspan="3"></td>
+         </tr>
+       </tbody>
+      </table>
+    </td>
+    <td>
+      <table class="valign-middle">
+       <tbody class="right-hat">
+          <tr>
+            <td></td>
+            <td class="b text-center bordered" style="height: 10px;" width="100">Коды</td>
+          </tr>
+          <tr>
+            <td class="h17 psm text-right"></td>
+            <td class="text-center bb2 bordered" contenteditable="">0330212</td>
+          </tr>
+          <tr>
+            <td class="psm text-right">по ОКПО</td>
+            <td class="b bbl bbr text-center bordered" contenteditable="">2004337990</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="b bb2 text-center bordered"></td>
+          </tr>
+        
+        <tr>
+          <td>Вид деятельности по ОКДП</td>
+          <td class="b bb2 text-center bordered"></td>
+        </tr>
+        <tr>
+          <td class="psm text-right">по ОКПО</td>
+          <td class="b bb2 text-center bordered" contenteditable=""></td>
+        </tr>
+        
+        <tr>  
+          <td class="psm text-right">по ОКПО</td>
+          <td class="b bbl bbr text-center bordered">2004337990</td>
+        </tr>
+        
+        <tr>
+          <td class="psm text-right">по ОКПО</td>
+          <td class="b bbl bbr text-center bordered"></td>
+        </tr>
+        <tr>
+          <td class="b text-right psm bordered">номер</td>
+          <td class="b bbl bbr text-center bordered"></td>
+          </tr>
+        <tr>
+        </tr>
+        <tr>
+          <td class="b h17 text-right psm bordered">дата</td>
+          <td class="b bbl bbr text-center bordered" contenteditable=""></td>
+        </tr>
+        <tr>
+          <td class="b h17 psm text-right bordered">номер</td>
+          <td class="b bbl bbr text-center bordered" contenteditable=""></td>
+          </tr>
+         <tr>
+            <td class="b h17 text-right psm bordered">дата</td>
+            <td class="b bbl bbr bbt text-center bordered" contenteditable=""></td>
+         </tr>
+         <tr>
+            <td class="text-right psm">Вид операции</td>
+            <td class="b bbb bbl bbr h17 text-center" contenteditable=""></td>
          </tr>
        </tbody>
       </table>
@@ -470,6 +520,10 @@ h3 {
   <tr>
     <td>
       <br><br>
+    </td>
+  </tr>
+  
+</table>
       <table width="100%">
         <tr>
           <td width="50%" style="border-right: 1px solid #000;">
@@ -496,7 +550,7 @@ h3 {
                 <td class="bb" width="120" align="center" contenteditable>ИП</td>
                 <td class="w20"></td>
                 <td class="bb" width="100">
-                   <img style="position: absolute; margin-top: -10px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
+                   <img style="position: absolute; margin-top: -30px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
                 </td>
                 <td class="w20"></td>
                 <td class="bb" width="140" align="center" contenteditable>Ахмедов С. T.</td>
@@ -513,7 +567,7 @@ h3 {
                 <td class="pr-10" colspan="2">Главный (старший) бухгалтер</td>
                 <td class="w20"></td>
                 <td class="bb" width="100">
-                  <img style="position: absolute; margin-top: -20px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
+                  <img style="position: absolute; margin-top: -40px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
                 </td>
                 <td class="w20"></td>
                 <td class="bb" width="140" contenteditable></td>
@@ -530,7 +584,7 @@ h3 {
                 <td class="bb" width="120" align="center" contenteditable>ИП</td>
                 <td class="w20"></td>
                 <td class="bb" width="100">
-                     <img style="position: absolute; margin-top: -10px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
+                     <img style="position: absolute; margin-top: -30px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
                      <img style="position: absolute; margin-top: -40px; margin-left: 0px;" src="{{print}}" width="100" height="100" />
                 </td>
                 <td class="w20"></td>
@@ -601,7 +655,6 @@ h3 {
                 <td class="pr-10" colspan="2">Главный (старший) бухгалтер</td>
                 <td class="w20"></td>
                 <td class="bb" width="100">
-                  <img style="position: absolute; margin-top: -20px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
                 </td>
                 <td class="w20"></td>
                 <td class="bb" width="140" contenteditable></td>
@@ -645,10 +698,5 @@ h3 {
           </td>
         </tr>
       </table>
-    </td>
-  </tr>
-  
-</table>
-
 </body>
 </html>

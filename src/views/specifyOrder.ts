@@ -1,4 +1,4 @@
-import { itemDataShoes, paymentDocumentData, rootFolder, sampleItemShoes } from "../models";
+import { PaymentDocumentData, rootFolder } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
@@ -6,7 +6,7 @@ import handlebars from 'handlebars';
 import xlsx from 'xlsx';
 
 
-export async function GenerateSpecifyOrder (ownerId: number, fileName: string, data: paymentDocumentData[]) {
+export async function GenerateSpecifyOrder (ownerId: number, fileName: string, data: PaymentDocumentData[]) {
     return new Promise(async (resolve, reject) => {
         const workbook = xlsx.utils.book_new();
 

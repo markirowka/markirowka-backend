@@ -4,9 +4,14 @@
     <style>
         .main
 {
-  width: 70%;   /* 978px */
+  width: 72%;   /* 978px */
   margin: 0 auto;
   font-size: 6px;
+}
+.signBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
     </style>
 </head>
@@ -22,7 +27,7 @@
 </table>
 
 
-<table border="2" style="border-collapse: collapse; width: 70%; font-family: Arial;" cellpadding="2" cellspacing="2">
+<table border="2" style="border-collapse: collapse; width: 100%; font-family: Arial;font-size: 8px;" cellpadding="2" cellspacing="2">
     <tr style="">
         <td colspan="2" rowspan="2" style="min-height:9mm; width: 95mm;">
             <table border="0" cellpadding="0" cellspacing="0" style="height: 9mm;">
@@ -38,37 +43,39 @@
                 </tr>
             </table>
         </td>
-        <td style="min-height:7mm;height:auto; width: 26mm;">
+        <td style="min-height:45mm;line-height:1mm;width: 21mm;padding: 1px;">
             <div>БИK</div>
         </td>
-        <td rowspan="2" style="vertical-align: top; width: 55mm;">
-            <div style=" height: 7mm; line-height: 7mm; vertical-align: middle;">044525411</div>
-            <div>30101810145250000411</div>
+        <td rowspan="2" style="vertical-align: top; width: 55mm;padding:0;">
+            <div style="height: 3.2mm;line-height: 3.3mm;border-bottom: 1px solid #808080;padding-left: 0px;margin-left: -2px;">
+                <span style="padding-left: 4px">044525411</span>
+                </div>
+            <div style="padding-top: 2px;margin-left: 2px;">40802810424435209932</div>
         </td>
     </tr>
     <tr>
-        <td style="width: 18mm;">
-            <div>Сч. №</div>
+        <td style="vertical-align: top;">
+            <div style="margin-left:-1px;">Р/cч. №</div>
         </td>
     </tr>
     <tr>
-        <td style="min-height:6mm; height:auto; width: 44mm;">
+        <td style="min-height:6mm; height:auto; width: 39mm;">
             <div>ИНН 502765138514</div>
         </td>
-        <td style="min-height:6mm; height:auto; width: 48mm;">
+        <td style="min-height:6mm; height:auto; width: 43mm;">
             <div>КПП </div>
         </td>
-        <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 24mm;">
-            <div>40802810424435209932</div>
+        <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top;">
+            <div>Кор. сч. №</div>
         </td>
         <td rowspan="2" style="min-height:19mm; height:auto; vertical-align: top; width: 50mm;">
-            <div></div>
+            <div>30101810145250000411</div>
         </td>
     </tr>
     <tr>
         <td colspan="2" style="min-height:8mm; height:auto;">
 
-            <table border="0" cellpadding="0" cellspacing="0" style="height: 8mm; width: 88mm;">
+            <table border="0" cellpadding="0" cellspacing="0" style="height: 8mm; width: 78mm;">
                 <tr>
                     <td valign="top">
                         <div>ИП Ахмедов Сабир Табассумович</div>
@@ -158,8 +165,8 @@
     </tr>
   <tr>
         <td></td>
-        <td style="width:27mm; font-weight:bold;  text-align:right;">Итого НДС:</td>
-        <td style="width:27mm; font-weight:bold;  text-align: center; ">0.00</td>
+        <td style="width:27mm; font-weight:bold;  text-align:right;">В том числе НДС:</td>
+        <td style="width:27mm; font-weight:bold;  text-align: center; ">-</td>
     </tr>
   <tr>
         <td></td>
@@ -179,18 +186,24 @@
 1. Счет действителен в течении 5 (пяти) банковских дней, не считая дня выписки счета. В случае нарушения срока оплаты сохранение цены на товар и наличие товара на складе НЕ ГАРАНТИРУЕТСЯ.<br />
 2. Оплата данного счета означает согласие с условиями изложенными в п.1</div>
   <br /><br />
+<div style="display:flex;">
+    <div class="signBlock">
+        <div>Руководитель ______________________ </div>
+        <div style="background: url('{{sign}}');  background-repeat: no-repeat; width: 40px;
+height: 40px;background-size: 100%;margin-top:-22px;margin-left:0px;"></div>
+    </div>
+    <div class="signBlock" style="margin-left:120px;">
+        <div>Бухгалтер ______________________</div>
+        <div style="background: url('{{sign}}');  background-repeat: no-repeat; width: 40px;
+height: 40px;background-size: 100%;margin-top:-22px;margin-left:0px;"></div>
+    </div>
+</div>
+<br/>
+
+<div style="width: 40mm;text-align:center;">М.П.</div>
+<br/>
 <div style="background: url('{{print}}');  background-repeat: no-repeat; width: 120px;
-height: 120px;background-size: 100%;">
-<div style="background: url('{{sign}}');  background-repeat: no-repeat; width: 80px;
-height: 80px;background-size: 100%;">
-<div>Руководитель ______________________ </div>
-<br/>  <br /><br />
-
-<div>Главный бухгалтер ______________________</div>
-<br/>
-
-<div style="width: 85mm;text-align:center;">М.П.</div>
-<br/>
+height: 120px;background-size: 100%;position:absolute;margin-top:-80px;margin-left:40px;"></div>
   </div>
   <br/>  <br /><br /><br/>  <br /><br /><br/>  <br /><br />
 </div>

@@ -7,9 +7,9 @@ import {
   createFileName,
   CreateFileNameDBNote,
   GetUserById,
-  itemDataClothes,
-  itemDataShoes,
-  paymentDocumentData,
+  ItemDataClothes,
+  ItemDataShoes,
+  PaymentDocumentData,
   rootFolder,
 } from "../models";
 import { GeneratePaymentPDF, generateZipArchive } from "../views/paymentDocs";
@@ -35,7 +35,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     res.status(400).send({ error: "Request has no any items" });
   }
 
-  const itemList: paymentDocumentData[] = req.body.items;
+  const itemList: PaymentDocumentData[] = req.body.items;
 
   const user = await GetUserById(userId);
 
@@ -95,7 +95,7 @@ export const CreateSpecifyShoes = async (req: Request, res: Response) => {
     res.status(400).send({ error: "Request has no any items" });
   }
 
-  const itemList: itemDataShoes[] = req.body.items;
+  const itemList: ItemDataShoes[] = req.body.items;
   await CheckAndCreateOwnerFolder(userId);
   const fileDt = await CreateFileNameDBNote(userId, "specify");
   const file = await GenerateSpecifyShoes(userId, fileDt.name, itemList);
@@ -104,10 +104,10 @@ export const CreateSpecifyShoes = async (req: Request, res: Response) => {
 
   console.log("Data to send: ", file, user, sendTo)
 
-  if (user && sendTo && file) {
+  /* if (user && sendTo && file) {
     console.log("Sending order file: ")
     sendEmail(sendTo, "Заявка с сайта: обувь", "orderEmail", {...user}, [file])
-  }
+  } */
 
   res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });
 };
@@ -124,7 +124,7 @@ export const CreateSpecifyClothes = async (req: Request, res: Response) => {
     res.status(400).send({ error: "Request has no any items" });
   }
 
-  const itemList: itemDataClothes[] = req.body.items;
+  const itemList: ItemDataClothes[] = req.body.items;
   await CheckAndCreateOwnerFolder(userId);
   const fileDt = await CreateFileNameDBNote(userId, "specify");
   const file = await GenerateSpecifyClothes(userId, fileDt.name, itemList);

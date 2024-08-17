@@ -1,4 +1,4 @@
-import { itemDataShoes, rootFolder, sampleItemShoes } from "../models";
+import { ItemDataShoes, rootFolder, sampleItemShoes } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
@@ -6,7 +6,7 @@ import handlebars from 'handlebars';
 import xlsx from 'xlsx';
 
 
-export async function GenerateSpecifyShoes (ownerId: number, fileName: string, data: itemDataShoes[]): Promise<string | null> {
+export async function GenerateSpecifyShoes (ownerId: number, fileName: string, data: ItemDataShoes[]): Promise<string | null> {
     return new Promise(async (resolve, reject) => {
         const workbook = xlsx.utils.book_new();
 

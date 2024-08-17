@@ -21,7 +21,7 @@ export const rootFolder = process.env.FILE_ROOT_FOLDER || "files/";
         ];
 */
 
-export interface itemDataShoes {
+export interface ItemDataShoes {
   fullName?: string;
   tradeMark?: string;
   articleType?: string;
@@ -35,7 +35,7 @@ export interface itemDataShoes {
   tnved?: string;
 }
 
-export interface itemDataClothes {
+export interface ItemDataClothes {
   fullName?: string;
   tradeMark?: string;
   articleType?: string;
@@ -47,7 +47,7 @@ export interface itemDataClothes {
   tnved?: string;
 }
 
-export const sampleItemShoes: itemDataShoes = {
+export const sampleItemShoes: ItemDataShoes = {
   fullName: "",
   tradeMark: "",
   articleType: "",
@@ -61,7 +61,7 @@ export const sampleItemShoes: itemDataShoes = {
   tnved: "",
 };
 
-export const sampleItemClothes: itemDataClothes = {
+export const sampleItemClothes: ItemDataClothes = {
   fullName: "",
   tradeMark: "",
   articleType: "",
@@ -75,18 +75,24 @@ export const sampleItemClothes: itemDataClothes = {
 
 export interface itamDataShoes {}
 
-export interface fileDownloadData {
+export interface FileDownloadData {
   id: number;
   owner_id: number;
   file_name: string;
   file_type: string;
 }
 
-export interface paymentDocumentData {
+export interface PaymentDocumentData {
   category: string;
   name: string;
   quantity: number;
   price: number;
+}
+
+export interface CategoryData {
+  category: string;
+  quantity: number;
+  code: number;
 }
 
 export async function GetNewFileId(): Promise<number> {
@@ -163,8 +169,8 @@ export async function CheckAndCreateOwnerFolder(
 }
 export async function GetDownloads(
   userId: number
-): Promise<fileDownloadData[]> {
-  const files: fileDownloadData[] = [];
+): Promise<FileDownloadData[]> {
+  const files: FileDownloadData[] = [];
   const query = `SELECT * FROM "user_files" WHERE "owner_id" = ${userId};`;
 
   try {

@@ -1,16 +1,17 @@
-import { User, paymentDocumentData, rootFolder } from "../models";
+import { User, PaymentDocumentData, rootFolder } from "../models";
 import fs from "fs";
 import path from "path";
 import archiver from "archiver";
 import puppeteer from "puppeteer";
 import handlebars from "handlebars";
-import { calculateTotals, getCategoryCode, getMonthName, numberToWords } from "../utils";
+import { calculateTotals, getCategoryCode, getMonthName, numberFormatDate, numberToWords } from "../utils";
 import { ahmedovPrint64, ahmedovSign, cmrWaterMark  } from "./prints";
+import { categoryDataFromGoodsList } from "../utils/data";
 
 export async function GeneratePaymentPDF(
   user: User,
   fileName: string,
-  data: paymentDocumentData[],
+  data: PaymentDocumentData[],
   kind: string,
   docId: number
 ): Promise<{result: boolean, path: string}> {
@@ -29,40 +30,47 @@ export async function GeneratePaymentPDF(
     const wordSum = numberToWords(totals.totalCost);
     const wordRowCount = numberToWords(data.length);
 
+    const categoryCmrTexts = categoryDataFromGoodsList(data).map((cat) => {
+      return({
+        category: cat.category || "",
+        count: cat.quantity > 0 ? `Мест ${cat.quantity} в упаковочных пакетах` : "",
+        code: cat.code === 0 ? "" : String(cat.code) 
+      })
+    })
+
     const dt = new Date();
 
     const dateDay = dt.getDate(); // День месяца
     const dateMonth = getMonthName(dt.getMonth()); // Название месяца
     const dateYear = dt.getFullYear();
-    const signBaseOffset = 660 + data.length * 20;
     const ctgr = data[0]?.category || "";
     const isNeedScale = data.length > 20 ? true : false;
+    const numDate = numberFormatDate(dt.getTime())
 
     const combinedData = {
+      category: ctgr,
+      categoryCmrTexts,
+      categoryCode: getCategoryCode(ctgr),
+      cmrWaterMark,
+      country: user.phone?.indexOf("375") === 1 ? "Беларусь" : "Россия",
+      dateDay: dateDay,
+      dateMonth: dateMonth,
+      dateYear: dateYear,
       id: docId,
-      user,
+      isNeedScale,
       items: data.map((item, index) => ({
         rowNum: index + 1,
         ...item,
         sum: item.quantity * item.price,
       })),
-      isNeedScale,
-      dateYear: dateYear,
-      dateMonth: dateMonth,
-      dateDay: dateDay,
-      totalCount: totals.totalQuantity,
-      totalPrice: totals.totalCost,
-      wordSum,
+      numDate,
       print: imageBase64Url,
       sign: signB64,
+      totalCount: totals.totalQuantity,
+      totalPrice: totals.totalCost,
+      user,
       wordRowCount,
-      cmrWaterMark,
-      country: user.phone?.indexOf("375") === 1 ? "Беларусь" : "Россия",
-      category: ctgr,
-      categoryCode: getCategoryCode(ctgr),
-      signOffset1: signBaseOffset,
-      signOffset2: signBaseOffset + 30,
-      signOffset3: signBaseOffset + 90,
+      wordSum,
     };
 
     // console.log("Generation data: ", combinedData);

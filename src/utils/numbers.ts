@@ -1,4 +1,4 @@
-import { paymentDocumentData } from "../models";
+import { PaymentDocumentData } from "../models";
 
 export function getMonthName(monthIndex: number) {
     const months = [
@@ -8,7 +8,7 @@ export function getMonthName(monthIndex: number) {
     return months[monthIndex];
   }
 
-export function calculateTotals(data: paymentDocumentData[]) {
+export function calculateTotals(data: PaymentDocumentData[]) {
     let totalQuantity = 0;
     let totalCost = 0;
 
@@ -23,58 +23,63 @@ export function calculateTotals(data: paymentDocumentData[]) {
     };
 }
 
-export function numberToWords(num: number) {
-  const ones = [
-      '', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять',
-      'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать',
-      'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'
-  ];
+export function numberToWords(num: number): string {
+    const ones = [
+        '', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять',
+        'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать',
+        'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'
+    ];
 
-  const tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+    const onesFemale = [
+        '', 'одна', 'две', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять',
+        'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать',
+        'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'
+    ];
 
-  const hundreds = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+    const tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
 
-  const thousands = ['тысяч', 'одна тысяча', 'две тысячи', 'три тысячи', 'четыре тысячи', 'пять тысяч', 'шесть тысяч', 'семь тысяч', 'восемь тысяч', 'девять тысяч'];
+    const hundreds = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
 
-  const millions = ['миллионов', 'один миллион', 'два миллиона', 'три миллиона', 'четыре миллиона', 'пять миллионов', 'шесть миллионов', 'семь миллионов', 'восемь миллионов', 'девять миллионов'];
+    const thousands = ['тысяч', 'тысяча', 'тысячи', 'тысячи', 'тысячи', 'тысяч', 'тысяч', 'тысяч', 'тысяч', 'тысяч'];
 
-  if (num === 0) return 'ноль';
+    const millions = ['миллионов', 'миллион', 'миллиона', 'миллиона', 'миллиона', 'миллионов', 'миллионов', 'миллионов', 'миллионов', 'миллионов'];
 
-  if (num < 20) {
-      return ones[num];
-  }
+    if (num === 0) return 'ноль';
 
-  let words = '';
+    let words = '';
 
-  if (num >= 1000000) {
-      const mil = Math.floor(num / 1000000);
-      words += (mil <= 9 ? millions[mil] : numberToWords(mil) + ' миллионов ') + ' ';
-      num %= 1000000;
-  }
+    if (num >= 1000000) {
+        const mil = Math.floor(num / 1000000);
+        words += (mil <= 9 ? ones[mil] + ' ' + millions[mil] : numberToWords(mil) + ' миллионов ') + ' ';
+        num %= 1000000;
+    }
 
-  if (num >= 1000) {
-      const th = Math.floor(num / 1000);
-      words += (th <= 9 ? thousands[th] : numberToWords(th) + ' тысяч ') + ' ';
-      num %= 1000;
-  }
+    if (num >= 1000) {
+        const th = Math.floor(num / 1000);
+        const thCase = (th % 100 > 10 && th % 100 < 20) ? 0 : Math.min(th % 10, 5);
+        words += (th <= 9 ? onesFemale[th] + ' ' + thousands[thCase] : numberToWords(th) + ' ' + thousands[thCase]) + ' ';
+        num %= 1000;
+    }
 
-  if (num >= 100) {
-      const h = Math.floor(num / 100);
-      words += hundreds[h] + ' ';
-      num %= 100;
-  }
+    if (num >= 100) {
+        const h = Math.floor(num / 100);
+        words += hundreds[h] + ' ';
+        num %= 100;
+    }
 
-  if (num >= 20) {
-      const t = Math.floor(num / 10);
-      words += tens[t] + ' ';
-      num %= 10;
-  }
+    if (num >= 20) {
+        const t = Math.floor(num / 10);
+        words += tens[t] + ' ';
+        num %= 10;
+    }
 
-  if (num > 0) {
-      words += ones[num] + ' ';
-  }
+    if (num > 0) {
+        const lastDigit = num % 10;
+        const isFemale = lastDigit === 2 || lastDigit === 3 || lastDigit === 4;
+        words += (isFemale ? onesFemale[num] : ones[num]) + ' ';
+    }
 
-  return words.trim();
+    return words.trim();
 }
 
 export function arrayToPostgresArrayString(arr: any[]) {
@@ -97,4 +102,16 @@ export function arrayToPostgresArrayString(arr: any[]) {
     };
 
     return categoryMap[category.toLowerCase()] || 0;
+}
+
+export function numberFormatDate(timestamp: number) {
+    const date = new Date(timestamp);
+
+    // Получаем день, месяц и год
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяцы от 0 до 11
+    const year = date.getFullYear();
+
+    // Формируем строку в формате "DD.MM.YYYY"
+    return `${day}.${month}.${year}`;
 }

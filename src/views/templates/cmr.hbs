@@ -11,7 +11,7 @@
             body{
                 font-family: "DejaVu Sans";
                 letter-spacing: -0.3px;
-                font-size:5px;
+                font-size:8px;
             }
             table {
               width: 100%;
@@ -26,7 +26,7 @@
                 height:842px;
             }
             .num{
-                font-size: 14px;
+                font-size: 16px;
                 float:left;
                 padding-right:10px;
             }
@@ -87,6 +87,54 @@
             .specifyInfo td {
                 font-size: 8px;
             }
+            td {
+                min-height: 24px;
+            }
+
+            .mainTable {
+                font-size: 9px;
+            }
+
+            .binaryCell {
+                height: 20px;
+            }
+
+            .emptyCell,
+            .hCell {
+                height: 10px;
+            }
+
+            .cmrIcon {
+                padding: 5px 15px;
+                border: 2px solid black;
+                border-radius: 100%;
+            }
+            .cmrDescriptionText {
+                font-size: 6px;
+                font-weight: 400;
+            }
+            .cmrTitleTable,
+            .cmrTitleTable tr,
+            .cmrTitleTable td {
+                border: none;
+            }
+            .cmrCell {
+                vertical-align: middle;
+                text-align: center;
+            }
+            .catText {
+                font-size: 7px;
+                color: #2f2f2f;
+            }
+            .inMargin {
+                margin-top: 2px;
+            }
+            .bRight,
+            .cmrTitleTable td .bRight,
+            .cmrTitleTable td.bRight {
+                border-right: 1px solid black;
+                height: 20px;
+            }
         </style>
     </head>
     <body>
@@ -94,317 +142,809 @@
             <img src={{cmrWaterMark}} width="350" height="100" />
         </div>
         <div class="cmrBody">
-            <table>
-                <tr>
-                    <td colspan="2" style="height:65px;width:50%;border-right:none;">
-                        <span class="num">1</span>Отправитель ( Фамилия или название, адрес, страна )<br>
-                                    Consignor (Name, address, country)<br>
-                        <table style="border:none;width:100%;">
-                            <tr class="filledCell">
-                                <td style="border:none;"></td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td style="border:none;">ИП Ахмедов Сабир Табассумович</td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td style="border:none;">Российская Федерация, 358007, Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.</td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td style="border:none;">Россия</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="2" style="height:65px;width:50%;">
-                        МЕЖДУНАРОДНАЯ АВТОМОБИЛЬНАЯ НАКЛАДНАЯ<br>
-                        INTERNATIONAL CONSIGNMENT NOTE<br>
-                        <div style="margin:0 auto; position:relative;width:70px;height:40px;top:-20px;">
-                            <img src="https://www.maro-pack.pl/assets/images/cmr.jpg"/>
-                        </div>
-                        <br>
-                        Настоящая перевозка подлежит положениям конвенции о договоре международной
-                        дорожной перевозки грузов (CMR) несмотря на любое противоречащее положение.<br>
-                        This carriage is subject notwithstanding any
-                        clause to the contrary, to the Convention on
-                        the Contract for the international Carriage of
-                        goods by road (CMR)
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="height:65px;width:50%;">
-                        <span class="num">2</span>Получатель ( Фамилия или название, адрес, страна )<br>
-                        Consignee (Name, address, country)<br>
-                        <table style="border:none;width:100%;">
-                            <tr class="filledCell">
-                                <td style="border:none;"></td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td style="border:none;">{{user.full_name}}</td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td style="border:none;">{{user.cargo_city}}, {{user.law_address}}</td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td style="border:none;">{{country}}</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="2" style="border:2px solid black;border-bottom:none;width:50%;">
-                        <span class="num">16</span>Перевозчик (фамилия или название, адрес, страна)<br>
-                        Carrier (Name, address, country)<br>
-                        <table style="border:none;width:100%;">
-                            <tr class="cellToFill">
-                                <td style="border:none;" style="height: 30px;"></td>
-                            </tr>
-                            <tr class="cellToFill">
-                                <td class="cellToFill" style="height: 30px;"></td>
-                            </tr>
-                            <tr class="cellToFill">
-                                <td class="cellToFill" style="height: 30px;"></td>
-                            </tr>
-                            <tr class="cellToFill">
-                                <td class="cellToFill" style="height: 30px;"></td>
-                            </tr>
-                        </table>
-                    </td>
-                <tr>
-                    <td colspan="2" style="height:50px;">
-                        <span class="num">3</span>Место разгрузки груза<br>
-                        Place of delivery of the goods (name, address, country)<br>
-                        <table style="border:none;width:100%;">
-                            <tr style="font-size:8px;border:none;">
-                                <td style="border:none;"></td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td class="filledCell">{{user.cargo_city}}</td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td class="filledCell">{{country}}</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="2" style="border:2px solid black; border-bottom:none;border-top:none;">
-                        <span class="num">17</span>Последующие перевозчики ( Фамилия или название, адрес, страна )<br>
-                        Successive carriers (name, address, country)<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="height:35px;border:1px solid black;">
-                        <span class="num">4</span> Место и дата загрузки ( Населенный пункт, страна, дата )<br>
-                        Place and date of taking over the goods (place, country, date)<br>
-                        <table style="border:none;width:100%;">
-                            <tr class="filledCell">
-                                <td style="border:none;"></td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td class="filledCell">Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73.</td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td class="filledCell">Россия</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="2" style="border:2px solid black;border-bottom:none;border-top:none;">
-                        <hr>
-                        <span class="num">18</span> Замечания и оговорки перевозчика<br>
-                        Carrier’s reservations and observations<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="border:1px solid black;height:35px;">
-                        <span class="num">5</span> Приложенные документы<br>
-                        Documents attached<br>
-                        <table style="border:none;width:100%;">
-                            <tr class="filledCell">
-                                <td style="border:none;"></td>
-                            </tr>
-                            <tr class="filledCell">
-                                <td class="filledCell">Накладная ТОРГ-12 №Н{{id }} от {{dateDay}} {{dateMonth}} {{dateYear}}</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td colspan="2" style="border:2px solid black;border-top:none;">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="height:180px;border:none;">
-                        <table style="width:100%;border:none;">
+            <table class="mainTable">
+               <tr>
+                  <td colspan="4" style="width:50%;">
+                    <span class="num">1</span>
+                    <p class="cmrDescriptionText">Отправитель (наименование, адрес, страна)</p> 
+                    <p class="cmrDescriptionText">Sender (name, address, country)</p>
+                  </td>
+                  <td rowspan="5" colspan="4">
+                    <table class="cmrTitleTable">
+                        <tbody>
                             <tr>
-                                <td style="border:none;height:30px;width:14.28%"><span class="num">6</span>Отметки и номера<br>
-                                    Marks and Nos<br>
+                                <td>
+                                    <p>INTERNATIONAL </p>
+                                    <p>CONSIGNMENT NOTE</p>
+                                    <p>МЕЖДУНАРОДНАЯ ТОВАРНО -</p>
+                                    <p>ТРАНСПОРТНАЯ НАКЛАДНАЯ</p>
                                 </td>
-                                <td style="border:none;width:14.28%"><span class="num">7</span>Количество мест<br>
-                                    Number of packages<br>
-                                </td>
-                                <td style="border:none;width:14.28%"><span class="num">8</span>Способ упаковки<br>
-                                    Method of packing <br>
-                                </td>
-                                <td style="border:none;width:14.28%"><span class="num">9</span>Вид товара<br>
-                                    Nature of the goods<br>
-                                </td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;width:14.28%"><span class="num">10</span>Статистический номер<br>
-                                    Statistical number<br>
-                                </td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;width:14.28%"><span class="num">11</span>Масса брутто в кг<br>
-                                    Gross weight in kg<br>
-                                </td>
-                                <td style="border:1px solid black;border-right:none;border-bottom:none;border-top:none;width:14.28%"><span class="num">12</span>Объем в м3<br>
-                                    Volume in m3<br>
-                                </td>
-                            </tr>
-                            <tr class="specifyInfo">
-                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;height:30px;">
-                                </td>
-                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;">
-                                </td>
-                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;">
-                                                                        Мест {{totalCount}} в упаковочных пакетах
-                                </td>
-                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;">
-                                                                        {{category}}
-                                </td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;">
-                                                                        {{categoryCode}}
-                                </td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-right:none;"></td>
+                                <td class="cmrCell"><span class="cmrIcon">CMR</span></td>
                             </tr>
                             <tr>
-                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;height:30px;"></td>
-                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-right:none;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;height:30px;"></td>
-                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-right:none;"></td>
-                            </tr>
-                            <tr>
-                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;height:30px;"></td>
-                                <td style="border:1px solid black;border-left:none;border-top:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-top:none;border-left:none;border-right:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-top:none;"></td>
-                                <td style="border:1px solid black;border-bottom:none;border-right:none;"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="border:none;">
-                                    <table style="width:100%;border:none;">
-                                        <tr>
-                                            <td style="border:none;width:20%;height:30px;">Номер UN<br>
-                                                Number UN<br>
-                                            </td>
-                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:20%;">См. пункт 9<br>
-                                                See point 9<br>
-                                            </td>
-                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:20%;">Класс<br>
-                                                Class<br>
-                                            </td>
-                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:20%;">Цифровой номер<br>
-                                                Material number<br>
-                                            </td>
-                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:20%;">Фирменное наименование<br>
-                                                Commercial description<br>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;height:30px;"></td>
-                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;"></td>
-                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;"></td>
-                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;"></td>
-                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;"></td>
-                                        </tr>
-                                    </table>
+                                <td>
+                                    <p class="cmrDescriptionText" style="padding-top:8px;">
+                                      Данная перевозка, несмотря ни на какие прочие договоры, 
+                                      осуществляется в соответствии с условиями Конвенции о 
+                                      договоре международной дорожной перевозки грузов (КДПГ)
+                                    </p>
                                 </td>
-                                <td colspan="3" style="border:none;">
-                                    <table style="width:100%;border:none;">
-                                        <tr>
-                                            <td style="border:none;width:50%;height:30px;">ОПАСНЫЕ ГРУЗЫ<br>
-                                                DANGEROUS GOODS<br>
-                                            </td>
-                                            <td style="border:1px solid black;border-bottom:none;border-top:none;width:50%;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border:1px solid black;border-left:none;border-bottom:none;border-right:none;height:30px;"></td>
-                                            <td style="border:1px solid black;border-left:none;border-bottom:none;"></td>
-                                        </tr>
-                                    </table>
+                                <td>
+                                    <p class="cmrDescriptionText" style="padding-top:8px;">
+                                      This carriage is subject notwithstanding any clause to the contrary. To the 
+                                      Convention on the contract for the international Carriage of goods by road 
+                                      (CMR)
+                                    </p>
                                 </td>
                             </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="border:1px solid black;height:50px;">
-                        <span class="num">13</span>
-                        Указания отправителя (К сведению перевозчика)<br>
-                        Consignor's instructions (to the carrier)<br>
-                        <br>
-                        <br>
-                        <table style="width:100%;border:none;">
-                                        <tr>
-                                            <td style="border:none;width:50%;height:30px;font-size: 8px;">
-                                                Объявленная стоимость груза<br>
-                                                Declared value of goods<br><br>
-                                            </td>
-                                            <td style="border:none;width:50%;height:30px;font-size: 8px;">
-                                                {{totalPrice}},00 руб.
-                                            </td>
-                                        </tr>
-                                    </table>
-                    </td>
-                    <td colspan="2" style="border:2px solid black;border-top:none;">
-                        <span class="num">19</span>Дополнительные замечания<br>
-                        Additional remarks<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="border:1px solid black;height:50px;">
-                        <span class="num">14</span>Таможенные и другие официальные расходы<br>
-                        Customs and other official charges<br>
-                    </td>
-                    <td colspan="2" style="border:2px solid black;border-top:none;">
-                        <span class="num">20</span>Плата за перевозку (за счет отправителя, получателя и т.д.)<br>
-                        Carriage charges (payer: consignor, consignee, etc.)<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="border:1px solid black;height:40px;">
-                        <span class="num">15</span>Место и дата составления<br>
-                        Place and date of the consignment note<br>
-                    </td>
-                    <td colspan="2" style="border:2px solid black;border-top:none;">
-                        <span class="num">21</span>Подпись и печать перевозчика<br>
-                        Carrier’s signature and stamp<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="border:none;height:50px;">
-                        <table style="width:100%;border:none;">
-                            <tr>
-                                <td style="border:none;width:50%;height:50px;">
-                                    <span class="num">22</span>Отправитель (подпись и печать)<br>
-                                    Consignor (signature and stamp)<br>
-                                       <img style="position: absolute;margin-top:-20px;margin-left:140px;" src="{{sign}}" width="50" height="50" />
-                                       <img style="position: absolute;margin-top:-20px;margin-left:100px;" src="{{print}}" width="100" height="100" />
+                        </tbody>
+                    </table>
+                  </td>
+               </tr>
+               <tr class="emptyCell">
+                  <td colspan="4">
+                    ИП Ахмедов Сабир Табассумович
+                  </td>
+               </tr>
+               <tr class="binaryCell" colspan="2">
+                  <td colspan="4">
+                    Российская Федерация, 358007, Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 
+                  73.</td>
+               </tr>
+               <tr class="binaryCell" colspan="2">
+                  <td colspan="4">Россия</td>
+               </tr>
+               <tr class="emptyCell">
+                  <td colspan="4">
+                  </td>
+               </tr>
+                    <tr rowspan="4">
+                      <td colspan="4">
+                        <span class="num">2</span>
+                        <p class="cmrDescriptionText">Получатель (наименование, адрес, страна)</p> 
+                        <p class="cmrDescriptionText">Consignee (name, address, country)</p>
+                        <br />
+                        <p>
+                            {{ user.cargo_recevier }}
+                        </p>
+                      </td>
+                      <td colspan="4">
+                        <span class="num">16</span>
+                        <p class="cmrDescriptionText">Перевозчик (наименование, адрес, страна)</p> 
+                        <p class="cmrDescriptionText">Carrier (name, address, country)</p>
+                        <br />
+                      </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td colspan="4">
+                            <p>
+                                {{ user.cargo_city }}, {{ user.law_address }}
+                            </p>
+                        </td>
+                        <td colspan="4">
+                           <p>
+                            Барбаров Михаил Валерьевич Паспорт: АВ № 3784485, дата выдачи: 07.02.2023 г
+                           </p>
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td colspan="4">
+                            <p>{{ country }}</p>
+                            <p><br /></p>
+                        </td>
+                        <td colspan="4">
+                            <p>Кем выдан: Барановичсуим РОВД Брестской области</p>
+                        </td>
+                    </tr>
+                    <tr class="emptyCell">
+                        <td colspan="4"></td>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td colspan="4">
+                            <span class="num">3</span>
+                            <p class="cmrDescriptionText">Место разгрузки груза</p> 
+                            <p class="cmrDescriptionText">Place and date of taking over the goods (address, country, date)</p>
+                        </td>
+                        <td colspan="4">
+                            <span class="num">17</span>
+                            <p class="cmrDescriptionText">Последующий перевозчик (наименование, адрес, страна)</p> 
+                            <p class="cmrDescriptionText">Successive Carriers (name, address, country)</p>
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td style=";" colspan="4">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                   <td style="width:5%;">
+                                     <p class="cmrDescriptionText">Место /</p> 
+                                     <p class="cmrDescriptionText">Place</p>
+                                   </td>
+                                <td>
+                                    <p>{{user.cargo_city}}</p>
                                 </td>
-                                <td style="border:none;width:50%;height:50px;">
-                                    <span class="num">23</span>Получатель (подпись и печать)<br>
-                                    Consignee (signature and stamp)<br>
+                               </tr>
+                            </table>
+                        </td>
+                        <td colspan="4">
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td style=";" colspan="4">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                   <td style="width:3.5%;">
+                                     <p class="cmrDescriptionText">Страна /</p> 
+                                     <p class="cmrDescriptionText">Country</p>
+                                   </td>
+                                <td>
+                                    <p>{{ country }}</p>
+                                </td>
+                               </tr>
+                            </table>
+                        </td>
+                        <td colspan="4">
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td colspan="4">
+                            <span class="num">4</span>
+                            <p class="cmrDescriptionText">Место и дата погрузки груза</p> 
+                            <p class="cmrDescriptionText">Place of delivery of the goods (address, country)</p>
+                        </td>
+                        <td colspan="4">
+                            <span class="num"></span>
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td style=";" colspan="4">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                   <td style="width:5%;">
+                                     <p class="cmrDescriptionText">Место /</p> 
+                                     <p class="cmrDescriptionText">Place</p>
+                                   </td>
+                                <td>
+                                    <p>Москва</p>
+                                </td>
+                               </tr>
+                            </table>
+                        </td>
+                        <td rowspan="2" colspan="4">
+                            <span class="num">18</span>
+                            <p class="cmrDescriptionText">Оговорки и замечания перевозчика</p> 
+                            <p class="cmrDescriptionText">Carriers reservations and observations</p>
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td style=";" colspan="4">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                   <td style="width:3.5%;">
+                                     <p class="cmrDescriptionText">Страна /</p> 
+                                     <p class="cmrDescriptionText">Country</p>
+                                   </td>
+                                <td>
+                                    <p>Россия</p>
+                                </td>
+                               </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td style=";" colspan="4">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                   <td style="width:5.5%;">
+                                     <p class="cmrDescriptionText">Дата/ Date</p> 
+                                     <p class="cmrDescriptionText"></p>
+                                   </td>
+                                <td>
+                                    <p>{{ numDate }}</p>
+                                </td>
+                               </tr>
+                            </table>
+                        </td>
+                        <td colspan="4">
+                            <p>Груз загружен без повреждений</p>
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td colspan="4">
+                            <span class="num">5</span>
+                            <p class="cmrDescriptionText">Прилагаемые документы</p> 
+                            <p class="cmrDescriptionText">Documents attached</p>
+                        </td>
+                        <td colspan="4">
+                            <span class="num"></span>
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td style=";" colspan="4">
+                            <p>Накладная ТОРГ-12 №Н{{id}} от {{ numDate }}</p>
+                        </td>
+                        <td style=";">
+                            <span class="num"></span>
+                        </td>
+                        <td style=";">
+                            <span class="num"></span>
+                        </td>
+                        <td style=";">
+                            <span class="num"></span>
+                        </td>
+                        <td style=";">
+                            <span class="num"></span>
+                        </td>
+                    </tr>
+                    <tr class="emptyCell" rowspan="2">
+                        <td colspan="4">
+                            <span class="num"></span>
+                        </td>
+                        <td colspan="4">
+                            <span class="num"></span>
+                        </td>
+                    </tr>
+                    <tr class="emptyCell" rowspan="2">
+                        <td colspan="4">
+                            <span class="num"></span>
+                        </td>
+                        <td colspan="4">
+                            <span class="num"></span>
+                        </td>
+                    </tr>
+                    <tr rowspan="3">
+                       <td style=";border-right:none;" colspan="4">
+                          <table class="cmrTitleTable">
+                            <tr>
+                                <td style="width:30%">
+                                    <span class="num">6</span>
+                                    <p class="cmrDescriptionText">Знаки и номера</p> 
+                                    <p class="cmrDescriptionText">Marks and Nos.</p>
+                                </td>
+                                <td style="width:30%">
+                                    <span class="num">7</span>
+                                    <p class="cmrDescriptionText">Количество мест</p> 
+                                    <p class="cmrDescriptionText">Number of packages</p>
+                                </td>
+                                <td>
+                                    <span class="num">8</span>
+                                    <p class="cmrDescriptionText">Род упаковки</p> 
+                                    <p class="cmrDescriptionText">Method of parking</p>
                                 </td>
                             </tr>
-                        </table>
-                    </td>
-                </tr>
+                          </table>
+                       </td>
+                       <td style=";border-left:none;">
+                            <span class="num">9</span>
+                            <p class="cmrDescriptionText">Наименование груза</p> 
+                            <p class="cmrDescriptionText">Nature of the goods</p>
+                        </td>
+                        <td style=";">
+                            <span class="num">10</span>
+                            <p class="cmrDescriptionText">Статист. №</p> 
+                            <p class="cmrDescriptionText">Statistical number</p>
+                        </td>
+                        <td style=";">
+                            <span class="num">11</span>
+                            <p class="cmrDescriptionText">Вес брутто, кг.</p> 
+                            <p class="cmrDescriptionText">Gross weight in kg.</p>
+                        </td>
+                        <td style=";">
+                            <span class="num">12</span>
+                            <p class="cmrDescriptionText">Объем, м3</p> 
+                            <p class="cmrDescriptionText">Volume in m3</p>
+                        </td>
+                    </tr>
+                    {{#each categoryCmrTexts}}
+                    <tr rowspan="2" class="hCell">
+                       <td style=";border-right:none;text-align:right;" colspan="4">
+                          <p class="catText">{{count}}</p>
+                       </td>
+                       <td style=";border-left:none;text-align:right;">
+                            <p class="catText">{{category}}</p>
+                       </td>
+                       <td style=";">
+                            <p class="catText">{{code}}</p>
+                       </td>
+                       <td style=";">
+                            <p class="catText"></p>
+                       </td>
+                       <td style=";">
+                            <p class="catText"></p>
+                       </td>
+                    </tr>
+                    {{/each}}
+                    <tr rowspan="2" class="hCell">
+                        <td>
+                            <p class="cmrDescriptionText">Класс</p> 
+                            <p class="cmrDescriptionText">Class</p>
+                        </td>
+                        <td>
+                            <p class="cmrDescriptionText">Цифра</p> 
+                            <p class="cmrDescriptionText">Numero</p>
+                        </td>
+                        <td colspan="2">
+                            <p class="cmrDescriptionText">Буква</p> 
+                            <p class="cmrDescriptionText">Letter</p>
+                        </td>
+                        <td>
+                            <p class="cmrDescriptionText">ДОПОГ</p> 
+                            <p class="cmrDescriptionText">ADR</p>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num">13</span>
+                           <p class="cmrDescriptionText">Указания отправителя (таможенная и прочая обработка)</p> 
+                           <p class="cmrDescriptionText">Sender's instruction (treatment of carriage in custom, etc.)</p>
+                      </td>
+                      <td>
+                        <span class="num">19</span>
+                           <p class="cmrDescriptionText">Подлежит оплате</p> 
+                           <p class="cmrDescriptionText">To be paid by</p>
+                      </td>
+                      <td>
+                           <p class="cmrDescriptionText">Отправитель</p> 
+                           <p class="cmrDescriptionText">Senders</p>
+                      </td>
+                      <td>
+                           <p class="cmrDescriptionText">Валюта</p> 
+                           <p class="cmrDescriptionText">Currency</p>
+                      </td>
+                      <td>
+                           <p class="cmrDescriptionText">Получатель</p> 
+                           <p class="cmrDescriptionText">Consignee</p>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num"></span>
+                      </td>
+                      <td>
+                           <p class="cmrDescriptionText">Ставка</p> 
+                           <p class="cmrDescriptionText">Carriage charges</p>
+                      </td>
+                      <td>
+                           <p></p> 
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num"></span>
+                      </td>
+                      <td>
+                           <p class="cmrDescriptionText">Скидки</p> 
+                           <p class="cmrDescriptionText">Deductions (-)</p>
+                      </td>
+                      <td>
+                           <p></p> 
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num"></span>
+                      </td>
+                      <td>
+                           <p class="cmrDescriptionText">Разность</p> 
+                           <p class="cmrDescriptionText">Difference</p>
+                      </td>
+                      <td>
+                           <p></p> 
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num"></span>
+                      </td>
+                      <td rowspan="2">
+                           <p class="cmrDescriptionText">Надбавки</p> 
+                           <br />
+                           <p class="cmrDescriptionText">Дополнительные сборы</p>
+                           <p class="cmrDescriptionText">Supplementary charges</p>
+                      </td>
+                      <td>
+                           <p></p> 
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="2">
+                           <span class="num"></span>
+                           <p class="cmrDescriptionText inMargin">Объявленная стоимость груза</p>
+                           <p class="cmrDescriptionText">Declared value of goods</p>
+                      </td>
+                      <td colspan="2">
+                           <p class="inMargin">{{ totalPrice}}, 00 руб.</p>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num"></span>
+                           <p class="cmrDescriptionText">(при превышении предела ответственности, предусмотренного гл. IУ, ст.23, п. 3,</p>
+                           <p class="cmrDescriptionText">указывается только после согласования дополнительной платы к фрахту )</p>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num"></span>
+                           <p class="cmrDescriptionText">(wenn der Wert des Gutes den It. Kap. IV, Art. 23, Ab. 3 bestimmten Höchstbetrag</p>
+                           <p class="cmrDescriptionText">ubersteigt, so wird er erst nach Vereinbarung des Zuschlages zur Fracht angewiesen)</p>
+                      </td>
+                      <td rowspan="2">
+                           <p class="cmrDescriptionText">Надбавки</p> 
+                           <br />
+                           <p class="cmrDescriptionText">Дополнительные сборы</p>
+                           <p class="cmrDescriptionText">Supplementary charges</p>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num">14</span>
+                           <p class="cmrDescriptionText">Возврат</p>
+                           <p class="cmrDescriptionText">Cash on delivery</p>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num">15</span>
+                           <p class="cmrDescriptionText">Условия оплаты</p>
+                           <p class="cmrDescriptionText">Instructions as to payment for carriage</p>
+                      </td>
+                      <td colspan="4">
+                           <span class="num">20</span>
+                           <p class="cmrDescriptionText">Особые согласованные</p>
+                           <p class="cmrDescriptionText">условия</p>
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num"></span>
+                           <p class="cmrDescriptionText inMargin">Франко</p>
+                           <p class="cmrDescriptionText">Carriage</p>
+                      </td>
+                      <td colspan="4">
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td colspan="4">
+                           <span class="num"></span>
+                           <p class="cmrDescriptionText inMargin">Не</p>
+                           <p class="cmrDescriptionText">франко</p>
+                      </td>
+                      <td colspan="4">
+                      </td>
+                    </tr>
+                    <tr class="binaryCell" colspan="2">
+                      <td style="border-right:none;">
+                           <span class="num">21</span>
+                           <p class="cmrDescriptionText inMargin">Составлена в</p>
+                           <p class="cmrDescriptionText">Established in</p>
+                      </td>
+                      <td colspan="3" style="border-right:none;border-left:none;">
+                         <p>Москва</p>
+                      </td>
+                      <td colspan="1" style="border-left:none;border-right:none;width:15%;">
+                           <p class="cmrDescriptionText inMargin">Дата</p>
+                           <p class="cmrDescriptionText">on</p>
+                      </td>
+                      <td colspan="1" style="border-left:none;border-right:none;">
+                           <p>{{ numDate }}</p>
+                      </td>
+                      <td style="border-right:none;border-bottom:none;">
+                           <span class="num">24</span>
+                           <p class="cmrDescriptionText inMargin">Груз получен</p>
+                           <p class="cmrDescriptionText">Load accepted ам.</p>
+                      </td>
+                      <td style="border-left:none;border-bottom:none;">
+                           <p class="cmrDescriptionText">Дата date</p>
+                      </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border-right: none;">
+                           <span class="num">22</span>
+                           <p class="cmrDescriptionText inMargin">Прибытие под погрузку _______час _______ мин</p>
+                           <br />
+                           <p class="cmrDescriptionText" style="margin-left: 30px;">Arriving for loading _______hour _______ min</p>
+                           <br />
+                           <p class="cmrDescriptionText" style="margin-left: 30px;">Убытие до _______час _______ мин</p>
+                           <br />
+                           <p class="cmrDescriptionText" style="margin-left: 30px;">Leaving till _______hour _______ min</p>
+                           <br />
+                           <p class="cmrDescriptionText" style="margin-left: 30px;">Подпись и штамп отправителя</p>
+                           <p class="cmrDescriptionText" style="margin-left: 30px;">Stamp and signature of sender</p>
+                        </td>
+                        <td colspan="2" style="border-left: none;vertical-align:center;">
+                           <img src="{{sign}}" width="50" height="50" style="margin-left:-40px;" />
+                        </td>
+                        <td colspan="2">
+                            <span class="num">23</span>
+                            <br />
+                            <br />
+                            <p class="cmrDescriptionText">Путевой лист № “ ” </p>
+                            <p class="cmrDescriptionText">Фамилии</p>
+                            <p class="cmrDescriptionText">водителей</p>
+                            <br />
+                            <p class="cmrDescriptionText">Подпись и штамп перевозчика</p>
+                            <p class="cmrDescriptionText">Unterschrift und Stempel des Frachtführers</p>
+                        </td>
+                        <td colspan="2" style="border-top:none;">
+                             <p class="cmrDescriptionText">Прибытие под разгрузку _____час _____мин</p>
+                             <br />
+                             <p class="cmrDescriptionText">Arriving for unloading _____hour _____min</p>
+                             <br />
+                             <p class="cmrDescriptionText">Убытие _____час _____мин</p>
+                             <br />
+                             <br />
+                             <p class="cmrDescriptionText">Leaving _____hour _____min</p>
+                             <br />
+                             <p class="cmrDescriptionText">Подпись и штамп получателя</p>
+                             <p class="cmrDescriptionText">Stamp and signature of consignee</p>
+                        </td>
+                    </tr>
+                    <tr rowspan="2">
+                        <td style="border-right:none;">
+                             <span class="num">25</span>
+                             <p class="cmrDescriptionText">Регистрац. номер</p>
+                             <p class="cmrDescriptionText">Тягач Tractor</p>
+                        </td>
+                        <td style="border-left:none;">
+                            <p class="cmrDescriptionText">Registration Number</p>
+                            <p class="cmrDescriptionText">Полуприцеп Trailer</p>
+                        </td>
+                        <td colspan="2">
+                            <span class="num">26</span>
+                            <p class="cmrDescriptionText">Марка</p>
+                            <p class="cmrDescriptionText">Type</p>
+                            <p class="cmrDescriptionText">Тягач</p>
+                        </td>
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight">
+                                        <span class="num">27</span>
+                                    </td>
+                                    <td class="bRight">
+                                        <p class="cmrDescriptionText">Тариф</p>
+                                        <p class="cmrDescriptionText">за 1 км</p>
+                                    </td>
+                                    <td>
+                                        <p class="cmrDescriptionText">Тарифное</p>
+                                        <p class="cmrDescriptionText">расстояние</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight">
+                                        <p class="cmrDescriptionText">% за</p>
+                                        <p class="cmrDescriptionText">испол.</p>
+                                        <p class="cmrDescriptionText">тягача /п /п</p>
+                                    </td>
+                                    <td class="bRight">
+                                        <p class="cmrDescriptionText">Поясной</p>
+                                        <p class="cmrDescriptionText">коэфф</p>
+                                    </td>
+                                    <td class="bRight">
+                                        <p class="cmrDescriptionText">Прочие</p>
+                                        <p class="cmrDescriptionText">доплаты</p>
+                                    </td>
+                                    <td>
+                                        <p class="cmrDescriptionText">Сумма</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p>АР7919-1 прицеп: А5945-1</p>
+                        </td> 
+                        <td colspan="2">
+                            
+                        </td>
+                        <td colspan="4">
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight" style="width:10%">
+                                        <span class="num">28</span>
+                                    </td>
+                                    <td class="bRight" colspan="2">
+                                        <p class="cmrDescriptionText">Тарифное</p>
+                                        <p class="cmrDescriptionText">расстояние, км</p>
+                                    </td>
+                                    <td colspan="2">
+                                        <p class="cmrDescriptionText">Схема</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td> 
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight">
+                                        
+                                    </td>
+                                    <td colspan="4">
+                                        <p class="cmrDescriptionText">Тариф</p>
+                                        <p class="cmrDescriptionText">за 1 т</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td> 
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight">
+                                        <p class="cmrDescriptionText">Надбавки</p>
+                                    </td>
+                                    <td class="bRight" colspan="2">
+                                        <p class="cmrDescriptionText">Скидки</p>
+                                    </td>
+                                    <td class="bRight">
+                                        <p class="cmrDescriptionText">Прочие</p>
+                                        <p class="cmrDescriptionText">доплат</p>
+                                    </td>
+                                    <td colspan="4" colspan="2">
+                                        <p class="cmrDescriptionText">К оплате</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td> 
+                        <td colspan="2" style="padding:0;">
+                            <p class="cmrDescriptionText">Отчисления</p>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="height:20px;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight" style="width:6%">
+                                        <p class="cmrDescriptionText">Тариф</p>
+                                        <p class="cmrDescriptionText">II</p>
+                                    </td>
+                                    <td colspan="16">
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td colspan="2">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                        </td>
+                        <td colspan="2">
+                            <p class="cmrDescriptionText">К оплате</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight" style="width:10%">
+                                        <span class="num">29</span>
+                                    </td>
+                                    <td class="bRight" colspan="2">
+                                    </td>
+                                    <td colspan="2">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td> 
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight">
+                                        
+                                    </td>
+                                    <td colspan="4">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td> 
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight">
+                                    </td>
+                                    <td class="bRight" colspan="2">
+                                    </td>
+                                    <td class="bRight">
+                                    </td>
+                                    <td colspan="4" colspan="2">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td> 
+                        <td colspan="2" style="padding:0;">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight" style="width:12%;">
+                                        <p class="cmrDescriptionText">Валюта</p>
+                                    </td>
+                                    <td colspan="5">
+                                        <p class="cmrDescriptionText">Код плательщика</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <table class="cmrTitleTable">
+                                <tr>
+                                    <td class="bRight" style="width:6%;">
+                                        <p class="cmrDescriptionText">Тариф</p>
+                                        <p class="cmrDescriptionText">III</p>
+                                    </td>
+                                    <td colspan="16">
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td colspan="2">
+
+                        </td>
+                    </tr>
             </table>
+            <img src="{{print}}" width="160" height="160" style="position: absolute;top: 750px; left: 160px;"/>
         </div>
     </body>
 </html>

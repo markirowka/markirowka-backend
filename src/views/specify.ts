@@ -1,4 +1,4 @@
-import { itemDataShoes, rootFolder, sampleItemShoes } from "../models";
+import { ItemDataShoes, rootFolder, sampleItemShoes } from "../models";
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
@@ -6,7 +6,7 @@ import handlebars from 'handlebars';
 import xlsx from 'xlsx';
 
 
-export async function GenerateSpecify (ownerId: number, fileName: string, data: itemDataShoes[]) {
+export async function GenerateSpecify (ownerId: number, fileName: string, data: ItemDataShoes[]) {
     return new Promise(async (resolve, reject) => {
 
         const header = [
@@ -29,7 +29,7 @@ export async function GenerateSpecify (ownerId: number, fileName: string, data: 
         const stringifiedData: string[][] = data.map((item) => {
             const values: string[] = [];
             for (let key in sampleItemShoes) {
-                values.push(String(item[key as keyof itemDataShoes] || ""))
+                values.push(String(item[key as keyof ItemDataShoes] || ""))
             }
             return values
         })
