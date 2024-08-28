@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
-import pool from "./db";
+import pool, { Q } from "./db";
+import { deleteFiles } from "../views/paymentDocs";
 
 export const rootFolder = process.env.FILE_ROOT_FOLDER || "files/";
 
@@ -96,14 +97,14 @@ export interface CategoryData {
 }
 
 export async function GetNewFileId(): Promise<number> {
-  const query = `SELECT max("id") FROM "user_files";`;
+  const query = `SELECT nextval(pg_get_serial_sequence('user_files', 'id'));`;
   try {
     const result = await pool.query(query);
     console.log("File selection result: ", result.rows);
     if (result.rows.length === 0) {
       return 1;
     }
-    return result.rows[0].max ? Number(result.rows[0].max) + 1 : 1;
+    return result.rows[0].nextval ? Number(result.rows[0].nextval) + 1 : 1;
   } catch (e: any) {
     console.log(e.message);
     return 1;
@@ -148,6 +149,35 @@ export async function CreateFileNameDBNote(
     console.log(e.message);
     return { id: 0, name: "" };
   }
+}
+
+export async function deleteFile (fileId: number) {
+  const getFileQuery = `SELECT * FROM user_files WHERE id = ${fileId};`;
+  const deleteFileQuery = `DELETE FROM user_files WHERE id = ${fileId};`;
+  const clearHistoryQuery = `DELETE FROM order_history WHERE ${fileId} = ANY(document_ids);`;
+  return new Promise(async (resolve, reject) => {
+    const fileData: FileDownloadData[] = await Q(getFileQuery, true) || [];
+    if (fileData.length === 0) {
+      reject('File not found');
+      return;
+    }
+    const file = fileData[0];
+    const fileName = `${rootFolder}${file.owner_id}/${file.file_name}`;
+
+    await Q(deleteFileQuery, false);
+    await Q(clearHistoryQuery, false);
+
+    try {
+      await deleteFiles([fileName]);
+      resolve(true);
+      return;
+    } catch (e) {
+      console.log(e);
+      reject("Failed to delete file, unknown error");
+      return;
+    } 
+
+  })
 }
 
 export async function CheckAndCreateOwnerFolder(

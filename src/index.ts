@@ -100,6 +100,8 @@ app.get ("/api/admin/ordercount", History.GetOrderCount);
 
 app.get ("/api/admin/allorders/:page", History.GetTotalOrderHistory);
 
+app.post("/api/deletefile", Files.DeleteFile);
+
 app.delete ("/api/admin/deleteuser/:id", EditUser.DeleteUserByAdmin);
 
 // Menu admin

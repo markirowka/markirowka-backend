@@ -1,18 +1,20 @@
 import { Request, Response } from "express";
 import "express-session";
 import archiver from 'archiver';
-import { GetAuthorizedUserData, UserIdFromAuth } from "./authController";
+import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController";
 import {
   CheckAndCreateOwnerFolder,
   createFileName,
   CreateFileNameDBNote,
+  deleteFile,
+  GetDownloads,
   GetUserById,
   ItemDataClothes,
   ItemDataShoes,
   PaymentDocumentData,
   rootFolder,
 } from "../models";
-import { GeneratePaymentPDF, generateZipArchive } from "../views/paymentDocs";
+import { deleteFiles, GeneratePaymentPDF, generateZipArchive } from "../views/paymentDocs";
 import { WriteOrder } from "../models/orderHistory";
 import { GenerateSpecifyShoes } from "../views/specifyShoes";
 import { GenerateSpecifyClothes } from "../views/specifyClothes";
@@ -46,10 +48,10 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
 
   try {
     await CheckAndCreateOwnerFolder(userId);
-    const orderFile = await CreateFileNameDBNote(userId, "specify");
+    const orderFile = createFileName(userId, "specify");
     const archiveName = await CreateFileNameDBNote(userId, "zip");
     
-    await GenerateSpecifyOrder(userId, orderFile.name, itemList);
+    await GenerateSpecifyOrder(userId, orderFile, itemList);
     const filePaths: string[] = (await Promise.all([
       GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, "t12", archiveName.id),
       GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, "invoice", archiveName.id),
@@ -68,8 +70,15 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const date = `${dateDay}-${dateMonth}-${dateYear}`;
     
     if (user && sendTo && orderFile) {
-      console.log("Sending order file, attachment: ", `${rootFolder}${userId}/${orderFile.name}`);
-      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date}, [`${rootFolder}${userId}/${orderFile.name}`])
+      // console.log("Sending order file, attachment: ", `${rootFolder}${userId}/${orderFile}`);
+      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date}, [`${rootFolder}${userId}/${orderFile}`]);
+      setTimeout(() => {
+        try {
+          deleteFiles([`${rootFolder}${userId}/${orderFile}`])
+        } catch (e) {
+          console.log(e);
+        }
+      }, 15000)
     }
 
     await WriteOrder([archiveName.id], userId);
@@ -140,3 +149,45 @@ export const CreateSpecifyClothes = async (req: Request, res: Response) => {
 
   res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });
 };
+
+export const DeleteFile = async (req: Request, res: Response) => {
+  const userId = UserIdFromAuth(req);
+  const isAdmin = IsAdmin({ req });
+  if (!userId) {
+    res.status(401).send({ error: "Unauthorized" });
+    return;    
+  }
+  const file = req.body?.fileId;
+  if (!file) {
+    res.status(400).send({ error: "File not specified" });
+    return;     
+  }
+
+  if (!isAdmin) {
+    const filesByOwner = await GetDownloads(userId);
+    const selectedFile = filesByOwner.find((file) => {
+      return file.id === Number(file);
+    });
+    if (!selectedFile) {
+      res.status(403).send({ error: "No rights to delete file" });
+      return;   
+    }
+  }
+
+  return new Promise(async (resolve, reject) => {
+    deleteFile (file).then(() => {
+       res.status(200).send({
+        success: true,
+        maessage: "File successfully deleted"
+       });
+       resolve(true);
+    }).catch((e) => {
+      res.status(500).send({
+        maessage: e
+       })
+    });
+    resolve(false);
+  })
+
+  
+}

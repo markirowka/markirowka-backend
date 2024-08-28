@@ -102,8 +102,8 @@ export async function GeneratePaymentPDF(
         height: '297mm'
       };
 
-      const content = await page.content();
-      fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
+      // const content = await page.content();
+      // fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
 
       await page.setContent(html);
       await page.pdf(pdfOptions);

@@ -172,7 +172,6 @@ export async function IsAuthCheck (req: Request, res: Response) {
     
       try {
         const decoded = jwt.verify(token, authPrivateKey);
-        console.log(decoded);
         res.status(200).json({ success: true })
       } catch (error) {
         console.error('Error verifying token:', error);
@@ -191,7 +190,7 @@ export function UserIdFromAuth (req: Request): number| null {
     
       try {
         const decoded = jwt.verify(token, authPrivateKey);
-        console.log("Decoded: ", decoded);
+
         if (typeof decoded === "string") return null;
         return decoded.userId
       } catch (error) {
@@ -205,12 +204,12 @@ export async function IsAdmin (args: {id?: number, req?: Request}): Promise<bool
     console.log("No args")
     return false
   }
-  console.log("arg: ", args.req ? true : false)
+
   const userId = args.id || (!args.req) ? 0 : (UserIdFromAuth (args.req)  || 0);
-  console.log("User data: ", userId, "Must be: ", args.req ? UserIdFromAuth (args.req) : 0)
+
   if (userId === 0) return false;
   const userData = await GetUserById (userId);
-  console.log("USer data: ", userData)
+
   if (!userData) {
     return false;
   }
@@ -220,7 +219,7 @@ export async function IsAdmin (args: {id?: number, req?: Request}): Promise<bool
 export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
     // SetupHeaders (res);
     const token = req.session.token;
-    console.log("Sign in token: ", token);
+    // console.log("Sign in token: ", token);
 
     if (!token) {
         res.status(401).send({ error: 'Unauthorized' })
@@ -229,7 +228,6 @@ export const GetAuthorizedUserData = async (req: Request, res: Response) =>  {
     
       try {
         const decoded = jwt.verify(token, authPrivateKey);
-        console.log("Decoded data: ", decoded);
         if (typeof decoded === "string") {
             res.status(403).send({ error: 'Invalid auth token' });
             return;
