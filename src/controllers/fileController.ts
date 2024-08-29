@@ -21,7 +21,7 @@ import { GenerateSpecifyClothes } from "../views/specifyClothes";
 import { GenerateSpecifyOrder } from "../views/specifyOrder";
 import sendEmail from "./emailController";
 import { orderSendTo } from "../config";
-import { getMonthName } from "../utils";
+import { checkDateDiapasone, filterDates, getClosestDate, getMonthName } from "../utils";
 
 const sendTo = orderSendTo;
 
@@ -45,6 +45,18 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     res.status(400).send({ error: "User not found" });
     return;
   }
+  const dates = itemList.map((item) => {
+    return {date: item.date}
+  });
+
+  const filteredDates = filterDates(dates);
+  const closestDate = getClosestDate(filteredDates);
+  const isDateValid = !closestDate || checkDateDiapasone(closestDate);
+
+  if (!isDateValid) {
+    res.status(400).send({ error: "Invalid order date" });
+    return;    
+  }
 
   try {
     await CheckAndCreateOwnerFolder(userId);
@@ -53,11 +65,11 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     
     await GenerateSpecifyOrder(userId, orderFile, itemList);
     const filePaths: string[] = (await Promise.all([
-      GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, "t12", archiveName.id),
-      GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, "invoice", archiveName.id),
-      GeneratePaymentPDF(user, createFileName(userId, "agreement"), itemList, "agreement", archiveName.id),
-      GeneratePaymentPDF(user, createFileName(userId, "cmr"), itemList, "cmr", archiveName.id),
-      GeneratePaymentPDF(user, createFileName(userId, "specification"), itemList, "specification", archiveName.id)
+      GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, "t12", archiveName.id, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, "invoice", archiveName.id, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "agreement"), itemList, "agreement", archiveName.id, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "cmr"), itemList, "cmr", archiveName.id, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "specification"), itemList, "specification", archiveName.id, closestDate)
     ])).map((item: { path: string}) => {
         return item.path
     });

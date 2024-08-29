@@ -13,7 +13,8 @@ export async function GeneratePaymentPDF(
   fileName: string,
   data: PaymentDocumentData[],
   kind: string,
-  docId: number
+  docId: number,
+  date?: string
 ): Promise<{result: boolean, path: string}> {
   return new Promise(async (resolve, reject) => {
     let result = false;
@@ -38,7 +39,7 @@ export async function GeneratePaymentPDF(
       })
     })
 
-    const dt = new Date();
+    const dt = date ? new Date(date) : new Date();
 
     const dateDay = dt.getDate(); // День месяца
     const dateMonth = getMonthName(dt.getMonth()); // Название месяца

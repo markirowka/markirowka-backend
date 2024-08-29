@@ -88,6 +88,7 @@ export interface PaymentDocumentData {
   name: string;
   quantity: number;
   price: number;
+  date?: string;
 }
 
 export interface CategoryData {
