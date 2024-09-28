@@ -79,6 +79,7 @@ export async function GeneratePaymentPDF(
     const html = template(combinedData);
 
     const browser = await puppeteer.launch({
+      executablePath: '/usr/bin/chromium-browser',
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       timeout: 30000,
     });

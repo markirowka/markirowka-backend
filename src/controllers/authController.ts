@@ -62,13 +62,10 @@ const signup = async (req: Request, res: Response) => {
         expiresIn: "1d",
       });
     
-    console.log("Verify token: ", token)
     const protocol = process.env.HTTP_PROTOCOL
     const host = process.env.HTTP_HOST
 
     const emailVerifyLink = `${protocol}://${host}/signupconfirm?token=${token}`;
-
-    console.log(emailVerifyLink);
 
     sendEmail(user.email, "Подтверждение регистрации", "verifyEmail", {
         link: emailVerifyLink,
@@ -87,7 +84,6 @@ const signup = async (req: Request, res: Response) => {
 const signin = async (req: Request, res: Response) => {
   // SetupHeaders (res);
   const { email, password } = req.body;
-  console.log("Received body: ", req.body);
   try {
     const result = await pool.query(
       "SELECT * FROM app_users WHERE email = $1",
@@ -184,7 +180,6 @@ export function UserIdFromAuth (req: Request): number| null {
     // console.log("Sign in token: ", token);
 
     if (!token) {
-        console.log("No token")
         return null
       }
     

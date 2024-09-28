@@ -28,7 +28,7 @@ export const SetContent = async (req: Request, res: Response) => {
 
     res.status(200).send({ success: true })
   } catch (e: any) {
-    console.log(e);
+    console.error(e);
     res.status(500).send({ error: "Failed to save content"})
   } 
 
@@ -60,9 +60,7 @@ export const DeletePage = async (req: Request, res: Response) => {
 
 export const GetPage = async (req: Request, res: Response) => { 
     const url = req.params.url;
-    console.log("Called width: ", url)
     if (!url) {
-        console.log("No url")
         res.status(404).send({ error: "Page not found" });
         return;
     }
@@ -70,7 +68,6 @@ export const GetPage = async (req: Request, res: Response) => {
     try {
         const page = await getArticleByUrl(url);
         if (!page || page.length === 0){ 
-            console.log("No page")
             res.status(404).send({ error: "Page not found" });
             return;
         }

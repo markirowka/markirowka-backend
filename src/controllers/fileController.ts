@@ -82,13 +82,12 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const date = `${dateDay}-${dateMonth}-${dateYear}`;
     
     if (user && sendTo && orderFile) {
-      // console.log("Sending order file, attachment: ", `${rootFolder}${userId}/${orderFile}`);
       sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date}, [`${rootFolder}${userId}/${orderFile}`]);
       setTimeout(() => {
         try {
           deleteFiles([`${rootFolder}${userId}/${orderFile}`])
         } catch (e) {
-          console.log(e);
+          console.error(e);
         }
       }, 15000)
     }
@@ -98,7 +97,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
       .status(200)
       .send({ message: `Files created for ${userId}`, files: [archiveName] });
   } catch (e: any) {
-    console.log(e.message);
+    console.error(e.message);
     res.status(500).send({ error: `File creation failed` });
     return;
   }
@@ -122,8 +121,6 @@ export const CreateSpecifyShoes = async (req: Request, res: Response) => {
   const file = await GenerateSpecifyShoes(userId, fileDt.name, itemList);
   const user = await GetUserById(userId);
   await WriteOrder ([fileDt.id], userId)
-
-  console.log("Data to send: ", file, user, sendTo)
 
   /* if (user && sendTo && file) {
     console.log("Sending order file: ")
