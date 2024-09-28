@@ -14,7 +14,7 @@ export const RequestToRecoverPassword = async (req: Request, res: Response) => {
     // SetupHeaders (res);
     const { email } = req.body;
     try {
-        const userResult = await pool.query('SELECT * FROM app_users WHERE email = $1', [email]);
+        const userResult = await pool.query('SELECT * FROM app_users WHERE email = $1', [email.toLowerCase()]);
         if (!userResult || userResult.rows.length === 0){
             res.status(400).send({ error: "User not found"})
             return;

@@ -100,7 +100,7 @@ export async function CreateUser (userData: User) {
         ceo_base,
         phone ) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *`,
-      [email, 
+      [email.toLowerCase(), 
         password_hash, 
         full_name || "", 
         ceo || "", 
@@ -133,9 +133,11 @@ export async function GetUsersByParam(
   param: keyof User,
   value: string | number | boolean
 ): Promise<User[]> {
-  const query = `SELECT * FROM "app_users" WHERE "${param}" = ${value};`;
+  if (param === "email") value = String(value).toLowerCase();
+  const query = `SELECT * FROM "app_users" WHERE "${param}" = $1;`;
+  const values = [value];
   try {
-    const result = await pool.query(query);
+    const result = await pool.query(query, values);
     return result.rows;
   } catch (e: any) {
     console.log(e.message);
@@ -173,7 +175,8 @@ export async function EditUserParams (
     `;
 
   const values = params.map(param => { 
-    const newValue = param.key.toLowerCase() === 'password' ? GeneratePasswordHash (param.value) : param.value
+    const newValue = param.key.toLowerCase() === 'password' ? GeneratePasswordHash (param.value) : 
+    param.key.toLowerCase() === 'email' ? param.value.toLowerCase() : param.value
     return newValue
   });
   // values.push(userId);
