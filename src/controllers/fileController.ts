@@ -62,14 +62,14 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     await CheckAndCreateOwnerFolder(userId);
     const orderFile = createFileName(userId, "specify");
     const archiveName = await CreateFileNameDBNote(userId, "zip");
-    
+    const docId = archiveName.id
     await GenerateSpecifyOrder(userId, orderFile, itemList);
     const filePaths: string[] = (await Promise.all([
-      GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, "t12", archiveName.id, closestDate),
-      GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, "invoice", archiveName.id, closestDate),
-      GeneratePaymentPDF(user, createFileName(userId, "agreement"), itemList, "agreement", archiveName.id, closestDate),
-      GeneratePaymentPDF(user, createFileName(userId, "cmr"), itemList, "cmr", archiveName.id, closestDate),
-      GeneratePaymentPDF(user, createFileName(userId, "specification"), itemList, "specification", archiveName.id, closestDate)
+      GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, "t12", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, "invoice", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "agreement"), itemList, "agreement", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "cmr"), itemList, "cmr", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "specification"), itemList, "specification", docId, closestDate)
     ])).map((item: { path: string}) => {
         return item.path
     });
@@ -82,7 +82,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const date = `${dateDay}-${dateMonth}-${dateYear}`;
     
     if (user && sendTo && orderFile) {
-      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date}, [`${rootFolder}${userId}/${orderFile}`]);
+      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date, docId, closestDate}, [`${rootFolder}${userId}/${orderFile}`]);
       setTimeout(() => {
         try {
           deleteFiles([`${rootFolder}${userId}/${orderFile}`])

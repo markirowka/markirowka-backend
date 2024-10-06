@@ -202,10 +202,28 @@ export async function GetDownloads(
   userId: number
 ): Promise<FileDownloadData[]> {
   const files: FileDownloadData[] = [];
-  const query = `SELECT * FROM "user_files" WHERE "owner_id" = ${userId};`;
+  const query = `SELECT * FROM "user_files" WHERE "owner_id" = $1;`;
 
   try {
-    const result = await pool.query(query);
+    const result = await pool.query(query, [userId]);
+    result.rows.forEach((row) => {
+      files.push(row);
+    });
+  } catch (e: any) {
+    console.log(e.message);
+  }
+
+  return files;
+}
+
+export async function getDownloadById(
+  fileId: number
+): Promise<FileDownloadData[]> {
+  const files: FileDownloadData[] = [];
+  const query = `SELECT * FROM "user_files" WHERE "id" = $1;`;
+
+  try {
+    const result = await pool.query(query, [fileId]);
     result.rows.forEach((row) => {
       files.push(row);
     });

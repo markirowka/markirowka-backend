@@ -87,7 +87,7 @@ const signin = async (req: Request, res: Response) => {
   try {
     const result = await pool.query(
       "SELECT * FROM app_users WHERE email = $1",
-      [email]
+      [email.toLowerCase()]
     );
 
     if (result.rows.length === 0) {

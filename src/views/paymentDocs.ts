@@ -4,7 +4,7 @@ import path from "path";
 import archiver from "archiver";
 import puppeteer from "puppeteer";
 import handlebars from "handlebars";
-import { calculateTotals, getCategoryCode, getMonthName, numberFormatDate, numberToWords } from "../utils";
+import { calculateTotals, getCategoryCode, getMonthName, monthNum, numberFormatDate, numberToWords } from "../utils";
 import { ahmedovPrint64, ahmedovSign, cmrWaterMark  } from "./prints";
 import { categoryDataFromGoodsList } from "../utils/data";
 
@@ -54,8 +54,9 @@ export async function GeneratePaymentPDF(
       categoryCode: getCategoryCode(ctgr),
       cmrWaterMark,
       country: user.phone?.indexOf("375") === 1 ? "Беларусь" : "Россия",
-      dateDay: dateDay,
+      dateDay: dateDay.toString().padStart(2, '0'),
       dateMonth: dateMonth,
+      dateMonthNum: monthNum(dt),
       dateYear: dateYear,
       id: docId,
       isNeedScale,

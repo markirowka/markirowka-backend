@@ -78,6 +78,8 @@ app.get("/api/orderhistory/:page", History.GetOrderHistory);
 
 app.get ("/api/downloads", Download.GetUserDownloadList);
 
+app.get ("/api/downloadinfo/:id", Download.getFileById);
+
 app.get ("/api/file/:id/:filename", Download.DownloadFileByOwner);
 
 app.post("/api/resetpassword", Recover.RequestToRecoverPassword);

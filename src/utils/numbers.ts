@@ -246,3 +246,7 @@ export function checkDateDiapasone (value: string) {
           tomorrow.setDate(today.getDate() + 1);
     return !isNaN(dt.getTime()) && dt >= thirtyDaysAgo && dt <= tomorrow
 }
+
+export function monthNum (date: Date) {
+  return (date.getMonth() + 1).toString().padStart(2, '0');
+}

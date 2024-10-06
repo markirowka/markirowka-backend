@@ -256,7 +256,7 @@ h3 {
           </tr>
         <tr>
          <td class="col-4 no-bb">Основание</td>
-         <td class="bb" contenteditable>Основной договор</td>
+         <td class="bb" contenteditable>Договор №{{id}} от {{dateDay}}.{{dateMonthNum}}.{{dateYear}}</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(договор, заказ-наряд)</td>
@@ -351,7 +351,7 @@ h3 {
               </tr>
               <tr>
                <td contenteditable="">{{id }}</td>
-               <td contenteditable="">{{dateDay}} {{dateMonth}} {{dateYear}}</td>
+               <td contenteditable="">{{dateDay}}.{{dateMonthNum}}.{{dateYear}}</td>
               </tr>
              </table>
           </td>
@@ -417,7 +417,7 @@ h3 {
          <td class="td5">796</td>
          <td class="td6"></td>
          <td class="td7"></td>
-         <td class="td8"></td>
+         <td class="td8">{{quantity}}</td>
          <td class="td9"></td>
          <td class="td10">{{price}},00</td>
          <td class="td11">{{quantity}},00</td>
@@ -607,7 +607,7 @@ h3 {
                <tr>
                <td width="25%">М.П.</td>
                <td>" {{dateDay}} "</td>
-               <td width="25%" class="bb">{{dateMonth}}</td>
+               <td width="25%" class="bb">{{dateMonthNum}}</td>
                <td>{{dateYear}}</td>
                <td width="25%"></td>
               </tr>
