@@ -234,7 +234,7 @@ h3 {
         </tr>
         <tr>
          <td width="105px">Грузополучатель</td>
-         <td class="bb" contenteditable> {{ user.cargo_recevier }}</td>
+         <td class="bb" contenteditable> {{ user.full_name }}, {{ user.inn }}, {{ user.cargo_recevier }}</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
@@ -249,7 +249,7 @@ h3 {
           </tr>
         <tr>
          <td>Плательщик</td>
-         <td class="bb" contenteditable>{{ user.ceo_full }}, {{ user.inn }}, {{ user.law_address }}</td>
+         <td class="bb" contenteditable>{{ user.full_name }}, {{ user.inn }}, {{ user.law_address }}</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
@@ -419,8 +419,8 @@ h3 {
          <td class="td7"></td>
          <td class="td8">{{quantity}}</td>
          <td class="td9"></td>
-         <td class="td10">{{price}},00</td>
-         <td class="td11">{{quantity}},00</td>
+         <td class="td10">{{quantity}},00</td>
+         <td class="td11">{{price}},00</td>
          <td class="td12">{{sum}},00</td>
          <td class="td13">Без НДС</td>
          <td class="td14"></td>

@@ -122,10 +122,10 @@ export const CreateSpecifyShoes = async (req: Request, res: Response) => {
   const user = await GetUserById(userId);
   await WriteOrder ([fileDt.id], userId)
 
-  /* if (user && sendTo && file) {
+  if (user && sendTo && file) {
     console.log("Sending order file: ")
     sendEmail(sendTo, "Заявка с сайта: обувь", "orderEmail", {...user}, [file])
-  } */
+  }
 
   res.status(200).send({ fieId: fileDt.id, filename: fileDt.name, message: `File created for ${userId}` });
 };
