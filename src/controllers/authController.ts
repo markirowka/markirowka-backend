@@ -175,7 +175,7 @@ export async function IsAuthCheck (req: Request, res: Response) {
       }
 }
 
-export function UserIdFromAuth (req: Request): number| null {
+export function getUserIdFromAuth (req: Request): number| null {
     const token = req.session.token;
     // console.log("Sign in token: ", token);
 
@@ -200,7 +200,7 @@ export async function IsAdmin (args: {id?: number, req?: Request}): Promise<bool
     return false
   }
 
-  const userId = args.id || (!args.req) ? 0 : (UserIdFromAuth (args.req)  || 0);
+  const userId = args.id || (!args.req) ? 0 : (getUserIdFromAuth (args.req)  || 0);
 
   if (userId === 0) return false;
   const userData = await GetUserById (userId);

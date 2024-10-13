@@ -12,6 +12,7 @@ import * as Recover from './controllers/recoverController';
 import * as History from './controllers/historyController';
 import * as Menu from './controllers/menuController';
 import * as Content from './controllers/contentController';
+import * as Stats from './controllers/statsController';
 import { SetupHeadersGlobal } from "./controllers/indexController";
 
 dotenv.config();
@@ -121,6 +122,12 @@ app.post("/api/admin/setcontent", Content.SetContent);
 app.post("/api/admin/deletecontent", Content.DeletePage);
 
 app.get("/api/content/:url", Content.GetPage);
+
+// Stats
+
+app.get("/api/stats/getreadstats", Stats.getUserReadStatsResponce);
+
+app.post("/api/stats/markread/:url", Stats.setArticleRead);
 
 const https_options = {
   key: fs.readFileSync(process.env.HTTPS_PRIVATE_KEY_PATH || "../"),

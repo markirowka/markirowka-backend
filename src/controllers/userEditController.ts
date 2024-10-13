@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import 'express-session';
 import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin, DeleteUser, GetUserList } from "../models";
-import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController";
+import { GetAuthorizedUserData, IsAdmin, getUserIdFromAuth } from "./authController";
 import { IsValidEmail } from "../utils";
 import { SetupHeaders } from "./indexController";
 
@@ -9,7 +9,7 @@ import { SetupHeaders } from "./indexController";
 export const EditUserParamByUser = async (req: Request, res: Response) => {
     // SetupHeaders (res);
     const body: userEditRequest = req.body;
-    const requesterId = await UserIdFromAuth (req);
+    const requesterId = await getUserIdFromAuth (req);
     if (!requesterId) {
         res.status(403).send({ error: "No rigths to edit user"});
         return;

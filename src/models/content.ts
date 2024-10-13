@@ -35,8 +35,9 @@ export async function updateArticleByUrl(
     updates.push(`content = '${content}'`);
   }
   const query = `UPDATE articles 
-    SET ${updates.join(', ')} 
-    WHERE "url_name" = '${url_name}' 
+    SET ${updates.join(', ')},
+    date_updated = NOW()
+    WHERE "url_name" = '${url_name}'
     RETURNING *;`;
   return await Q(query, true);
 }

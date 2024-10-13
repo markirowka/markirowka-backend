@@ -63,13 +63,13 @@ export async function getOrderList( page: number = 1 ) {
     const offset = (page - 1) * amount_perpage;
     const query = `
       SELECT * FROM "order_history"
-      ORDER BY "id"
-      OFFSET ${offset}
-      LIMIT ${amount_perpage};
+      ORDER BY "id" DESC
+      OFFSET $1
+      LIMIT $2;
     `;
     
     try {
-      const result = await pool.query(query);
+      const result = await pool.query(query, [offset, amount_perpage]);
       return result.rows;
     } catch (e: any) {
       console.log(e.message);
@@ -79,16 +79,16 @@ export async function getOrderList( page: number = 1 ) {
 
 export async function getUserOrderList( user_id: number, page: number = 1) {
     const idStart = (page - 1) * amount_perpage;
-    const idEnd = idStart + amount_perpage;
+    // const idEnd = idStart + amount_perpage;
     const query = `
       WITH ordered_orders AS (
-        SELECT * FROM order_history WHERE "user_id" = ${user_id} ORDER BY "id"
+        SELECT * FROM order_history WHERE "user_id" = $1 ORDER BY "id"
       )
-      SELECT * FROM order_history  WHERE "user_id" = ${user_id} 
-      OFFSET ${idStart} LIMIT ${amount_perpage};
+      SELECT * FROM order_history  WHERE "user_id" = $1 
+      OFFSET $2 LIMIT $3;
     `;
     
-    return await Q(query, true);
+    return await Q(query, true, [user_id, idStart, amount_perpage]);
   }
   
 export async function getUserOrderCount ( user_id: number ) {

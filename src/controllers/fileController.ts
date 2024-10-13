@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import "express-session";
 import archiver from 'archiver';
-import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController";
+import { GetAuthorizedUserData, IsAdmin, getUserIdFromAuth } from "./authController";
 import {
   CheckAndCreateOwnerFolder,
   createFileName,
@@ -27,7 +27,7 @@ const sendTo = orderSendTo;
 
 export const CreatePaymentFiles = async (req: Request, res: Response) => {
   // SetupHeaders (res);
-  const userId = UserIdFromAuth(req);
+  const userId = getUserIdFromAuth(req);
   if (!userId) {
     res.status(401).send({ error: "Unauthorized" });
     return;
@@ -105,7 +105,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
 
 export const CreateSpecifyShoes = async (req: Request, res: Response) => {
   // SetupHeaders (res);
-  const userId = UserIdFromAuth(req);
+  const userId = getUserIdFromAuth(req);
   if (!userId) {
     res.status(401).send({ error: "Unauthorized" });
     return;
@@ -132,7 +132,7 @@ export const CreateSpecifyShoes = async (req: Request, res: Response) => {
 
 export const CreateSpecifyClothes = async (req: Request, res: Response) => {
   // SetupHeaders (res);
-  const userId = UserIdFromAuth(req);
+  const userId = getUserIdFromAuth(req);
   if (!userId) {
     res.status(401).send({ error: "Unauthorized" });
     return;
@@ -160,7 +160,7 @@ export const CreateSpecifyClothes = async (req: Request, res: Response) => {
 };
 
 export const DeleteFile = async (req: Request, res: Response) => {
-  const userId = UserIdFromAuth(req);
+  const userId = getUserIdFromAuth(req);
   const isAdmin = IsAdmin({ req });
   if (!userId) {
     res.status(401).send({ error: "Unauthorized" });

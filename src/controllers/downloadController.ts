@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import 'express-session';
 import mime from "mime";
 import fs from 'fs';
-import { IsAdmin, UserIdFromAuth } from "./authController";
+import { IsAdmin, getUserIdFromAuth } from "./authController";
 import { getDownloadById, GetDownloads, rootFolder } from "../models";
 import { SetupHeaders } from "./indexController";
 
 export const GetUserDownloadList = async (req: Request, res: Response) => {
     // SetupHeaders (res);
-    const userId = UserIdFromAuth (req);
+    const userId = getUserIdFromAuth (req);
     if (!userId) {
         res.status(401).send({ error: 'Unauthorized' })
         return;
@@ -23,7 +23,7 @@ export const GetUserDownloadList = async (req: Request, res: Response) => {
 
 export const getFileById = async (req: Request, res: Response) => {
     // SetupHeaders (res);
-    const userId = UserIdFromAuth (req);
+    const userId = getUserIdFromAuth (req);
     if (!userId) {
         res.status(401).send({ error: 'Unauthorized' })
         return;
@@ -52,7 +52,7 @@ export const getFileById = async (req: Request, res: Response) => {
 
 export const DownloadFileByOwner = async (req: Request, res: Response) => {
     // SetupHeaders (res);
-    const userId = UserIdFromAuth (req);
+    const userId = getUserIdFromAuth (req);
     const isAdmin = IsAdmin({req});
     const { id, filename } = req.params;
     if (!userId) {

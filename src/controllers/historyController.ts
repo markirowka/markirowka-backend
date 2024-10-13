@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import "express-session";
-import { GetAuthorizedUserData, IsAdmin, UserIdFromAuth } from "./authController";
+import { GetAuthorizedUserData, IsAdmin, getUserIdFromAuth } from "./authController";
 import { getOrderList, getTotalOrderCount, getUserOrderCount, getUserOrderList } from "../models/orderHistory";
 
 export const GetOrderHistory = async (req: Request, res: Response) => { 
 
-    const userId = UserIdFromAuth(req);
+    const userId = getUserIdFromAuth(req);
     const page: number = Number(req.params.page) || 1;
     if (!userId) {
       res.status(401).send({ error: "Unauthorized" });
@@ -41,7 +41,7 @@ export const GetOrderCount = async (req: Request, res: Response) => {
 }
 
 export const GetOrderCountPerUser = async (req: Request, res: Response) => { 
-    const userId = UserIdFromAuth(req);
+    const userId = getUserIdFromAuth(req);
     if (!userId) {
       res.status(401).send({ error: "Unauthorized" });
       return;
