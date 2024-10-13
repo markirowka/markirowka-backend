@@ -127,7 +127,7 @@ app.get("/api/content/:url", Content.GetPage);
 
 app.get("/api/stats/getreadstats", Stats.getUserReadStatsResponce);
 
-app.post("/api/stats/markread/:url", Stats.setArticleRead);
+app.get("/api/stats/markread/:url", Stats.setArticleRead);
 
 const https_options = {
   key: fs.readFileSync(process.env.HTTPS_PRIVATE_KEY_PATH || "../"),
