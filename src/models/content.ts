@@ -6,7 +6,7 @@ export async function createArticle(
   title: string,
   content: string
 ): Promise<any> {
-  const query = `INSERT INTO articles (url_name, title, content) VALUES ('${url_name}', '${title}', '${content}') RETURNING *;`;
+  const query = `INSERT INTO articles (url_name, title, content, date_updated) VALUES ('${url_name}', '${title}', '${content}', NOW()) RETURNING *;`;
   return await Q(query, true);
 }
 
@@ -17,7 +17,7 @@ export async function updateArticle(
   title: string,
   content: string
 ): Promise<any> {
-  const query = `UPDATE articles SET url_name = '${url_name}', title = '${title}', content = '${content}' WHERE id = ${id} RETURNING *;`;
+  const query = `UPDATE articles SET url_name = '${url_name}', title = '${title}', content = '${content}', date_updated = NOW() WHERE id = ${id} RETURNING *;`;
   return await Q(query, true);
 }
 
@@ -64,6 +64,12 @@ export async function linkArticleToMenu(
 export async function getArticles(): Promise<any> {
   const query = `SELECT * FROM articles;`;
   return await Q(query, true);
+}
+
+export async function getArticleIdByUrl(url: string): Promise<number | null> {
+  const query = `SELECT id FROM articles WHERE "url_name" = $1;`;
+  const result = await Q(query, true, [url]);
+  return result && result.length > 0 ? result[0].id : null;
 }
 
 export async function getArticleByUrl(url: string): Promise<any[] | null> {

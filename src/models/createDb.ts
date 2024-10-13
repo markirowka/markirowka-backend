@@ -51,7 +51,16 @@ CREATE TABLE IF NOT EXISTS articles (
     id serial PRIMARY KEY,
     url_name varchar(64) NOT NULL UNIQUE,
     title varchar(128),
-    content TEXT
+    content TEXT,
+    date_updated TIMESTAMP 
+ );
+
+CREATE TABLE IF NOT EXISTS user_read_stats (
+    id serial PRIMARY KEY,
+    user_id integer,
+    article_id integer,
+    date_read TIMESTAMP,
+    UNIQUE (user_id, article_id)
  );
 `
 

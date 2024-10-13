@@ -15,7 +15,7 @@ import {
   rootFolder,
 } from "../models";
 import { deleteFiles, GeneratePaymentPDF, generateZipArchive } from "../views/paymentDocs";
-import { WriteOrder } from "../models/orderHistory";
+import { writeOrder } from "../models/orderHistory";
 import { GenerateSpecifyShoes } from "../views/specifyShoes";
 import { GenerateSpecifyClothes } from "../views/specifyClothes";
 import { GenerateSpecifyOrder } from "../views/specifyOrder";
@@ -92,7 +92,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
       }, 15000)
     }
 
-    await WriteOrder([archiveName.id], userId);
+    await writeOrder([archiveName.id], userId);
     res
       .status(200)
       .send({ message: `Files created for ${userId}`, files: [archiveName] });
@@ -120,7 +120,7 @@ export const CreateSpecifyShoes = async (req: Request, res: Response) => {
   const fileDt = await CreateFileNameDBNote(userId, "specify");
   const file = await GenerateSpecifyShoes(userId, fileDt.name, itemList);
   const user = await GetUserById(userId);
-  await WriteOrder ([fileDt.id], userId)
+  await writeOrder ([fileDt.id], userId)
 
   if (user && sendTo && file) {
     console.log("Sending order file: ")
@@ -147,7 +147,7 @@ export const CreateSpecifyClothes = async (req: Request, res: Response) => {
   const fileDt = await CreateFileNameDBNote(userId, "specify");
   const file = await GenerateSpecifyClothes(userId, fileDt.name, itemList);
   const user = await GetUserById(userId);
-  await WriteOrder ([fileDt.id], userId);
+  await writeOrder ([fileDt.id], userId);
 
   console.log("Data to send: ", file, user, sendTo)
 

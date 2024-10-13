@@ -15,9 +15,9 @@ pool.on('connect', () => {
   console.log('Connected to the database');
 });
 
-export async function Q(query: string, withReturn?: boolean): Promise<any[] | null> {
+export async function Q(query: string, withReturn?: boolean, params: any[] = []): Promise<any[] | null> {
   try {
-    const result = await pool.query(query);
+    const result = await pool.query(query, params);
     return withReturn ? result.rows : null
   } catch (e: any) {
     console.log(e.message);

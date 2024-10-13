@@ -2,7 +2,7 @@ import { amount_perpage } from "../config";
 import { arrayToPostgresArrayString } from "../utils";
 import pool, { Q } from "./db";
 
-export async function WriteOrder(documentIds: number[], user_id: number, status = 'new', date?: number) {
+export async function writeOrder(documentIds: number[], user_id: number, status = 'new', date?: number) {
     const orderDate = date || Math.round(new Date().getTime() / 1000);
 
     const query = `
