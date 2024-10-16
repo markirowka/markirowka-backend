@@ -115,7 +115,8 @@ export async function GetNewFileId(): Promise<number> {
 export function createFileName(
   ownerId: number,
   fileType: string,
-  fileId?: number
+  fileId?: number,
+  signed = true
 ) {
   const dt = new Date();
   const fileExt: string = (() => {
@@ -128,16 +129,17 @@ export function createFileName(
         return "pdf";
     }
   })();
-  return `${fileType}_${fileId || 'doc'}_${ownerId}_${dt.getFullYear()}_${dt.getMonth()}_${dt.getDay()}_${dt.getHours()}_${dt.getMinutes()}_${dt.getSeconds()}.${fileExt}`;
+  return `${fileType}_${signed ? "" : "unsign_"}${fileId || 'doc'}_${ownerId}_${dt.getFullYear()}_${dt.getMonth()}_${dt.getDay()}_${dt.getHours()}_${dt.getMinutes()}_${dt.getSeconds()}.${fileExt}`;
 }
 
 export async function CreateFileNameDBNote(
   ownerId: number,
-  fileType: string
+  fileType: string,
+  signed = true
 ): Promise<{ id: number; name: string }> {
   const fileId = await GetNewFileId();
 
-  const newFileName = createFileName(ownerId, fileType, fileId);
+  const newFileName = createFileName(ownerId, fileType, fileId, signed);
   const fileAddQuery = `
    INSERT INTO public.user_files(
 	file_name, file_type, owner_id)

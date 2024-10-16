@@ -74,7 +74,22 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
         return item.path
     });
 
-    await generateZipArchive(user, archiveName.name, filePaths)
+    await generateZipArchive(user, archiveName.name, filePaths);
+
+    const archiveNameUnsigned = await CreateFileNameDBNote(userId, "zip", false);
+
+    const filePathsUnsigned: string[] = (await Promise.all([
+      GeneratePaymentPDF(user, createFileName(userId, "t12", undefined, false), itemList, "t12", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "invoice", undefined, false), itemList, "invoice", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "agreement", undefined, false), itemList, "agreement", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "cmr", undefined, false), itemList, "cmr", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "specification", undefined, false), itemList, "specification", docId, closestDate, false)
+    ])).map((item: { path: string}) => {
+        return item.path
+    });
+
+    await generateZipArchive(user, archiveNameUnsigned.name, filePathsUnsigned);
+
     const dt = new Date();
     const dateDay = dt.getDate(); // День месяца
     const dateMonth = getMonthName(dt.getMonth()); // Название месяца
@@ -82,10 +97,14 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const date = `${dateDay}-${dateMonth}-${dateYear}`;
     
     if (user && sendTo && orderFile) {
-      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date, docId, closestDate}, [`${rootFolder}${userId}/${orderFile}`]);
+      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date, docId, closestDate}, [
+        `${rootFolder}${userId}/${orderFile}`,
+        `${rootFolder}${userId}/${archiveNameUnsigned.name}`
+      ]);
       setTimeout(() => {
         try {
-          deleteFiles([`${rootFolder}${userId}/${orderFile}`])
+          deleteFiles([`${rootFolder}${userId}/${orderFile}`]);
+          deleteFiles([`${rootFolder}${userId}/${archiveNameUnsigned.name}`]);
         } catch (e) {
           console.error(e);
         }

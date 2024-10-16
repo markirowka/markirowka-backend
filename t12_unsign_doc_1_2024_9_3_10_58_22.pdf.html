@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html><html><head>
     <style>
         html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -60,7 +58,7 @@ body {
   font-size: 5px;
 }
 table {
-  font-size: 7px;
+  font-size: 5px;
   padding: 2px;
 }
 table thead td {
@@ -208,7 +206,7 @@ h3 {
 <body>
   <div style="position:absolute;top:32px;left:80.1%">Форма по ОКУД</div>
 <table class="print ttn">
-  <tr><td colspan="2" class="text-right row-desc"><p>Унифицированная форма № ТОРГ-12 Утверждена постановлением Госкомстата России от 25.12.98 № 132</p></td></tr>
+  <tbody><tr><td colspan="2" class="text-right row-desc"><p>Унифицированная форма № ТОРГ-12 Утверждена постановлением Госкомстата России от 25.12.98 № 132</p></td></tr>
   <tr><td colspan="2" class="pt-5"></td></tr>
   <tr>
     <td>
@@ -221,27 +219,27 @@ h3 {
             <td colspan="3"></td>
           </tr>
           <tr>
-           <td colspan="2" class="bb" style="height: 10px;" contenteditable>ИП Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика
+           <td colspan="2" class="bb" style="height: 10px;" contenteditable="">ИП Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика
               Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73..; ИНН:502765138514; Расчетный 
 счет 40802810424435209932; Банк ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО); кор. Счет 30101810145250000411; БИК 044525411</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация-грузоотправитель, адрес, телефон, факс, банковские реквизиты)</td>
           </tr>
-        <tr><td colspan="3" class="bb" contenteditable></td></tr>
+        <tr><td colspan="3" class="bb" contenteditable=""></td></tr>
         <tr>
           <td colspan="2" class="row-desc">(структурное подразделение)</td>
         </tr>
         <tr>
          <td width="105px">Грузополучатель</td>
-         <td class="bb" contenteditable> {{ user.full_name }}, {{ user.inn }}, {{ user.cargo_recevier }}</td>
+         <td class="bb" contenteditable=""> ООО "Черемуха", 99111000111, г.Сыктывкар, ул. Радищева, 64</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
         </tr>
         <tr>  
          <td>Поставщик</td>
-         <td class="bb" contenteditable>ИП Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73. ; ИНН:502765138514; 
+         <td class="bb" contenteditable="">ИП Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73. ; ИНН:502765138514; 
 Расчетный счет 40802810424435209932; Банк ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО); кор. Счет 30101810145250000411; БИК 044525411</td>
         </tr>
         <tr>
@@ -249,14 +247,14 @@ h3 {
           </tr>
         <tr>
          <td>Плательщик</td>
-         <td class="bb" contenteditable>{{ user.full_name }}, {{ user.inn }}, {{ user.law_address }}</td>
+         <td class="bb" contenteditable="">ООО "Черемуха", 99111000111, г.Сыктывкар, ул. Ленина, 13</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
           </tr>
         <tr>
          <td class="col-4 no-bb">Основание</td>
-         <td class="bb" contenteditable>Договор №{{id}} от {{dateDay}}.{{dateMonthNum}}.{{dateYear}}</td>
+         <td class="bb" contenteditable="">Договор №176 от 16.10.2024</td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(договор, заказ-наряд)</td>
@@ -341,22 +339,22 @@ h3 {
   <tr>
     <td colspan="2">
       <table width="100%">
-        <tr>
+        <tbody><tr>
           <td class="text-lead text-bold text-right psm" style="vertical-align: middle">ТОВАРНАЯ НАКЛАДНАЯ</td>
           <td class="psm">
             <table class="text-center table-border table-ttn-date">
-              <tr>
+              <tbody><tr>
                <td>Номер документа</td>
                <td>Дата составления</td>
               </tr>
               <tr>
-               <td contenteditable="">{{id }}</td>
-               <td contenteditable="">{{dateDay}}.{{dateMonthNum}}.{{dateYear}}</td>
+               <td contenteditable="">176</td>
+               <td contenteditable="">16.10.2024</td>
               </tr>
-             </table>
+             </tbody></table>
           </td>
         </tr>
-      </table>
+      </tbody></table>
     </td>
   </tr>
   
@@ -408,38 +406,36 @@ h3 {
        </tr>
        </thead>
        <tbody class="torg12-content">
-      {{#each items}}
        <tr>
-         <td class="td1">{{rowNum}}</td>
-         <td class="td2">{{name}}</td>
+         <td class="td1">1</td>
+         <td class="td2">Тестовая обувь</td>
          <td class="td3"></td>
          <td class="td4">шт</td>
          <td class="td5">796</td>
          <td class="td6"></td>
          <td class="td7"></td>
-         <td class="td8">{{quantity}}</td>
+         <td class="td8">12</td>
          <td class="td9"></td>
-         <td class="td10">{{quantity}},00</td>
-         <td class="td11">{{price}},00</td>
-         <td class="td12">{{sum}},00</td>
+         <td class="td10">12,00</td>
+         <td class="td11">123,00</td>
+         <td class="td12">1476,00</td>
          <td class="td13">Без НДС</td>
          <td class="td14"></td>
-         <td class="td15"><nobr>{{sum}},00</nobr></td>
+         <td class="td15"><nobr>1476,00</nobr></td>
        </tr>
-       {{/each}}
          
        </tbody>
        <tbody>
          <tr>
           <td colspan="7" align="right" class="no-b psm">Итого </td>
-          <td align="center">{{totalCount}}</td>
+          <td align="center">12</td>
           <td></td>
-          <td align="center">{{totalCount}},000</td>
+          <td align="center">12,000</td>
           <td align="center">X</td>
-          <td align="right">{{totalPrice}},00</td>
+          <td align="right">1476,00</td>
           <td align="center">X</td>
           <td></td>
-          <td align="right">{{totalPrice}},00</td>
+          <td align="right">1476,00</td>
         </tr>
         <tr class="sale-row">
           <td colspan="7" align="right" class="no-b psm">Скидка: </td>
@@ -454,14 +450,14 @@ h3 {
          </tr>
          <tr>
           <td colspan="7" align="right" class="no-b psm">Всего по накладной </td>
-          <td align="center">{{totalCount}}</td>
+          <td align="center">12</td>
           <td></td>
-          <td align="center">{{totalCount}},000</td>
+          <td align="center">12,000</td>
           <td align="center">X</td>
-          <td align="right">{{totalPrice}},00</td>
+          <td align="right">1476,00</td>
           <td align="center">X</td>
           <td></td>
-          <td align="right">{{totalPrice}},00</td>
+          <td align="right">1476,00</td>
          </tr>
       </tbody>
        </table>
@@ -473,14 +469,14 @@ h3 {
            <table width="60%">
             <tbody><tr>
              <td colspan="2">Товарная накладная имеет приложение на</td>
-             <td class="bb" width="50%" contenteditable></td>
+             <td class="bb" width="50%" contenteditable=""></td>
               <td>листах</td>
             </tr>
            </tbody></table>
            <table width="100%">
             <tbody><tr>
              <td>и содержит</td>
-             <td class="bb" colspan="2" width="45%" contenteditable>{{wordRowCount}}</td>
+             <td class="bb" colspan="2" width="45%" contenteditable="">один</td>
              <td>порядковых номеров записей</td>
             </tr>
             <tr><td class="row-desc" colspan="3">(прописью)</td></tr>
@@ -490,21 +486,21 @@ h3 {
         </tbody></table>
       <!------------------>
       <table width="85%" align="right" class="valign-bottom">
-        <tr>
+        <tbody><tr>
           <td colspan="3" align="right" class="pr-10">Масса груза (нетто)	</td>
-          <td class="bb" contenteditable align="center"></td>
-          <td class="bb2 h20" width="195" align="center" contenteditable></td>
+          <td class="bb" contenteditable="" align="center"></td>
+          <td class="bb2 h20" width="195" align="center" contenteditable=""></td>
         </tr>
         <tr>
           <td colspan="3"></td>
           <td class="row-desc">(прописью)</td>
-          <td rowspan="2" class="bb2" align="center" contenteditable></td>
+          <td rowspan="2" class="bb2" align="center" contenteditable=""></td>
         </tr>
         <tr>
           <td width="100">Всего мест</td>
-          <td class="bb" width="130" contenteditable></td>
+          <td class="bb" width="130" contenteditable=""></td>
           <td width="150" align="right" class="pr-10">Масса груза (брутто)</td>
-          <td class="bb" contenteditable align="center"></td>
+          <td class="bb" contenteditable="" align="center"></td>
         </tr>
         <tr>
           <td></td>
@@ -513,7 +509,7 @@ h3 {
           <td class="row-desc">(прописью)</td>
           <td></td>
         </tr>
-      </table>
+      </tbody></table>
     </td>
   </tr>
   <!--  *******  -->
@@ -523,14 +519,14 @@ h3 {
     </td>
   </tr>
   
-</table>
+</tbody></table>
       <table width="100%">
-        <tr>
+        <tbody><tr>
           <td width="50%" style="border-right: 1px solid #000;">
             <table style="width:70%">
-              <tr>
+              <tbody><tr>
                 <td class="pr-10">Приложение (паспорта, сертификаты и т.п.) на</td>
-                <td class="bb" width="150" contenteditable></td>
+                <td class="bb" width="150" contenteditable=""></td>
                 <td class="pl-10">листах</td>
               </tr>
               <tr>
@@ -539,21 +535,21 @@ h3 {
                 <td></td>
               </tr>
               <tr>
-                <td colspan="3" class="text-bold bb">Всего отпущено на сумму<br> {{wordSum}} рублей 00 копеек</td>
+                <td colspan="3" class="text-bold bb">Всего отпущено на сумму<br> одна тысяча четыреста семьдесят шесть рублей 00 копеек</td>
               </tr>
               <tr><td colspan="3" class="row-desc">(прописью)</td></tr>
-            </table>
+            </tbody></table>
             <!-------------------->
             <table>
-              <tr>
+              <tbody><tr>
                 <td class="pr-10">Отпуск груза разрешил</td>
-                <td class="bb" width="120" align="center" contenteditable>ИП</td>
+                <td class="bb" width="120" align="center" contenteditable="">ИП</td>
                 <td class="w20"></td>
                 <td class="bb" width="100">
-                   <img style="position: absolute; margin-top: -30px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
+                   <img style="position: absolute; margin-top: -30px; margin-left: 34px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9bpaVUFOwg4pChOlkQLSK4SBWLYKG0FVp1MLn0C5o0JCkujoJrwcGPxaqDi7OuDq6CIPgB4uzgpOgiJf4vKbSI8eC4H+/uPe7eAd5mlSlGzwSgqKaeTsSFXH5V8L8iiAEEEMOsyAwtmVnMwnV83cPD17soz3I/9+fokwsGAzwC8RzTdJN4g3h609Q47xOHWVmUic+Jx3W6IPEj1yWH3ziXbPbyzLCeTc8Th4mFUhdLXczKukIcI47Iikr53pzDMuctzkq1ztr35C8MFdSVDNdpjiCBJSSRggAJdVRQhYkorSopBtK0H3fxD9v+FLkkclXAyLGAGhSIth/8D353axSnJp2kUBzofbGsj1HAvwu0Gpb1fWxZrRPA9wxcqR1/rQnMfJLe6GiRI6B/G7i47mjSHnC5Aww9aaIu2pKPprdYBN7P6JvywOAtEFxzemvv4/QByFJXyzfAwSEwVqLsdZd3B7p7+/dMu78f/lFy300fAxgAAAAGYktHRAD1AIkAFxSgwZoAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfoChAKDBJ+8cfjAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAACdJREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAAAAAAAAAAAAAACAdwNAQAABr3oO6AAAAABJRU5ErkJggg==" width="50" height="50">
                 </td>
                 <td class="w20"></td>
-                <td class="bb" width="140" align="center" contenteditable>Ахмедов С. T.</td>
+                <td class="bb" width="140" align="center" contenteditable="">Ахмедов С. T.</td>
               </tr>
               <tr>
                 <td></td>
@@ -567,10 +563,10 @@ h3 {
                 <td class="pr-10" colspan="2">Главный (старший) бухгалтер</td>
                 <td class="w20"></td>
                 <td class="bb" width="100">
-                  <img style="position: absolute; margin-top: -40px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
+                  <img style="position: absolute; margin-top: -40px; margin-left: 34px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9bpaVUFOwg4pChOlkQLSK4SBWLYKG0FVp1MLn0C5o0JCkujoJrwcGPxaqDi7OuDq6CIPgB4uzgpOgiJf4vKbSI8eC4H+/uPe7eAd5mlSlGzwSgqKaeTsSFXH5V8L8iiAEEEMOsyAwtmVnMwnV83cPD17soz3I/9+fokwsGAzwC8RzTdJN4g3h609Q47xOHWVmUic+Jx3W6IPEj1yWH3ziXbPbyzLCeTc8Th4mFUhdLXczKukIcI47Iikr53pzDMuctzkq1ztr35C8MFdSVDNdpjiCBJSSRggAJdVRQhYkorSopBtK0H3fxD9v+FLkkclXAyLGAGhSIth/8D353axSnJp2kUBzofbGsj1HAvwu0Gpb1fWxZrRPA9wxcqR1/rQnMfJLe6GiRI6B/G7i47mjSHnC5Aww9aaIu2pKPprdYBN7P6JvywOAtEFxzemvv4/QByFJXyzfAwSEwVqLsdZd3B7p7+/dMu78f/lFy300fAxgAAAAGYktHRAD1AIkAFxSgwZoAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfoChAKDBJ+8cfjAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAACdJREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAAAAAAAAAAAAAACAdwNAQAABr3oO6AAAAABJRU5ErkJggg==" width="50" height="50">
                 </td>
                 <td class="w20"></td>
-                <td class="bb" width="140" contenteditable></td>
+                <td class="bb" width="140" contenteditable=""></td>
               </tr>
               <tr>
                 <td colspan="2"></td>
@@ -581,14 +577,14 @@ h3 {
               </tr>
               <tr>
                 <td class="pr-10">Отпуск груза произвел</td>
-                <td class="bb" width="120" align="center" contenteditable>ИП</td>
+                <td class="bb" width="120" align="center" contenteditable="">ИП</td>
                 <td class="w20"></td>
                 <td class="bb" width="100">
-                     <img style="position: absolute; margin-top: -30px; margin-left: 34px;" src="{{sign}}" width="50" height="50" />
-                     <img style="position: absolute; margin-top: -40px; margin-left: 0px;" src="{{print}}" width="100" height="100" />
+                     <img style="position: absolute; margin-top: -30px; margin-left: 34px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9bpaVUFOwg4pChOlkQLSK4SBWLYKG0FVp1MLn0C5o0JCkujoJrwcGPxaqDi7OuDq6CIPgB4uzgpOgiJf4vKbSI8eC4H+/uPe7eAd5mlSlGzwSgqKaeTsSFXH5V8L8iiAEEEMOsyAwtmVnMwnV83cPD17soz3I/9+fokwsGAzwC8RzTdJN4g3h609Q47xOHWVmUic+Jx3W6IPEj1yWH3ziXbPbyzLCeTc8Th4mFUhdLXczKukIcI47Iikr53pzDMuctzkq1ztr35C8MFdSVDNdpjiCBJSSRggAJdVRQhYkorSopBtK0H3fxD9v+FLkkclXAyLGAGhSIth/8D353axSnJp2kUBzofbGsj1HAvwu0Gpb1fWxZrRPA9wxcqR1/rQnMfJLe6GiRI6B/G7i47mjSHnC5Aww9aaIu2pKPprdYBN7P6JvywOAtEFxzemvv4/QByFJXyzfAwSEwVqLsdZd3B7p7+/dMu78f/lFy300fAxgAAAAGYktHRAD1AIkAFxSgwZoAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfoChAKDBJ+8cfjAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAACdJREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAAAAAAAAAAAAAACAdwNAQAABr3oO6AAAAABJRU5ErkJggg==" width="50" height="50">
+                     <img style="position: absolute; margin-top: -40px; margin-left: 0px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9bpaVUFOwg4pChOlkQLSK4SBWLYKG0FVp1MLn0C5o0JCkujoJrwcGPxaqDi7OuDq6CIPgB4uzgpOgiJf4vKbSI8eC4H+/uPe7eAd5mlSlGzwSgqKaeTsSFXH5V8L8iiAEEEMOsyAwtmVnMwnV83cPD17soz3I/9+fokwsGAzwC8RzTdJN4g3h609Q47xOHWVmUic+Jx3W6IPEj1yWH3ziXbPbyzLCeTc8Th4mFUhdLXczKukIcI47Iikr53pzDMuctzkq1ztr35C8MFdSVDNdpjiCBJSSRggAJdVRQhYkorSopBtK0H3fxD9v+FLkkclXAyLGAGhSIth/8D353axSnJp2kUBzofbGsj1HAvwu0Gpb1fWxZrRPA9wxcqR1/rQnMfJLe6GiRI6B/G7i47mjSHnC5Aww9aaIu2pKPprdYBN7P6JvywOAtEFxzemvv4/QByFJXyzfAwSEwVqLsdZd3B7p7+/dMu78f/lFy300fAxgAAAAGYktHRAD1AIkAFxSgwZoAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfoChAKDBJ+8cfjAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAACdJREFUeNrtwQENAAAAwqD3T20ON6AAAAAAAAAAAAAAAAAAAACAdwNAQAABr3oO6AAAAABJRU5ErkJggg==" width="100" height="100">
                 </td>
                 <td class="w20"></td>
-                <td class="bb" width="140" align="center" contenteditable>Ахмедов С. T.
+                <td class="bb" width="140" align="center" contenteditable="">Ахмедов С. T.
                   
                 </td>
               </tr>
@@ -600,15 +596,15 @@ h3 {
                 <td></td>
                 <td class="row-desc">(расшифровка подписи)</td>
               </tr>
-            </table>
+            </tbody></table>
             <br>
             <table align="right" width="75%" contenteditable="">
               <tbody>
                <tr>
                <td width="25%">М.П.</td>
-               <td>" {{dateDay}} "</td>
-               <td width="25%" class="bb">{{dateMonthNum}}</td>
-               <td>{{dateYear}}</td>
+               <td>" 16 "</td>
+               <td width="25%" class="bb">10</td>
+               <td>2024</td>
                <td width="25%"></td>
               </tr>
              </tbody>  
@@ -617,7 +613,7 @@ h3 {
           <!------------------------->
           <td class="pl-10">
             <table class="valign-bottom">
-              <tr>
+              <tbody><tr>
                 <td class="pr-10">По доверенности №</td>
                 <td class="bb" width="150"></td>
                 <td class="psm bb" style="border-bottom-color: #fff;">от</td>
@@ -632,10 +628,10 @@ h3 {
                 <td colspan="3" class="row-desc">(кем, кому (организация, должность, фамилия, и. о.))</td>
               </tr>
               <tr><td></td><td class="bb h20" colspan="3"></td></tr>
-            </table>
+            </tbody></table>
             <br>
             <table>
-              <tr>
+              <tbody><tr>
                 <td class="pr-10">Груз принял</td>
                 <td class="bb" width="120"></td>
                 <td class="w20"></td>
@@ -657,7 +653,7 @@ h3 {
                 <td class="bb" width="100">
                 </td>
                 <td class="w20"></td>
-                <td class="bb" width="140" contenteditable></td>
+                <td class="bb" width="140" contenteditable=""></td>
               </tr>
               <tr>
                 <td colspan="2"></td>
@@ -682,7 +678,7 @@ h3 {
                 <td></td>
                 <td class="row-desc">(расшифровка подписи)</td>
               </tr>
-            </table>
+            </tbody></table>
             <br>
             <table align="right" width="75%" contenteditable="">
               <tbody>
@@ -697,6 +693,6 @@ h3 {
             </table>
           </td>
         </tr>
-      </table>
-</body>
-</html>
+      </tbody></table>
+
+</body></html>

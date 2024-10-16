@@ -7,6 +7,7 @@ import handlebars from "handlebars";
 import { calculateTotals, getCategoryCode, getMonthName, monthNum, numberFormatDate, numberToWords } from "../utils";
 import { ahmedovPrint64, ahmedovSign, cmrWaterMark  } from "./prints";
 import { categoryDataFromGoodsList } from "../utils/data";
+import { noneBase64 } from "./prints/none";
 
 export async function GeneratePaymentPDF(
   user: User,
@@ -14,7 +15,8 @@ export async function GeneratePaymentPDF(
   data: PaymentDocumentData[],
   kind: string,
   docId: number,
-  date?: string
+  date?: string,
+  signed = true
 ): Promise<{result: boolean, path: string}> {
   return new Promise(async (resolve, reject) => {
     let result = false;
@@ -66,8 +68,8 @@ export async function GeneratePaymentPDF(
         sum: item.quantity * item.price,
       })),
       numDate,
-      print: imageBase64Url,
-      sign: signB64,
+      print: signed ? imageBase64Url : noneBase64,
+      sign: signed ? signB64 : noneBase64,
       totalCount: totals.totalQuantity,
       totalPrice: totals.totalCost,
       user,
@@ -153,8 +155,8 @@ export async function generateZipArchive(
 
 
     output.on("close", function () {
-      console.log(archive.pointer() + " total bytes");
-      console.log("Архив создан и поток завершен.");
+      // console.log(archive.pointer() + " total bytes");
+      // console.log("Архив создан и поток завершен.");
       deleteFiles(filePaths).then(() => {
         resolve(true);
       });
