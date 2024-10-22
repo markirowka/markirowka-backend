@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import "express-session";
 import { IsAdmin } from "./authController";
-import { createArticle, createContentBlock, deleteArticleByUrl, getArticleByUrl, getArticleIdByUrl, getContentBlocksByUrl, updateArticleByUrl, updateContentBlock } from "../models/content";
+import { createArticle, createContentBlock, deleteArticleByUrl, deleteContentBlock, getArticleByUrl, getArticleIdByUrl, getContentBlocksByUrl, updateArticleByUrl, updateContentBlock } from "../models/content";
 import { urlNamingFilter } from "../utils";
 
 
@@ -96,9 +96,15 @@ export const getPageContentBlocks = async (req: Request, res: Response) => {
 }
 
 export const createPageContentBlock = async (req: Request, res: Response) => { 
+  const isAdmin = await IsAdmin({ req });
+  if (!isAdmin) {
+    res.status(403).send({ error: "No rights to edit" });
+    return;
+  }
+
   const body = req.body;
-  if (!body.id) {
-    res.status(404).send({ error: "Page not exist" });
+  if (!body.url) {
+    res.status(400).send({ error: "Page url is not defined" });
     return;
   }
   const articleId = body.url ? (await getArticleIdByUrl(body.url)) : undefined;
@@ -115,19 +121,42 @@ export const createPageContentBlock = async (req: Request, res: Response) => {
 }
 
 
-export const updatePageContentBlock = async (req: Request, res: Response) => { 
-  const body = req.body;
-  if (!body.id) {
-    res.status(404).send({ error: "Page not exist" });
+export const updatePageContentBlock = async (req: Request, res: Response) => {
+  const isAdmin = await IsAdmin({ req });
+  if (!isAdmin) {
+    res.status(403).send({ error: "No rights to edit" });
     return;
   }
-  const articleId = body.url ? (await getArticleIdByUrl(body.url)) : undefined;
+
+  const body = req.body;
+  if (!body.id) {
+    res.status(400).send({ error: "Block is not defined" });
+    return;
+  }
+
   const success = await updateContentBlock({
     id: body.id,
-    article_id: articleId,
     content: body.content || ""
   });
 
+  res.status(200).send({
+    success
+  })
+}
+
+export const deletePageContentBlock = async (req: Request, res: Response) => {
+  const isAdmin = await IsAdmin({ req });
+  if (!isAdmin) {
+    res.status(403).send({ error: "No rights to delete" });
+    return;
+  }
+
+  if (!req.params.id) {
+    res.status(404).send({ error: "Page id is not defined" });
+    return;    
+  }
+
+  const success = await deleteContentBlock(Number(req.params.id));
   res.status(200).send({
     success
   })

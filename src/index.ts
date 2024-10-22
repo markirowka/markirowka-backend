@@ -129,6 +129,16 @@ app.get("/api/stats/getreadstats", Stats.getUserReadStatsResponce);
 
 app.get("/api/stats/markread/:url", Stats.setArticleRead);
 
+// News
+
+app.get("/api/getcontentblocks/:url", Content.getPageContentBlocks);
+
+app.post("/api/contentblock/create", Content.createPageContentBlock);
+
+app.post("/api/contentblock/update", Content.updatePageContentBlock);
+
+app.post("/api/contentblock/delete", Content.deletePageContentBlock);
+
 const https_options = {
   key: fs.readFileSync(process.env.HTTPS_PRIVATE_KEY_PATH || "../"),
   cert: fs.readFileSync(process.env.HTTPS_CERT_PATH || "../")

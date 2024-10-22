@@ -123,10 +123,10 @@ export async function updateContentBlock (data: ContentBlock): Promise<boolean> 
   return !!result
 }
 
-export async function deleteContentBlock (id: number): Promise<string | null> {
+export async function deleteContentBlock (id: number): Promise<boolean> {
   const query = "DELETE FROM content_blocks WHERE id = $1";
-  const result = await Q(query, true, [id]);
-  return result && result.length > 0 ? result[0].content : null
+  const result = await Q(query, false, [id]);
+  return !!result
 }
 
 
