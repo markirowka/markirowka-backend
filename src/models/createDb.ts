@@ -62,6 +62,12 @@ CREATE TABLE IF NOT EXISTS user_read_stats (
     date_read TIMESTAMP,
     UNIQUE (user_id, article_id)
  );
+
+CREATE TABLE IF NOT EXISTS content_blocks (
+    id serial PRIMARY KEY UNIQUE,
+    article_id integer,
+    content TEXT
+);
 `
 
 const cleaningQuery = `

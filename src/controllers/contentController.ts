@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import "express-session";
 import { IsAdmin } from "./authController";
-import { createArticle, deleteArticleByUrl, getArticle, getArticleByUrl, updateArticle, updateArticleByUrl } from "../models/content";
+import { createArticle, createContentBlock, deleteArticleByUrl, getArticleByUrl, getArticleIdByUrl, getContentBlocksByUrl, updateArticleByUrl, updateContentBlock } from "../models/content";
 import { urlNamingFilter } from "../utils";
 
 
@@ -83,4 +83,52 @@ export const GetPage = async (req: Request, res: Response) => {
       } 
 };
 
+export const getPageContentBlocks = async (req: Request, res: Response) => { 
+    const url = req.params.url;
+    if (!url) {
+      res.status(404).send({ error: "Page not exist" });
+      return;
+    }
+    const blocks = await getContentBlocksByUrl(url);
+    res.status(200).send({
+      blocks
+    })
+}
 
+export const createPageContentBlock = async (req: Request, res: Response) => { 
+  const body = req.body;
+  if (!body.id) {
+    res.status(404).send({ error: "Page not exist" });
+    return;
+  }
+  const articleId = body.url ? (await getArticleIdByUrl(body.url)) : undefined;
+  const id = await createContentBlock({
+    id: body.id,
+    article_id: articleId,
+    content: body.content || ""
+  });
+
+  res.status(200).send({
+    success: !!id,
+    id
+  })
+}
+
+
+export const updatePageContentBlock = async (req: Request, res: Response) => { 
+  const body = req.body;
+  if (!body.id) {
+    res.status(404).send({ error: "Page not exist" });
+    return;
+  }
+  const articleId = body.url ? (await getArticleIdByUrl(body.url)) : undefined;
+  const success = await updateContentBlock({
+    id: body.id,
+    article_id: articleId,
+    content: body.content || ""
+  });
+
+  res.status(200).send({
+    success
+  })
+}
