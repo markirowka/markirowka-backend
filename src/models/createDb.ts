@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS user_read_stats (
  );
 
 CREATE TABLE IF NOT EXISTS content_blocks (
-    id serial PRIMARY KEY UNIQUE,
+    id serial PRIMARY KEY,
     article_id integer,
     content TEXT
 );
