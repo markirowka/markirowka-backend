@@ -27,6 +27,15 @@ export async function updateArticle(
   return await Q(query, true);
 }
 
+export async function updateArticleDate(id: number) {
+  const query = `UPDATE articles 
+    SET 
+    date_updated = NOW()
+    WHERE id = $id
+    RETURNING date_updated;`;
+  return await Q(query, true, [id]);
+}
+
 export async function updateArticleByUrl(
   url_name: string,
   title?: string,
@@ -98,9 +107,10 @@ export async function getContentBlock (id: number): Promise<string | null> {
 
 export async function getContentBlocksByUrl (url: string): Promise<ContentBlock[]> {
   const query = `
-  SELECT id, content FROM ontent_blocks 
+  SELECT id, content FROM content_blocks 
   WHERE article_id IN
-  (SELECT id FROM articles WHERE url_name = $1);
+  (SELECT id FROM articles WHERE url_name = $1)
+  ORDER BY id DESC;
   `;
   const result = await Q(query, true, [url]);
   return result || []
@@ -112,7 +122,10 @@ export async function createContentBlock (data: ContentBlock): Promise<number> {
   VALUES ($1, $2) RETURNING id;
   `;
   const result = await Q(query, true, [data.article_id, data.content]);
-  return result && result.length > 0 ? result[0].id : 0
+
+  const id = result && result.length > 0 ? result[0].id : 0
+  if (id) updateArticleDate(id);
+  return id;
 }
 
 export async function updateContentBlock (data: ContentBlock): Promise<boolean> {
@@ -120,6 +133,7 @@ export async function updateContentBlock (data: ContentBlock): Promise<boolean> 
   UPDATE content_blocks SET content = $2 WHERE id = $1;
   `;
   const result = await Q(query, false, [data.id, data.content]);
+  updateArticleDate(data.id);
   return !!result
 }
 
