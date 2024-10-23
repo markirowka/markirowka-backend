@@ -138,7 +138,7 @@ export async function updateContentBlock (data: ContentBlock): Promise<boolean> 
 }
 
 export async function deleteContentBlock (id: number): Promise<boolean> {
-  const query = "DELETE FROM content_blocks WHERE id = $1";
+  const query = "DELETE FROM content_blocks WHERE id = $1;";
   const result = await Q(query, false, [id]);
   return !!result
 }
