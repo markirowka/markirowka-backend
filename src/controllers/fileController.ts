@@ -62,7 +62,8 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     await CheckAndCreateOwnerFolder(userId);
     const orderFile = createFileName(userId, "specify");
     const archiveName = await CreateFileNameDBNote(userId, "zip");
-    const docId = archiveName.id
+    const docId = archiveName.id;
+    const filePathsToSend: string[] = [];
     await GenerateSpecifyOrder(userId, orderFile, itemList);
     const filePaths: string[] = (await Promise.all([
       GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, "t12", docId, closestDate),
@@ -88,6 +89,8 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
         return item.path
     });
 
+
+
     await generateZipArchive(user, archiveNameUnsigned.name, filePathsUnsigned);
 
     const dt = new Date();
@@ -95,16 +98,32 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const dateMonth = getMonthName(dt.getMonth()); // Название месяца
     const dateYear = dt.getFullYear();
     const date = `${dateDay}-${dateMonth}-${dateYear}`;
+
+    filePathsToSend.push(`${rootFolder}${userId}/${orderFile}`);
+    filePathsToSend.push(`${rootFolder}${userId}/${archiveNameUnsigned.name}`);
+
+    const clothesSpecify: ItemDataClothes[] | undefined = req.body.clothes;
+    const shoesSpecify: ItemDataShoes[] | undefined = req.body.shoes;
+
+    if (clothesSpecify) {
+      const fileDt = await CreateFileNameDBNote(userId, "specify");
+      const file = await GenerateSpecifyClothes(userId, fileDt.name, clothesSpecify);
+      if (file)
+      filePathsToSend.push(file);
+    }
+
+    if (shoesSpecify) {
+      const fileDt = await CreateFileNameDBNote(userId, "specify");
+      const file = await GenerateSpecifyClothes(userId, fileDt.name, shoesSpecify);
+      if (file)
+      filePathsToSend.push(file);
+    }
     
     if (user && sendTo && orderFile) {
-      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date, docId, closestDate}, [
-        `${rootFolder}${userId}/${orderFile}`,
-        `${rootFolder}${userId}/${archiveNameUnsigned.name}`
-      ]);
+      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date, docId, closestDate}, filePathsToSend);
       setTimeout(() => {
         try {
-          deleteFiles([`${rootFolder}${userId}/${orderFile}`]);
-          deleteFiles([`${rootFolder}${userId}/${archiveNameUnsigned.name}`]);
+          deleteFiles(filePathsToSend);
         } catch (e) {
           console.error(e);
         }
