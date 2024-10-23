@@ -151,12 +151,12 @@ export const deletePageContentBlock = async (req: Request, res: Response) => {
     return;
   }
 
-  if (!req.params.id) {
+  if (!req.body.id) {
     res.status(404).send({ error: "Page id is not defined" });
     return;    
   }
 
-  const success = await deleteContentBlock(Number(req.params.id));
+  const success = await deleteContentBlock(Number(req.body.id));
   res.status(200).send({
     success
   })
