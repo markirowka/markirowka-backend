@@ -120,7 +120,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     }
     
     if (user && sendTo && orderFile) {
-      sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date, docId, closestDate}, filePathsToSend);
+      await sendEmail(sendTo, "Заявка с сайта: заказ", "orderEmail", {...user, date, docId, closestDate}, filePathsToSend);
       setTimeout(() => {
         try {
           deleteFiles(filePathsToSend);

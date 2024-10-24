@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS app_users (
     inn BIGINT,
     cargo_recevier varchar(256),
     cargo_city varchar(64),
-    user_role varchar(32)
+    user_role varchar(32),
+    gln varchar(64)
  );
  
  

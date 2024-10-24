@@ -22,6 +22,7 @@ export interface User {
   cargo_recevier?: string;
   cargo_city?: string;
   user_role?: string;
+  gln?: string;
 }
 
 export interface paramEditData {
@@ -71,7 +72,8 @@ export async function CreateUser (userData: User) {
     corr_account,
     bank_code,
     bank_name,
-    ceo_base
+    ceo_base,
+    gln
   } = userData;
   if (!password || !email) {
     return null;
@@ -98,8 +100,9 @@ export async function CreateUser (userData: User) {
         bank_code,
         bank_name,
         ceo_base,
-        phone ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *`,
+        phone,
+        gln ) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING *`,
       [email.toLowerCase(), 
         password_hash, 
         full_name || "", 
@@ -117,7 +120,8 @@ export async function CreateUser (userData: User) {
         bank_code?.toString(),
         bank_name,
         ceo_base,
-        phone
+        phone,
+        gln || ""
         ]
     );
     const user: User = result.rows[0];
@@ -180,7 +184,6 @@ export async function EditUserParams (
     return newValue
   });
   // values.push(userId);
-  console.log("Query: ", query, "Values: ", values);
   await pool.query(query, values);
 }
 
