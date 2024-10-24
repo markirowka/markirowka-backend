@@ -114,7 +114,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
 
     if (shoesSpecify) {
       const fileDt = await CreateFileNameDBNote(userId, "specify");
-      const file = await GenerateSpecifyClothes(userId, fileDt.name, shoesSpecify);
+      const file = await GenerateSpecifyShoes(userId, fileDt.name, shoesSpecify);
       if (file)
       filePathsToSend.push(file);
     }

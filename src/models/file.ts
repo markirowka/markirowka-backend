@@ -74,8 +74,6 @@ export const sampleItemClothes: ItemDataClothes = {
   tnved: "",
 };
 
-export interface itamDataShoes {}
-
 export interface FileDownloadData {
   id: number;
   owner_id: number;
