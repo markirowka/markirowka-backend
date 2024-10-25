@@ -105,14 +105,14 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const clothesSpecify: ItemDataClothes[] | undefined = req.body.clothes;
     const shoesSpecify: ItemDataShoes[] | undefined = req.body.shoes;
 
-    if (clothesSpecify) {
+    if (clothesSpecify && clothesSpecify.length > 0) {
       const fileDt = await CreateFileNameDBNote(userId, "specify");
       const file = await GenerateSpecifyClothes(userId, fileDt.name, clothesSpecify);
       if (file)
       filePathsToSend.push(file);
     }
 
-    if (shoesSpecify) {
+    if (shoesSpecify && shoesSpecify.length > 0) {
       const fileDt = await CreateFileNameDBNote(userId, "specify");
       const file = await GenerateSpecifyShoes(userId, fileDt.name, shoesSpecify);
       if (file)
