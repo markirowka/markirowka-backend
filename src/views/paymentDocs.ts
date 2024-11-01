@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 import handlebars from "handlebars";
 import { calculateTotals, getCategoryCode, getMonthName, monthNum, numberFormatDate, numberToWords } from "../utils";
 import { ahmedovPrint64, ahmedovSign, cmrWaterMark  } from "./prints";
-import { categoryDataFromGoodsList } from "../utils/data";
+import { applyFullOrgName, categoryDataFromGoodsList } from "../utils/data";
 import { noneBase64 } from "./prints/none";
 
 export async function GeneratePaymentPDF(
@@ -73,6 +73,7 @@ export async function GeneratePaymentPDF(
       totalCount: totals.totalQuantity,
       totalPrice: totals.totalCost,
       user,
+      orgName: applyFullOrgName(user.full_name),
       wordRowCount,
       wordSum,
     };
