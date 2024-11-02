@@ -38,9 +38,15 @@ CREATE TABLE IF NOT EXISTS order_history (
     user_id Integer,
     order_date Integer,
     order_status varchar(64),
+    order_status_id integer,
     document_ids integer[]
  );
 
+CREATE TABLE IF NOT EXISTS order_statuses (
+   id serial PRIMARY KEY,
+   name varchar(64),
+);
+ 
 CREATE TABLE IF NOT EXISTS menu_items (
     id serial PRIMARY KEY,
     name varchar(64),

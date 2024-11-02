@@ -105,6 +105,8 @@ app.get ("/api/admin/allorders/:page", History.GetTotalOrderHistory);
 
 app.post("/api/deletefile", Files.DeleteFile);
 
+app.get ("/api/updateorders", History.OrderStatusUpdater);
+
 app.delete ("/api/admin/deleteuser/:id", EditUser.DeleteUserByAdmin);
 
 // Menu admin
