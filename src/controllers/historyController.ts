@@ -14,6 +14,9 @@ import {
   orderSatusList,
   orderStatusValues,
 } from "../models/orderHistory";
+import sendEmail from "./emailController";
+import { orderSendTo } from "../config";
+import { GetUserById } from "../models";
 
 export const GetOrderHistory = async (req: Request, res: Response) => {
   const userId = getUserIdFromAuth(req);
@@ -92,6 +95,13 @@ export const OrderStatusUpdater = async (req: Request, res: Response) => {
       userId,
       !!isFromAdmin
     );
+    const user = await GetUserById(userId)
+    if (status === orderSatusList.messaged && orderSendTo && user) {
+      sendEmail(orderSendTo, "Сообщили об оплате", "payNotifyEmail", {
+        user: user.full_name,
+        orders: ids.join(", ")
+      })
+    }
     res.status(200).send({
       ids,
     });
