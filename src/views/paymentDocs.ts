@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 import handlebars from "handlebars";
 import { calculateTotals, getCategoryCode, getMonthName, monthNum, numberFormatDate, numberToWords } from "../utils";
 import { ahmedovPrint64, ahmedovSign, cmrWaterMark  } from "./prints";
-import { applyFullOrgName, categoryDataFromGoodsList } from "../utils/data";
+import { applyFullOrgName, categoryDataFromGoodsList, getFullOrgName } from "../utils/data";
 import { noneBase64 } from "./prints/none";
 
 export async function GeneratePaymentPDF(
@@ -48,7 +48,9 @@ export async function GeneratePaymentPDF(
     const dateYear = dt.getFullYear();
     const ctgr = data[0]?.category || "";
     const isNeedScale = data.length > 20 ? true : false;
-    const numDate = numberFormatDate(dt.getTime())
+    const numDate = numberFormatDate(dt.getTime());
+    const orgNameWerbs = [...user.full_name.split(" ")];
+    orgNameWerbs.shift()
 
     const combinedData = {
       category: ctgr,
@@ -73,6 +75,8 @@ export async function GeneratePaymentPDF(
       totalCount: totals.totalQuantity,
       totalPrice: totals.totalCost,
       user,
+      orgTypeName: getFullOrgName(user.full_name),
+      orgNameNoType: orgNameWerbs.join(" "),
       orgName: applyFullOrgName(user.full_name),
       wordRowCount,
       wordSum,
