@@ -80,11 +80,12 @@
       .printImg.print {
         position:absolute;
         margin-top: -60px;
+        margin-left: 20px;
       }
 
       .printImg.sign {
         position:absolute;
-        margin-left: 17px;
+        margin-left: 37px;
         margin-top: -50px;
       }
 
@@ -157,8 +158,8 @@
           <div class="rColumn totalInfoColumn">
             <div class="printPlace">
               <div class="printTextBlock">
-              <p>Индивидуальный предприниматель Ахмедов С. Т. </p>
-              <p>__________________ М.П.</p>
+              <p>Индивидуальный предприниматель</p>
+              <p>Ахмедов С. Т. __________________ М.П.</p>
               <img class="printImg sign" src={{sign}} width="50" height="50" alt="Подпись" />
               <img class="printImg print" src={{print}} width="100" height="100" alt="Печать" />
               </div>
@@ -167,9 +168,8 @@
           <div class="rColumn totalInfoColumn">
             <div class="printPlace" style="bottom: -5px;">
                 <div class="printTextBlock">
-                    <p>{{user.full_name}}</p>
-                    <p> __________________ м п </p>
-              <p>М.П.</p>
+                    <p>{{orgTypeName}}</p>
+                    <p>{{orgNameNoType}} __________________ М.П.</p>
                 </div>
             </div>
           </div>

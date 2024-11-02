@@ -50,7 +50,7 @@ export async function GeneratePaymentPDF(
     const isNeedScale = data.length > 20 ? true : false;
     const numDate = numberFormatDate(dt.getTime());
     const orgNameWerbs = [...user.full_name.split(" ")];
-    orgNameWerbs.shift()
+    const orgType = orgNameWerbs.shift() || ""
 
     const combinedData = {
       category: ctgr,
@@ -75,7 +75,7 @@ export async function GeneratePaymentPDF(
       totalCount: totals.totalQuantity,
       totalPrice: totals.totalCost,
       user,
-      orgTypeName: getFullOrgName(user.full_name),
+      orgTypeName: getFullOrgName(orgType),
       orgNameNoType: orgNameWerbs.join(" "),
       orgName: applyFullOrgName(user.full_name),
       wordRowCount,

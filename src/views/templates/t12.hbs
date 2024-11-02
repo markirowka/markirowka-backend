@@ -221,7 +221,7 @@ h3 {
             <td colspan="3"></td>
           </tr>
           <tr>
-           <td colspan="2" class="bb" style="height: 10px;" contenteditable>ИП Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика
+           <td colspan="2" class="bb" style="height: 10px;" contenteditable>Инидивидуальный предприниматель Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика
               Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73..; ИНН:502765138514; Расчетный 
 счет 40802810424435209932; Банк ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО); кор. Счет 30101810145250000411; БИК 044525411</td>
         </tr>
@@ -241,7 +241,7 @@ h3 {
         </tr>
         <tr>  
          <td>Поставщик</td>
-         <td class="bb" contenteditable>ИП Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73. ; ИНН:502765138514; 
+         <td class="bb" contenteditable>Инидивидуальный предприниматель Ахмедов Сабир Табассумович; Российская Федерация, 358007, Республика Калмыкия, г.Элиста, мкр. 1, дом 41, кв. 73. ; ИНН:502765138514; 
 Расчетный счет 40802810424435209932; Банк ФИЛИАЛ "ЦЕНТРАЛЬНЫЙ" БАНКА ВТБ (ПАО); кор. Счет 30101810145250000411; БИК 044525411</td>
         </tr>
         <tr>
@@ -249,14 +249,17 @@ h3 {
           </tr>
         <tr>
          <td>Плательщик</td>
-         <td class="bb" contenteditable>{{ user.full_name }}, {{ user.inn }}, {{ user.law_address }}</td>
+         <td class="bb" contenteditable>{{ orgTypeName }} {{ orgNameNoType }}, {{ user.inn }}, {{ user.law_address }},
+            {{ user.law_address}}, {{ user.phone }}, Р/сч {{ user.bank_account }} в {{ user.bank_name }}, БИК {{ user.bank_code }}
+         </td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(организация, адрес, телефон, факс, банковские реквизиты)</td>
           </tr>
         <tr>
          <td class="col-4 no-bb">Основание</td>
-         <td class="bb" contenteditable>Договор №{{id}} от {{dateDay}}.{{dateMonthNum}}.{{dateYear}}</td>
+         <td class="bb" contenteditable>Договор №{{id}} от {{dateDay}}.{{dateMonthNum}}.{{dateYear}}
+         </td>
         </tr>
         <tr>
           <td colspan="2" class="row-desc">(договор, заказ-наряд)</td>
