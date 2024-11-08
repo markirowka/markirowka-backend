@@ -205,7 +205,7 @@
                         <p class="cmrDescriptionText">Consignee (name, address, country)</p>
                         <br />
                         <p>
-                            {{ user.law_address }}
+                            {{ user.full_name }}
                         </p>
                       </td>
                       <td colspan="4">
@@ -218,12 +218,12 @@
                     <tr rowspan="2">
                         <td colspan="4">
                             <p>
-                                {{ user.cargo_recevier }}
+                                {{ user.law_address }}
                             </p>
                         </td>
                         <td colspan="4">
                            <p>
-                            
+                               {{ country }}
                            </p>
                         </td>
                     </tr>
@@ -261,7 +261,7 @@
                                      <p class="cmrDescriptionText">Place</p>
                                    </td>
                                 <td>
-                                    <p>{{ user.law_address }}</p>
+                                    <p>{{ user.cargo_city }}</p>
                                 </td>
                                </tr>
                             </table>
