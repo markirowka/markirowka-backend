@@ -32,7 +32,7 @@ export async function GenerateSpecifyClothes (ownerId: number, fileName: string,
         const rows = data.map(item => [
             item.tnved,
             '30141',
-            item.fullName,
+            item.fullName?.replace("undefined", ""),
             item.tradeMark,
             item.articleType,
             item.articleName,
