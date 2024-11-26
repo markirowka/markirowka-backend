@@ -76,6 +76,7 @@ export async function GeneratePaymentPDF(
       totalPrice: totals.totalCost,
       user,
       orgType,
+      isie: orgType.toUpperCase() === "ИП",
       orgTypeName: getFullOrgName(orgType),
       orgCeoBase: "Устава", // orgType.toUpperCase() === "ИП" ? "Свидетельства" : "Устава",
       orgNameNoType: orgNameWerbs.join(" "),
