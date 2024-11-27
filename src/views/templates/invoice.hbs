@@ -136,20 +136,12 @@
     </tr>
     </thead>
     <tbody >
-      <tr>
-        <td style="width:5mm; ">№</td>   
-        <td style="width:120mm; ">Товар</td>
-        <td style="width:6mm; ">Кол-во</td>
-        <td style="width:6mm; ">Шт.</td>
-        <td style="width:12mm; text-align: center; ">Цена</td>
-        <td style="width:12mm; text-align: center; ">Сумма</td>
-    </tr>
     {{#each items}}
     <tr>
         <td style="width:13mm; ">{{rowNum}}</td>   
         <td>{{name}}</td>
         <td style="width:20mm; ">{{quantity}}</td>
-        <td style="width:17mm; ">Шт.</td>
+        <td style="width:17mm; ">{{metricName}}.</td>
         <td style="width:27mm; text-align: center; ">{{price}}</td>
         <td style="width:27mm; text-align: center; ">{{sum}}</td>
     </tr>

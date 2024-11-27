@@ -67,6 +67,7 @@ export async function GeneratePaymentPDF(
       items: data.map((item, index) => ({
         rowNum: index + 1,
         ...item,
+        metricName: item.category?.toLowerCase() === "обувь" ? "пар" : "шт",
         sum: item.quantity * item.price,
       })),
       numDate,
