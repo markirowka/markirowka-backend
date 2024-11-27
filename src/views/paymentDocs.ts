@@ -68,6 +68,7 @@ export async function GeneratePaymentPDF(
         rowNum: index + 1,
         ...item,
         metricName: item.category?.toLowerCase() === "обувь" ? "пар" : "шт",
+        okeiCode: item.category?.toLowerCase() === "обувь" ? "715" : "796",
         sum: item.quantity * item.price,
       })),
       numDate,
