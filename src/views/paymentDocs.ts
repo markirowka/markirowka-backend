@@ -114,7 +114,7 @@ export async function GeneratePaymentPDF(
         },
         printBackground: true,
         displayHeaderFooter: false,
-        height: '297mm'
+        height: kind !== 'specification' ? '297mm' : undefined
       };
 
       // const content = await page.content();
