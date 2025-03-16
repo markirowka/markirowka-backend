@@ -109,3 +109,14 @@ export function applyFullOrgName(input: string): string {
   // Собираем строку обратно с заменой первого слова
   return [fullOrgName, ...restWords].join(" ");
 }
+
+export function getNameInitials (fullName: string): string {
+  const parts = fullName.trim().split(/\s+/);
+  if (parts.length < 2) return fullName; // Если передано только одно слово, вернуть как есть
+
+  const [lastName, firstName, middleName] = parts;
+  const firstInitial = firstName ? `${firstName[0]}.` : "";
+  const middleInitial = middleName ? `${middleName[0]}.` : "";
+
+  return `${lastName} ${firstInitial} ${middleInitial}`.trim();
+}

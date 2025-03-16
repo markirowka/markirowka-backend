@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 import handlebars from "handlebars";
 import { calculateTotals, getCategoryCode, getMonthName, monthNum, numberFormatDate, numberToWords } from "../utils";
 import { ahmedovPrint64, ahmedovSign, cmrWaterMark  } from "./prints";
-import { applyFullOrgName, categoryDataFromGoodsList, getFullOrgName } from "../utils/data";
+import { applyFullOrgName, categoryDataFromGoodsList, getFullOrgName, getNameInitials } from "../utils/data";
 import { noneBase64 } from "./prints/none";
 
 export async function GeneratePaymentPDF(
@@ -22,7 +22,9 @@ export async function GeneratePaymentPDF(
     let result = false;
     let filePath = '';
     // console.log("Creation called");
-
+    handlebars.registerHelper("eq", function (a, b) {
+      return a === b;
+    });
     const templatePath = path.join(__dirname, `./templates/${kind}.hbs`);
     const templateSource = fs.readFileSync(templatePath, "utf8");
     const template = handlebars.compile(templateSource);
@@ -40,7 +42,6 @@ export async function GeneratePaymentPDF(
         code: cat.code === 0 ? "" : String(cat.code) 
       })
     })
-
     const dt = date ? new Date(date) : new Date();
 
     const dateDay = dt.getDate(); // День месяца
@@ -77,6 +78,7 @@ export async function GeneratePaymentPDF(
       totalCount: totals.totalQuantity,
       totalPrice: totals.totalCost,
       user,
+      userNameInitials: getNameInitials(user.ceo || user.ceo_genitive || ""),
       orgType,
       isie: orgType.toUpperCase() === "ИП",
       orgTypeName: getFullOrgName(orgType),
@@ -116,7 +118,8 @@ export async function GeneratePaymentPDF(
         displayHeaderFooter: false,
         height: kind !== 'specification' ? '297mm' : undefined
       };
-
+      
+      // Печать исходного html для отладки
       // const content = await page.content();
       // fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
 

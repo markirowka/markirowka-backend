@@ -168,8 +168,8 @@
           <div class="rColumn totalInfoColumn">
             <div class="printPlace">
                 <div class="printTextBlock">
-                    <p>{{orgTypeName}}</p>
-                    <p>{{orgNameNoType}} __________________ М.П.</p>
+                    <p>{{#if isie}}{{else}}Директор{{/if}} {{orgType}} {{orgNameNoType}}</p>
+                    <p>{{userNameInitials}} __________________ М.П.</p>
                 </div>
             </div>
           </div>
