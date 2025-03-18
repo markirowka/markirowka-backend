@@ -4,6 +4,7 @@ import archiver from 'archiver';
 import { GetAuthorizedUserData, IsAdmin, getUserIdFromAuth } from "./authController";
 import {
   CheckAndCreateOwnerFolder,
+  CMRDeliveryData,
   createFileName,
   CreateFileNameDBNote,
   deleteFile,
@@ -38,6 +39,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
   }
 
   const itemList: PaymentDocumentData[] = req.body.items;
+  const cmr: CMRDeliveryData = req.body.cmr_data || {}
 
   const user = await GetUserById(userId);
 
@@ -66,11 +68,11 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const filePathsToSend: string[] = [];
     await GenerateSpecifyOrder(userId, orderFile, itemList);
     const filePaths: string[] = (await Promise.all([
-      GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, "t12", docId, closestDate),
-      GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, "invoice", docId, closestDate),
-      GeneratePaymentPDF(user, createFileName(userId, "agreement"), itemList, "agreement", docId, closestDate),
-      GeneratePaymentPDF(user, createFileName(userId, "cmr"), itemList, "cmr", docId, closestDate),
-      GeneratePaymentPDF(user, createFileName(userId, "specification"), itemList, "specification", docId, closestDate)
+      GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, cmr, "t12", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, cmr, "invoice", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "agreement"), itemList, cmr, "agreement", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "cmr"), itemList, cmr, "cmr", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "specification"), itemList, cmr, "specification", docId, closestDate)
     ])).map((item: { path: string}) => {
         return item.path
     });
@@ -80,11 +82,11 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const archiveNameUnsigned = await CreateFileNameDBNote(userId, "zip", false);
 
     const filePathsUnsigned: string[] = (await Promise.all([
-      GeneratePaymentPDF(user, createFileName(userId, "t12", undefined, false), itemList, "t12", docId, closestDate, false),
-      GeneratePaymentPDF(user, createFileName(userId, "invoice", undefined, false), itemList, "invoice", docId, closestDate, false),
-      GeneratePaymentPDF(user, createFileName(userId, "agreement", undefined, false), itemList, "agreement", docId, closestDate, false),
-      GeneratePaymentPDF(user, createFileName(userId, "cmr", undefined, false), itemList, "cmr", docId, closestDate, false),
-      GeneratePaymentPDF(user, createFileName(userId, "specification", undefined, false), itemList, "specification", docId, closestDate, false)
+      GeneratePaymentPDF(user, createFileName(userId, "t12", undefined, false), itemList, cmr, "t12", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "invoice", undefined, false), itemList, cmr, "invoice", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "agreement", undefined, false), itemList, cmr, "agreement", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "cmr", undefined, false), itemList, cmr, "cmr", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "specification", undefined, false), itemList, cmr, "specification", docId, closestDate, false)
     ])).map((item: { path: string}) => {
         return item.path
     });

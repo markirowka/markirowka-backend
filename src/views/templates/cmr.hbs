@@ -213,6 +213,9 @@
                         <p class="cmrDescriptionText">Перевозчик (наименование, адрес, страна)</p> 
                         <p class="cmrDescriptionText">Carrier (name, address, country)</p>
                         <br />
+                        <p>
+                            {{ cmr.driverName }}
+                        </p>
                       </td>
                     </tr>
                     <tr rowspan="2">
@@ -361,7 +364,7 @@
                     </tr>
                     <tr rowspan="2">
                         <td style=";" colspan="4">
-                            <p>Накладная ТОРГ-12 №{{id}} от {{ numDate }}</p>
+                            <p>Накладная ТОРГ-12 №{{id}} от {{ numDate }}, Счет, Договор, {{ cmr.documents }}</p>
                         </td>
                         <td style=";">
                             <span class="num"></span>
@@ -447,10 +450,10 @@
                             <p class="catText">{{code}}</p>
                        </td>
                        <td style=";">
-                            <p class="catText"></p>
+                            <p class="catText">{{cmr.weight}}</p>
                        </td>
                        <td style=";">
-                            <p class="catText"></p>
+                            <p class="catText">{{cmr.volume}}</p>
                        </td>
                     </tr>
                     {{/each}}
@@ -786,13 +789,13 @@
                     </tr>
                     <tr class="noTextRow" style="height:24px;">
                         <td colspan="2">
-                            <p></p>
+                            <p>{{cmr.autoNumber}}</p>
                         </td> 
                         <td colspan="2">
-                            
+                            <p>{{cmr.subAutoNumber}}</p>                      
                         </td>
                         <td colspan="4">
-                            
+                            <p>{{cmr.autoMark}}</p>  
                         </td>
                     </tr>
                     <tr>

@@ -1,4 +1,4 @@
-import { User, PaymentDocumentData, rootFolder } from "../models";
+import { User, PaymentDocumentData, rootFolder, CMRDeliveryData } from "../models";
 import fs from "fs";
 import path from "path";
 import archiver from "archiver";
@@ -13,6 +13,7 @@ export async function GeneratePaymentPDF(
   user: User,
   fileName: string,
   data: PaymentDocumentData[],
+  cmr: CMRDeliveryData,
   kind: string,
   docId: number,
   date?: string,
@@ -38,7 +39,7 @@ export async function GeneratePaymentPDF(
     const categoryCmrTexts = categoryDataFromGoodsList(data).map((cat) => {
       return({
         category: cat.category || "",
-        count: cat.quantity > 0 ? `Мест ${cat.quantity} в упаковочных пакетах` : "",
+        count: cmr.cargoPlaceCount ? `Мест ${cmr.cargoPlaceCount} в ${cmr.packType}`: cat.quantity > 0 ? `Мест ${cat.quantity} в упаковочных пакетах` : "",
         code: cat.code === 0 ? "" : String(cat.code) 
       })
     })
@@ -78,6 +79,7 @@ export async function GeneratePaymentPDF(
       totalCount: totals.totalQuantity,
       totalPrice: totals.totalCost,
       user,
+      cmr,
       userNameInitials: getNameInitials(user.ceo || user.ceo_genitive || ""),
       orgType,
       isie: orgType.toUpperCase() === "ИП",

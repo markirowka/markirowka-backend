@@ -89,6 +89,29 @@ export interface PaymentDocumentData {
   date?: string;
 }
 
+/* 
+1) Вес пункт 11 2) Объем пункт 12 
+3) Кол-во грузовых мест пункт 7 
+4) Вид упаковки (Сделать выбор Короба/Мешки/Паллеты) пункт 8 
+5) ФИО водителя пункт 16 под ним свободное место 
+6) Перечислить все пердоставляемые документы пункт 5 
+7) Марка авто пункт 26 
+8 ) Путевой лист номер (который в документах. формируется) пункт 23 
+9) Регестрационный номер машины и регистрационный номер прицепа (Отдельные одно можно заполнить без второго) пункт 25
+*/
+
+export interface CMRDeliveryData {
+    weight: string;
+    volume: string;
+    cargoPlaceCount: number;
+    packType: string;
+    driverName: string;
+    documents: string;
+    autoMark: string;
+    autoNumber?: string;
+    subAutoNumber?: string;
+}
+
 export interface CategoryData {
   category: string;
   quantity: number;
