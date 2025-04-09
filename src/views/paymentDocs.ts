@@ -1,12 +1,29 @@
-import { User, PaymentDocumentData, rootFolder, CMRDeliveryData } from "../models";
+import {
+  User,
+  PaymentDocumentData,
+  rootFolder,
+  CMRDeliveryData,
+} from "../models";
 import fs from "fs";
 import path from "path";
 import archiver from "archiver";
 import puppeteer from "puppeteer";
 import handlebars from "handlebars";
-import { calculateTotals, getCategoryCode, getMonthName, monthNum, numberFormatDate, numberToWords } from "../utils";
-import { ahmedovPrint64, ahmedovSign, cmrWaterMark  } from "./prints";
-import { applyFullOrgName, categoryDataFromGoodsList, getFullOrgName, getNameInitials } from "../utils/data";
+import {
+  calculateTotals,
+  getCategoryCode,
+  getMonthName,
+  monthNum,
+  numberFormatDate,
+  numberToWords,
+} from "../utils";
+import { ahmedovPrint64, ahmedovSign, cmrWaterMark } from "./prints";
+import {
+  applyFullOrgName,
+  categoryDataFromGoodsList,
+  getFullOrgName,
+  getNameInitials,
+} from "../utils/data";
 import { noneBase64 } from "./prints/none";
 
 export async function GeneratePaymentPDF(
@@ -17,11 +34,12 @@ export async function GeneratePaymentPDF(
   kind: string,
   docId: number,
   date?: string,
-  signed = true
-): Promise<{result: boolean, path: string}> {
+  signed = true,
+  saveHTML = false
+): Promise<{ result: boolean; path: string }> {
   return new Promise(async (resolve, reject) => {
     let result = false;
-    let filePath = '';
+    let filePath = "";
     // console.log("Creation called");
     handlebars.registerHelper("eq", function (a, b) {
       return a === b;
@@ -37,12 +55,19 @@ export async function GeneratePaymentPDF(
     const wordRowCount = numberToWords(data.length);
 
     const categoryCmrTexts = categoryDataFromGoodsList(data).map((cat) => {
-      return({
+      return {
         category: cat.category || "",
-        count: cmr.cargoPlaceCount ? `Мест ${cmr.cargoPlaceCount} в ${cmr.packType}`: cat.quantity > 0 ? `Мест ${cat.quantity} в упаковочных пакетах` : "",
-        code: cat.code === 0 ? "" : String(cat.code) 
-      })
-    })
+        count:
+          cat.quantity > 0
+            ? cmr.cargoPlaceCount && cmr.packType
+              ? `Мест ${cmr.cargoPlaceCount} в ${cmr.packType || "коробках"}`
+              : `Мест ${cat.quantity} в упаковочных пакетах`
+            : "",
+        code: cat.code === 0 ? "" : String(cat.code),
+        weight: cat.quantity > 0 ? cmr.weight : "",
+        volume: cat.quantity > 0 ? cmr.volume : "",
+      };
+    });
     const dt = date ? new Date(date) : new Date();
 
     const dateDay = dt.getDate(); // День месяца
@@ -52,7 +77,7 @@ export async function GeneratePaymentPDF(
     const isNeedScale = data.length > 20 ? true : false;
     const numDate = numberFormatDate(dt.getTime());
     const orgNameWerbs = [...user.full_name.split(" ")];
-    const orgType = orgNameWerbs.shift() || ""
+    const orgType = orgNameWerbs.shift() || "";
 
     const combinedData = {
       category: ctgr,
@@ -60,7 +85,7 @@ export async function GeneratePaymentPDF(
       categoryCode: getCategoryCode(ctgr),
       cmrWaterMark,
       country: user.phone?.indexOf("375") === 1 ? "Беларусь" : "Россия",
-      dateDay: dateDay.toString().padStart(2, '0'),
+      dateDay: dateDay.toString().padStart(2, "0"),
       dateMonth: dateMonth,
       dateMonthNum: monthNum(dt),
       dateYear: dateYear,
@@ -69,6 +94,7 @@ export async function GeneratePaymentPDF(
       items: data.map((item, index) => ({
         rowNum: index + 1,
         ...item,
+        tnved: item.tnved || "",
         metricName: item.category?.toLowerCase() === "обувь" ? "пар" : "шт",
         okeiCode: item.category?.toLowerCase() === "обувь" ? "715" : "796",
         sum: item.quantity * item.price,
@@ -96,7 +122,7 @@ export async function GeneratePaymentPDF(
     const html = template(combinedData);
 
     const browser = await puppeteer.launch({
-      executablePath: '/usr/bin/chromium-browser',
+      executablePath: "/usr/bin/chromium-browser",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       timeout: 30000,
     });
@@ -118,17 +144,19 @@ export async function GeneratePaymentPDF(
         },
         printBackground: true,
         displayHeaderFooter: false,
-        height: kind !== 'specification' ? '297mm' : undefined
+        height: kind !== "specification" ? "297mm" : undefined,
       };
-      
+
       // Печать исходного html для отладки
-      // const content = await page.content();
-      // fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
+      if (saveHTML) {
+        const content = await page.content();
+        fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
+      }
 
       await page.setContent(html);
       await page.pdf(pdfOptions);
       result = true;
-      filePath = pdfOptions.path
+      filePath = pdfOptions.path;
     } catch (e: any) {
       console.log(e.message);
     } finally {
@@ -136,23 +164,23 @@ export async function GeneratePaymentPDF(
         await browser.close();
       }
     }
-    resolve({result, path: filePath});
+    resolve({ result, path: filePath });
   });
 }
 
-export async function deleteFiles (paths: string[]) {
-    paths.map(file => {
-        return new Promise((resolve, reject) => {
-          fs.unlink(file, (err) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(true);
-            }
-          });
-        });
+export async function deleteFiles(paths: string[]) {
+  paths.map((file) => {
+    return new Promise((resolve, reject) => {
+      fs.unlink(file, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(true);
+        }
       });
-    return Promise.all(paths)
+    });
+  });
+  return Promise.all(paths);
 }
 
 export async function generateZipArchive(
@@ -167,7 +195,6 @@ export async function generateZipArchive(
     const archive = archiver("zip", {
       zlib: { level: 9 }, // Опционально: установить уровень сжатия
     });
-
 
     output.on("close", function () {
       // console.log(archive.pointer() + " total bytes");

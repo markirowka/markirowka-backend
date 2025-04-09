@@ -50,10 +50,10 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
   const dates = itemList.map((item) => {
     return {date: item.date}
   });
-
+  const categories: string[] = itemList.map(item => item.category);
   const filteredDates = filterDates(dates);
   const closestDate = getClosestDate(filteredDates);
-  const isDateValid = !closestDate || checkDateDiapasone(closestDate);
+  const isDateValid = !closestDate || checkDateDiapasone(closestDate, categories);
 
   if (!isDateValid) {
     res.status(400).send({ error: "Invalid order date" });
@@ -70,6 +70,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const filePaths: string[] = (await Promise.all([
       GeneratePaymentPDF(user, createFileName(userId, "t12"), itemList, cmr, "t12", docId, closestDate),
       GeneratePaymentPDF(user, createFileName(userId, "invoice"), itemList, cmr, "invoice", docId, closestDate),
+      GeneratePaymentPDF(user, createFileName(userId, "invoicef"), itemList, cmr, "invoicef", docId, closestDate),
       GeneratePaymentPDF(user, createFileName(userId, "agreement"), itemList, cmr, "agreement", docId, closestDate),
       GeneratePaymentPDF(user, createFileName(userId, "cmr"), itemList, cmr, "cmr", docId, closestDate),
       GeneratePaymentPDF(user, createFileName(userId, "specification"), itemList, cmr, "specification", docId, closestDate)
@@ -84,6 +85,7 @@ export const CreatePaymentFiles = async (req: Request, res: Response) => {
     const filePathsUnsigned: string[] = (await Promise.all([
       GeneratePaymentPDF(user, createFileName(userId, "t12", undefined, false), itemList, cmr, "t12", docId, closestDate, false),
       GeneratePaymentPDF(user, createFileName(userId, "invoice", undefined, false), itemList, cmr, "invoice", docId, closestDate, false),
+      GeneratePaymentPDF(user, createFileName(userId, "invoicef", undefined, false), itemList, cmr, "invoicef", docId, closestDate, false),
       GeneratePaymentPDF(user, createFileName(userId, "agreement", undefined, false), itemList, cmr, "agreement", docId, closestDate, false),
       GeneratePaymentPDF(user, createFileName(userId, "cmr", undefined, false), itemList, cmr, "cmr", docId, closestDate, false),
       GeneratePaymentPDF(user, createFileName(userId, "specification", undefined, false), itemList, cmr, "specification", docId, closestDate, false)

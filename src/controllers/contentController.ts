@@ -1,18 +1,32 @@
 import { Request, Response } from "express";
 import "express-session";
 import { IsAdmin } from "./authController";
-import { createArticle, createContentBlock, deleteArticleByUrl, deleteContentBlock, getArticleByUrl, getArticleIdByUrl, getContentBlocksByUrl, updateArticleByUrl, updateContentBlock } from "../models/content";
+import {
+  createArticle,
+  createContentBlock,
+  deleteArticleByUrl,
+  deleteContentBlock,
+  getArticleByUrl,
+  getArticleIdByUrl,
+  getContentBlocksByUrl,
+  updateArticleByUrl,
+  updateContentBlock,
+} from "../models/content";
 import { urlNamingFilter } from "../utils";
-
+import {
+  addCategory,
+  deleteCategory,
+  getCategories,
+} from "../models/cetegories";
 
 export const SetContent = async (req: Request, res: Response) => {
-    const isFromAdmin = await IsAdmin({ req });
+  const isFromAdmin = await IsAdmin({ req });
   if (!isFromAdmin) {
     res.status(403).send({ error: "No rigths to collaborate" });
     return;
   }
 
-  const body = req.body 
+  const body = req.body;
 
   if (!body.pageUrl) {
     res.status(400).send({ error: "Page url is not defined" });
@@ -21,27 +35,34 @@ export const SetContent = async (req: Request, res: Response) => {
   try {
     const existArticle = await getArticleByUrl(body.pageUrl);
     if (!existArticle || existArticle.length === 0) {
-      await createArticle(urlNamingFilter(body.pageUrl), body.pageTitle || "", body.content || "");
+      await createArticle(
+        urlNamingFilter(body.pageUrl),
+        body.pageTitle || "",
+        body.content || ""
+      );
     } else {
-      await updateArticleByUrl(urlNamingFilter(body.pageUrl), body.pageTitle || "", body.content || "");
+      await updateArticleByUrl(
+        urlNamingFilter(body.pageUrl),
+        body.pageTitle || "",
+        body.content || ""
+      );
     }
 
-    res.status(200).send({ success: true })
+    res.status(200).send({ success: true });
   } catch (e: any) {
     console.error(e);
-    res.status(500).send({ error: "Failed to save content"})
-  } 
+    res.status(500).send({ error: "Failed to save content" });
+  }
+};
 
-}
+export const DeletePage = async (req: Request, res: Response) => {
+  const isFromAdmin = await IsAdmin({ req });
+  if (!isFromAdmin) {
+    res.status(403).send({ error: "No rigths to collaborate" });
+    return;
+  }
 
-export const DeletePage = async (req: Request, res: Response) => { 
-    const isFromAdmin = await IsAdmin({ req });
-    if (!isFromAdmin) {
-      res.status(403).send({ error: "No rigths to collaborate" });
-      return;
-    }
-
-    const body = req.body 
+  const body = req.body;
 
   if (!body.pageUrl) {
     res.status(400).send({ error: "Page url is not defined" });
@@ -49,53 +70,54 @@ export const DeletePage = async (req: Request, res: Response) => {
   }
 
   try {
-    await deleteArticleByUrl (body.pageUrl);
-    res.status(200).send({ success: true })
+    await deleteArticleByUrl(body.pageUrl);
+    res.status(200).send({ success: true });
   } catch (e: any) {
     console.log(e);
-    res.status(500).send({ error: "Failed to save content"})
-  } 
-
+    res.status(500).send({ error: "Failed to save content" });
+  }
 };
 
-export const GetPage = async (req: Request, res: Response) => { 
-    const url = req.params.url;
-    if (!url) {
-        res.status(404).send({ error: "Page not found" });
-        return;
-    }
+export const GetPage = async (req: Request, res: Response) => {
+  const url = req.params.url;
+  if (!url) {
+    res.status(404).send({ error: "Page not found" });
+    return;
+  }
 
-    try {
-        const page = await getArticleByUrl(url);
-        if (!page || page.length === 0){ 
-            res.status(404).send({ error: "Page not found" });
-            return;
-        }
-        res.status(200).send({ page: {
-            id: page[0].id,
-            pageTitle: page[0].title,
-            content: page[0].content,
-            url_name: page[0].url_name
-        } })
-      } catch (e: any) {
-        console.log(e);
-        res.status(500).send({ error: "Failed to save content"})
-      } 
-};
-
-export const getPageContentBlocks = async (req: Request, res: Response) => { 
-    const url = req.params.url;
-    if (!url) {
-      res.status(404).send({ error: "Page not exist" });
+  try {
+    const page = await getArticleByUrl(url);
+    if (!page || page.length === 0) {
+      res.status(404).send({ error: "Page not found" });
       return;
     }
-    const blocks = await getContentBlocksByUrl(url);
     res.status(200).send({
-      blocks
-    })
-}
+      page: {
+        id: page[0].id,
+        pageTitle: page[0].title,
+        content: page[0].content,
+        url_name: page[0].url_name,
+      },
+    });
+  } catch (e: any) {
+    console.log(e);
+    res.status(500).send({ error: "Failed to save content" });
+  }
+};
 
-export const createPageContentBlock = async (req: Request, res: Response) => { 
+export const getPageContentBlocks = async (req: Request, res: Response) => {
+  const url = req.params.url;
+  if (!url) {
+    res.status(404).send({ error: "Page not exist" });
+    return;
+  }
+  const blocks = await getContentBlocksByUrl(url);
+  res.status(200).send({
+    blocks,
+  });
+};
+
+export const createPageContentBlock = async (req: Request, res: Response) => {
   const isAdmin = await IsAdmin({ req });
   if (!isAdmin) {
     res.status(403).send({ error: "No rights to edit" });
@@ -107,19 +129,18 @@ export const createPageContentBlock = async (req: Request, res: Response) => {
     res.status(400).send({ error: "Page url is not defined" });
     return;
   }
-  const articleId = body.url ? (await getArticleIdByUrl(body.url)) : undefined;
+  const articleId = body.url ? await getArticleIdByUrl(body.url) : undefined;
   const id = await createContentBlock({
     id: body.id,
     article_id: articleId,
-    content: body.content || ""
+    content: body.content || "",
   });
 
   res.status(200).send({
     success: !!id,
-    id
-  })
-}
-
+    id,
+  });
+};
 
 export const updatePageContentBlock = async (req: Request, res: Response) => {
   const isAdmin = await IsAdmin({ req });
@@ -136,13 +157,13 @@ export const updatePageContentBlock = async (req: Request, res: Response) => {
 
   const success = await updateContentBlock({
     id: body.id,
-    content: body.content || ""
+    content: body.content || "",
   });
 
   res.status(200).send({
-    success
-  })
-}
+    success,
+  });
+};
 
 export const deletePageContentBlock = async (req: Request, res: Response) => {
   const isAdmin = await IsAdmin({ req });
@@ -153,11 +174,56 @@ export const deletePageContentBlock = async (req: Request, res: Response) => {
 
   if (!req.body.id) {
     res.status(404).send({ error: "Page id is not defined" });
-    return;    
+    return;
   }
 
   const success = await deleteContentBlock(Number(req.body.id));
   res.status(200).send({
-    success
-  })
-}
+    success,
+  });
+};
+
+export const getCategoriesController = async (req: Request, res: Response) => {
+  const categories = await getCategories();
+  res.status(200).send({
+    categories,
+  });
+};
+
+export const addCategoryController = async (req: Request, res: Response) => {
+  const isAdmin = await IsAdmin({ req });
+  const { name } = req.body;
+  if (!isAdmin) {
+    res.status(403).send({ error: "No rights to delete" });
+    return;
+  }
+
+  if (!name) {
+    res.status(400).send({ error: "No category name" });
+    return;
+  }
+
+  const success = await addCategory(name);
+  res.status(200).send({
+    success,
+  });
+};
+
+export const dropCategoryController = async (req: Request, res: Response) => {
+  const isAdmin = await IsAdmin({ req });
+  const { category_id } = req.body;
+  if (!isAdmin) {
+    res.status(403).send({ error: "No rights to delete" });
+    return;
+  }
+
+  if (!category_id) {
+    res.status(400).send({ error: "No category name" });
+    return;
+  }
+
+  const success = await deleteCategory(Number(category_id));
+  res.status(200).send({
+    success,
+  });
+};

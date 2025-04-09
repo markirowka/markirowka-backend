@@ -75,6 +75,25 @@ CREATE TABLE IF NOT EXISTS content_blocks (
     article_id integer,
     content TEXT
 );
+
+CREATE TABLE IF NOT EXISTS good_categories (
+   id serial PRIMARY KEY,
+   name varchar(64)
+);
+
+INSERT INTO good_categories (id, name) VALUES
+(1, "Одежда"),
+(2, "Обувь"),
+(3, "Косметика"),
+(4, "Головные уборы"),
+(5, "Изделия-штучные"),
+(6, "Ткани"),
+(7, "Духи"),
+(8, "Автозапчасти"),
+(9, "Сумки");
+
+SELECT setval(pg_get_serial_sequence('good_categories', 'id'), max(id)) 
+FROM good_categories;
 `
 
 const cleaningQuery = `

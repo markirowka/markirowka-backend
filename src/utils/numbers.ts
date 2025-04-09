@@ -1,5 +1,7 @@
 import { PaymentDocumentData } from "../models";
 
+export const markableCategories = ["Обувь", "Одежда", "Медицинские изделия"]
+
 export function getMonthName(monthIndex: number) {
   const months = [
     "января",
@@ -237,11 +239,13 @@ export function getClosestDate(dates: { date: string }[]): string | undefined {
   return closestDate.date;
 }
 
-export function checkDateDiapasone (value: string) {
+export function checkDateDiapasone (value: string, categories: string[]) {
+    // const hasMarkables = hasCommonElement(markableCategories, categories);
+    const daysLimit = 30; // hasMarkables ? 7 : 30
     const dt = new Date(value);
     const today = new Date();
     const thirtyDaysAgo = new Date(today);
-          thirtyDaysAgo.setDate(today.getDate() - 30);
+          thirtyDaysAgo.setDate(today.getDate() - daysLimit);
     const tomorrow = new Date(today);
           tomorrow.setDate(today.getDate() + 1);
     return !isNaN(dt.getTime()) && dt >= thirtyDaysAgo && dt <= tomorrow
@@ -249,4 +253,8 @@ export function checkDateDiapasone (value: string) {
 
 export function monthNum (date: Date) {
   return (date.getMonth() + 1).toString().padStart(2, '0');
+}
+
+export function hasCommonElement(arr1: any[], arr2: any[]): boolean {
+  return arr1.some(item => arr2.includes(item)) || arr2.some(item => arr1.includes(item));
 }

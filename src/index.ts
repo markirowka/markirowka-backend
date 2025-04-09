@@ -125,6 +125,12 @@ app.post("/api/admin/deletecontent", Content.DeletePage);
 
 app.get("/api/content/:url", Content.GetPage);
 
+app.get("/api/categories", Content.getCategoriesController);
+
+app.post("/api/addcategory", Content.addCategoryController);
+
+app.post("/api/deletecategory", Content.dropCategoryController);
+
 // Stats
 
 app.get("/api/stats/getreadstats", Stats.getUserReadStatsResponce);

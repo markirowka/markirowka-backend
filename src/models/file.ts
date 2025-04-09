@@ -86,6 +86,7 @@ export interface PaymentDocumentData {
   name: string;
   quantity: number;
   price: number;
+  tnved?: number;
   date?: string;
 }
 
