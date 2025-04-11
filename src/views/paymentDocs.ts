@@ -25,6 +25,7 @@ import {
   getNameInitials,
 } from "../utils/data";
 import { noneBase64 } from "./prints/none";
+import { getCategories } from "../models/cetegories";
 
 export async function GeneratePaymentPDF(
   user: User,
@@ -79,6 +80,8 @@ export async function GeneratePaymentPDF(
     const orgNameWerbs = [...user.full_name.split(" ")];
     const orgType = orgNameWerbs.shift() || "";
 
+    const categories = await getCategories();
+
     const combinedData = {
       category: ctgr,
       categoryCmrTexts,
@@ -91,14 +94,18 @@ export async function GeneratePaymentPDF(
       dateYear: dateYear,
       id: docId,
       isNeedScale,
-      items: data.map((item, index) => ({
-        rowNum: index + 1,
-        ...item,
-        tnved: item.tnved || "",
-        metricName: item.category?.toLowerCase() === "обувь" ? "пар" : "шт",
-        okeiCode: item.category?.toLowerCase() === "обувь" ? "715" : "796",
-        sum: item.quantity * item.price,
-      })),
+      items: data.map((item, index) => {
+        const cat = categories?.find((cat) => cat.name === item.category);
+
+        return {
+          rowNum: index + 1,
+          ...item,
+          tnved: item.tnved || "",
+          metricName: cat?.metrik || "шт",
+          okeiCode: cat?.okei_code || "796",
+          sum: item.quantity * item.price,
+        };
+      }),
       numDate,
       print: signed ? imageBase64Url : noneBase64,
       sign: signed ? signB64 : noneBase64,
@@ -150,7 +157,10 @@ export async function GeneratePaymentPDF(
       // Печать исходного html для отладки
       if (saveHTML) {
         const content = await page.content();
-        fs.writeFileSync(`${rootFolder}${user.id || "0"}/${fileName}.html`, content);
+        fs.writeFileSync(
+          `${rootFolder}${user.id || "0"}/${fileName}.html`,
+          content
+        );
       }
 
       await page.setContent(html);

@@ -78,19 +78,21 @@ CREATE TABLE IF NOT EXISTS content_blocks (
 
 CREATE TABLE IF NOT EXISTS good_categories (
    id serial PRIMARY KEY,
-   name varchar(64)
+   name varchar(64),
+   metrik varchar(32),
+   okei_code varchar(32)
 );
 
-INSERT INTO good_categories (id, name) VALUES
-(1, "Одежда"),
-(2, "Обувь"),
-(3, "Косметика"),
-(4, "Головные уборы"),
-(5, "Изделия-штучные"),
-(6, "Ткани"),
-(7, "Духи"),
-(8, "Автозапчасти"),
-(9, "Сумки");
+INSERT INTO good_categories (id, name, metrik, okei_code) VALUES
+(1, 'Одежда', 'шт.', '796'),
+(2, 'Обувь', 'пара', '715'),
+(3, 'Косметика', 'мл', '111'),
+(4, 'Головные уборы', 'шт.', '796'),
+(5, 'Изделия-штучные', 'шт.', '796'),
+(6, 'Ткани', 'м', '006'),
+(7, 'Духи', 'мл', '111'),
+(8, 'Автозапчасти', 'шт.', '796'),
+(9, 'Сумки', 'шт.', '796');
 
 SELECT setval(pg_get_serial_sequence('good_categories', 'id'), max(id)) 
 FROM good_categories;

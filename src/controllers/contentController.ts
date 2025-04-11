@@ -17,6 +17,7 @@ import {
   addCategory,
   deleteCategory,
   getCategories,
+  updateCategory,
 } from "../models/cetegories";
 
 export const SetContent = async (req: Request, res: Response) => {
@@ -192,7 +193,7 @@ export const getCategoriesController = async (req: Request, res: Response) => {
 
 export const addCategoryController = async (req: Request, res: Response) => {
   const isAdmin = await IsAdmin({ req });
-  const { name } = req.body;
+  const { id, name, metrik, okei_code } = req.body;
   if (!isAdmin) {
     res.status(403).send({ error: "No rights to delete" });
     return;
@@ -202,8 +203,7 @@ export const addCategoryController = async (req: Request, res: Response) => {
     res.status(400).send({ error: "No category name" });
     return;
   }
-
-  const success = await addCategory(name);
+  const success = !id? await addCategory(name, metrik, okei_code) : await updateCategory(id, name, metrik, okei_code);
   res.status(200).send({
     success,
   });
