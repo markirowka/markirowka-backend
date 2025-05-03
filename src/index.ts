@@ -99,6 +99,12 @@ app.post ("/api/admin/edituser", EditUser.EditUserParamsByAdmin);
 
 app.get ("/api/admin/allusers", EditUser.GetUsers);
 
+app.get ("/api/admin/allusers/:offset/:limit", EditUser.GetUsers);
+
+app.get ("/api/admin/alluserscount", EditUser.GetUsersCount);
+
+app.get ("/api/external/validateunp/:unp", EditUser.unpValidationController);
+
 app.get ("/api/admin/ordercount", History.GetOrderCount);
 
 app.get ("/api/admin/allorders/:page", History.GetTotalOrderHistory);

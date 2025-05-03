@@ -199,7 +199,30 @@ export async function DeleteUser (userId: number) {
   }
 }
 
-export async function GetUserList() {
-  const query = `SELECT * FROM "app_users";`
-  return await Q(query, true)
+export async function GetUserList(offset?: number, limit?: number) {
+  let query = `
+    SELECT id, email, full_name, inn, user_role
+    FROM "app_users"
+    ORDER BY id DESC
+  `;
+
+  if (typeof limit === 'number') {
+    query += ` LIMIT ${limit}`;
+  }
+
+  if (typeof offset === 'number') {
+    query += ` OFFSET ${offset}`;
+  }
+
+  return await Q(query, true);
+}
+
+export async function getUsersCount(): Promise<number> {
+  let query = `
+    SELECT count(*) FROM "app_users";
+  `;  
+
+  const result =  await Q(query, true);  
+  if (!result || result.length === 0) return 0;
+  return result[0].count
 }

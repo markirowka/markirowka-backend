@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import 'express-session';
-import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin, DeleteUser, GetUserList } from "../models";
+import { userEditRequest, forbiddenToEditParams, EditUserParams, forbiddenToEditParamsAdmin, DeleteUser, GetUserList, getUsersCount } from "../models";
 import { GetAuthorizedUserData, IsAdmin, getUserIdFromAuth } from "./authController";
 import { IsValidEmail } from "../utils";
 import { SetupHeaders } from "./indexController";
+import { validateUnp } from "../models/external";
 
 
 export const EditUserParamByUser = async (req: Request, res: Response) => {
@@ -104,22 +105,59 @@ export const DeleteUserByAdmin = async (req: Request, res: Response) => {
 }
 
 export const GetUsers = async (req: Request, res: Response) => {
-    const isFromAdmin = await IsAdmin ({req: req});
+    const isFromAdmin = await IsAdmin({ req });
     if (!isFromAdmin) {
-        res.status(403).send({ error: "No rigths to watch all users"});
+        res.status(403).send({ error: "No rights to watch all users" });
+        return;
+    }
+
+    const offset = req.params.offset ? Number(req.params.offset) : undefined;
+    const limit = req.params.limit ? Number(req.params.limit) : undefined;
+
+
+
+    try {
+        const users = await GetUserList(offset, limit);
+        res.status(200).send({
+            users: users?.map(({ id, email, full_name, inn, user_role }) => ({
+                id, user_id: id, email, full_name, inn, user_role
+            }))
+        });
+    } catch (e: any) {
+        console.error(e.message);
+        res.status(500).send({ error: "Failed to get users" });
+    }
+};
+
+export const GetUsersCount = async (req: Request, res: Response) => {
+    const isFromAdmin = await IsAdmin({ req });
+    if (!isFromAdmin) {
+        res.status(403).send({ error: "No rights to watch all users" });
         return;
     }
 
     try {
-       const users = await GetUserList();
-       res.status(200).send({ users: users?.map((item) => {
-         const {id, email, full_name, inn, user_role} = item
-         return({
-            id, email, full_name, inn, user_role
-         })
-       }) })
+        const count = await getUsersCount();
+        res.status(200).send({
+           count
+        });
     } catch (e: any) {
-        console.log(e.message);
-        res.status(500).send({error: "Failed to get users"})
+        console.error(e.message);
+        res.status(500).send({ error: "Failed to get users count" });
     }
+};
+
+export const unpValidationController = async (req: Request, res: Response) => {
+    const unp = req.body.unp || req.params.unp || req.query.unp;
+    const unpNum = Number(unp);
+    if (isNaN(unpNum)) {
+        res.status(400).send({
+            error: "Invalid number"
+        });
+        return;
+    }
+    const ok = await validateUnp (unpNum);
+    res.status(200).send({
+        ok
+    })
 }

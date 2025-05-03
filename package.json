@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node-fetch": "2",
     "archiver": "^7.0.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
@@ -26,6 +27,7 @@
     "handlebars": "^4.7.8",
     "jsonwebtoken": "^9.0.2",
     "mime-types": "^2.1.35",
+    "node-fetch": "2",
     "nodemailer": "^6.9.13",
     "pdf-generator": "^1.0.4",
     "pg": "^8.11.5",
@@ -35,8 +37,8 @@
   "devDependencies": {
     "@types/archiver": "^6.0.2",
     "@types/bcryptjs": "^2.4.6",
-    "@types/express": "^4.17.21",
-    "@types/express-session": "^1.18.0",
+    "@types/express": "^4.17.4",
+    "@types/express-session": "^1.18.1",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.12.13",
     "@types/nodemailer": "^6.4.15",

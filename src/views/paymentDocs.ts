@@ -5,6 +5,7 @@ import {
   CMRDeliveryData,
 } from "../models";
 import fs from "fs";
+// import XLSX from 'xlsx';
 import path from "path";
 import archiver from "archiver";
 import puppeteer from "puppeteer";
@@ -36,7 +37,8 @@ export async function GeneratePaymentPDF(
   docId: number,
   date?: string,
   signed = true,
-  saveHTML = false
+  saveHTML = false,
+  saveAsXLS = false
 ): Promise<{ result: boolean; path: string }> {
   return new Promise(async (resolve, reject) => {
     let result = false;
@@ -104,6 +106,7 @@ export async function GeneratePaymentPDF(
           metricName: cat?.metrik || "шт",
           okeiCode: cat?.okei_code || "796",
           sum: item.quantity * item.price,
+          country: item.country || "Россия"
         };
       }),
       numDate,
@@ -162,11 +165,47 @@ export async function GeneratePaymentPDF(
           content
         );
       }
-
       await page.setContent(html);
       await page.pdf(pdfOptions);
       result = true;
       filePath = pdfOptions.path;
+      /* if (!saveAsXLS) {
+        await page.setContent(html);
+        await page.pdf(pdfOptions);
+        result = true;
+        filePath = pdfOptions.path;
+      } else {
+        const tempHtmlPath = `${rootFolder}${user.id || "0"}/temp_${Date.now()}.html`;
+        fs.writeFileSync(tempHtmlPath, html);
+  
+        // Создаем новую рабочую книгу Excel
+        const wb = XLSX.utils.book_new();
+
+        const wsData = [
+          ["HTML Content"],
+          [html] // Помещаем весь HTML в одну ячейку
+        ];
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+        console.log("Read:", ws)
+        // Добавляем рабочий лист в книгу
+              // Устанавливаем ширину столбца
+        ws['!cols'] = [{ wch: 300 }]; // Ширина 100 символов
+      
+        XLSX.utils.book_append_sheet(wb, ws, "HTML Document");
+
+              // Создаем папку, если не существует
+        if (!fs.existsSync(path.dirname(filePath))) {
+          fs.mkdirSync(path.dirname(filePath), { recursive: true });
+        }
+
+        // Записываем файл
+        const ok = XLSX.writeFile(wb, filePath);
+        console.log("Saved:", ok)
+        fs.unlinkSync(tempHtmlPath);
+        result = true;
+
+      } */
     } catch (e: any) {
       console.log(e.message);
     } finally {

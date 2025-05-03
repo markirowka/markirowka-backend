@@ -8,7 +8,7 @@
       .main { width: 100%; margin: 0 auto; } 
       table { width: 100%; border-collapse: collapse; table-layout: fixed; } 
       th, td { border: 1px solid #c7c7c7; padding: 3px; text-align: left; font-size: 7px; } 
-      th { background-color: #f2f2f2; } 
+      th { background-color: #fff; } 
       .signBlock { display: flex; flex-direction: column; align-items: flex-end; } 
       .header { text-align: center; margin-bottom: 5px; } 
       .divider { background-color: #000; height: 2px; width: 100%; margin: 5px 0; } 
@@ -19,6 +19,11 @@
       .noBorder tr,
       .noBorder td {
         border: none;
+      }
+      .printImg {
+        position: absolute;
+        margin-top: -25px;
+        margin-left: 30px;
       }
     </style>
   </head>
@@ -37,24 +42,24 @@
       <div class="customerinfo">
         <h2 style="margin-top:0;">СЧЕТ-ФАКТУРА №{{id}} от {{dateDay}}.{{dateMonthNum}}.{{dateYear}}</h2>
         <p style="font-weight:300;font-size:8px">ИСПРАВЛЕНИЕ № - от "__" _______________</p>
-        <p><span class="gray">Продавец:</span> Индивидуальный предприниматель Ахмедов Сабир Табассумович</p>
-        <p><span class="gray">Адрес:</span> Российская Федерация, Республика Калмыкия, г. Элиста, мкр 1, дом 41, кв. 73</p>
-        <p><span class="gray">ИНН/КПП продавца:</span> 502765138514 / -</p>
+        <p><span>Продавец:</span> Индивидуальный предприниматель Ахмедов Сабир Табассумович</p>
+        <p><span>Адрес:</span> Российская Федерация, Республика Калмыкия, г. Элиста, мкр 1, дом 41, кв. 73</p>
+        <p><span>ИНН/КПП продавца:</span> 502765138514 / -</p>
         
-        <p><span class="gray">Грузоотправитель и его адрес:</span> Индивидуальный предприниматель Ахмедов Сабир Табассумович, Российская Федерация, Республика Адыгея (Адыгея)</p>
+        <p><span>Грузоотправитель и его адрес:</span> Индивидуальный предприниматель Ахмедов Сабир Табассумович, Российская Федерация, Республика Адыгея (Адыгея)</p>
         
-        <p><span class="gray">Грузополучатель и его адрес:</span> {{orgTypeName}} {{orgNameNoType}}, {{ user.law_address }}</p>
+        <p><span>Грузополучатель и его адрес:</span> {{orgTypeName}} {{orgNameNoType}}, {{ user.law_address }}</p>
         
-        <p><span class="gray">К платежно-расчетному документу:</span> №_____ от _______________</p>
-        <p><span class="gray">Документ об отгрузке:</span> Накладная ТОРГ-12 №_____ от _______________</p>
+        <p><span>К платежно-расчетному документу:</span> №{{id}} от {{dateDay}}.{{dateMonthNum}}.{{dateYear}} г.</p>
+        <p><span>Документ об отгрузке:</span> Накладная ТОРГ-12 №{{id}} от {{dateDay}}.{{dateMonthNum}}.{{dateYear}} г.</p>
         
-        <p><span class="gray">Покупатель:</span> {{orgTypeName}} {{orgNameNoType}}</p>
-        <p><span class="gray">Адрес:</span> {{user.law_address}}</p>
-        <p><span class="gray">ИНН/КПП покупателя:</span> {{user.inn}} / {{user.kpp}}</p>
+        <p><span>Покупатель:</span> {{orgTypeName}} {{orgNameNoType}}</p>
+        <p><span>Адрес:</span> {{user.law_address}}</p>
+        <p><span>ИНН/КПП покупателя:</span> {{user.inn}} / {{user.kpp}}</p>
         
-        <p><span class="gray">Валюта:</span> наименование, код рубль, 643</p>
-        <p><span class="gray">Идентификатор государственного контракта, договора (соглашения)(при наличии)</span></p>
-        <p><span class="gray">Доп. сведения:</span>Договор №{{id}}, Накладная ТОРГ-12 №{{id}}, Счёт на оплату №{{id}}, Спецификация №{{id}},</p>
+        <p><span>Валюта:</span> наименование, код рубль, 643</p>
+        <p><span>Идентификатор государственного контракта, договора (соглашения)(при наличии)</span></p>
+        <p><span>Доп. сведения:</span>Договор №{{id}}, Накладная ТОРГ-12 №{{id}}, Счёт на оплату №{{id}}, Спецификация №{{id}},</p>
       </div>
       <div class="customerinfo">
         <p>(1)</p>
@@ -79,9 +84,9 @@
           <tr>
             <th rowspan="2" style="width: 3%;">№ п/п</th>
             <th rowspan="2" style="width: 8%;">Наименование товара (описание выполненных работ, оказанных услуг), имущественного права</th>
-            <th rowspan="2" style="width: 3%;">Код вида товара</th>
-            <th colspan="2" style="width: 8%;">Единица измерения</th>
-            <th rowspan="2" style="width: 4%;">Количество (объем)</th>
+            <th rowspan="2" style="width: 4%;">Код вида товара</th>
+            <th colspan="2" style="width: 9%;">Единица измерения</th>
+            <th rowspan="2" style="width: 3%;">Количество (объем)</th>
             <th rowspan="2" style="width: 4%;">Цена (тариф) за единицу измерения</th>
             <th rowspan="2" style="width: 6%;">Стоимость товаров (работ, услуг), имущественных прав без налога - всего</th>
             <th rowspan="2" style="width: 4%;">В том числе сумма акциза</th>
@@ -118,21 +123,21 @@
           </tr>
           {{#each items}}
             <tr>
-              <td>{{rowNum}}</td>
-              <td>{{name}}</td>
-              <td>{{okeiCode}}</td>
-              <td>{{metricCode}}</td>
-              <td>{{metricName}}</td>
-              <td>{{quantity}}</td>
-              <td>{{price}}</td>
-              <td>{{sum}}</td>
-              <td>без акциза</td>
-              <td>0%</td>
-              <td>0.00</td>
-              <td>{{sum}}</td>
-              <td>643</td>
-              <td>Россия</td>
-              <td></td>
+               <td>{{rowNum}}</td>          <!-- 1 -->
+               <td>{{name}}</td>            <!-- 1а -->
+               <td>{{tnved}}</td>           <!-- 1б -->
+               <td>{{okeiCode}}</td>        <!-- 2 -->
+               <td>{{metricName}}</td>      <!-- 3 -->
+               <td>{{quantity}}</td>        <!-- 4 -->
+               <td>{{price}}</td>           <!-- 5 -->
+               <td>{{sum}}</td>             <!-- 6 -->
+               <td>без акциза</td>          <!-- 7 -->
+               <td>0%</td>                  <!-- 8 -->
+               <td>0.00</td>                <!-- 9 -->
+               <td>{{sum}}</td>             <!-- 10 -->
+               <td>643</td>                 <!-- 10а -->
+               <td>{{country}}</td>              <!-- 11 -->
+               <td>-</td> 
             </tr>
           {{/each}}
           <tr>
@@ -147,14 +152,18 @@
       <table class="noBorder" style="width: 100%; margin-top: 10px; border-collapse: collapse;border: none;">
         <tr>
           <td style="width: 20%;">Руководитель организации или иное уполномоченное лицо</td>
-          <td style="width: 12%; border-bottom: 1px solid black;"></td>
+          <td style="width: 12%; border-bottom: 1px solid black;">
+            <img class="printImg sign" src={{sign}} width="50" height="50" alt="Подпись" />
+          </td>
           <td style="width: 2%;"></td>
-          <td style="width: 15%; border-bottom: 1px solid black;"></td>
+          <td style="width: 15%; border-bottom: 1px solid black;">Ахмедов Сабир Табассумович</td>
           <td style="width: 22%;"></td>
           <td style="width: 20%;">Главный бухгалтер или иное уполномоченное лицо</td>
-          <td style="width: 13%; border-bottom: 1px solid black;"></td>
+          <td style="width: 13%; border-bottom: 1px solid black;">
+            <img class="printImg sign" src={{sign}} width="50" height="50" alt="Подпись" />
+          </td>
           <td style="width: 2%;"></td>
-          <td style="width: 16%; border-bottom: 1px solid black;"></td>
+          <td style="width: 16%; border-bottom: 1px solid black;">Ахмедов Сабир Табассумович</td>
         </tr>
         <tr>
           <td></td>
@@ -172,7 +181,9 @@
       <table class="noBorder" style="width: 100%; margin-top: 10px; border-collapse: collapse;">
         <tr>
           <td style="width: 20%;">Индивидуальный предприниматель или иное уполномоченное лицо</td>
-          <td style="width: 12%; border-bottom: 1px solid black;">Электронная подпись</td>
+          <td style="width: 12%; border-bottom: 1px solid black;">
+            <img class="printImg sign" src={{sign}} width="50" height="50" alt="Подпись" />
+          </td>
           <td style="width: 2%;"></td>
           <td style="width: 15%; border-bottom: 1px solid black;">АХМЕДОВ САБИР ТАБАССУМОВИЧ</td>
           <td style="width: 3%;"></td>
@@ -189,6 +200,7 @@
       </table>
 
       <div style="width: 40mm; text-align: center; margin-top: 10px;">М.П.</div>
+      <img class="printImg print" src={{print}} width="100" height="100" alt="Печать" />
     </div>
   </body>
 </html>

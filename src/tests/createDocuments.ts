@@ -22,6 +22,7 @@ const testPaymentData: PaymentDocumentData[] = [
     quantity: 10,
     price: 100,
     tnved: 6403190000,
+    country: "Китай"
   },
   {
     category: "Одежда",
@@ -71,9 +72,28 @@ async function runTest() {
       true,
       true
     );
+    console.log("\n2. Тестирование генерации XLSX...");
+    const filen = testFileName.replace(".pdf", ".xlsx");
+    console.log("Имя файла:", filen)
+    const result2 = await GeneratePaymentPDF(
+      testUser,
+      filen,
+      testPaymentData,
+      testCMR,
+      "invoicef",
+      testDocId,
+      "2025-04-08T12:00:00",
+      true,
+      true,
+      true
+    );
+
 
     console.log("Результат генерации:", result.result ? "УСПЕХ" : "ОШИБКА");
     console.log("Путь к файлу:", result.path);
+
+    console.log("Результат генерации xlsx:", result2 ? "УСПЕХ" : "ОШИБКА");
+    console.log("Путь к файлу:", result2.path);
 
     // 2. Проверка существования файла
     console.log("\n2. Проверка существования файла...");
