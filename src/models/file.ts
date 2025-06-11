@@ -158,18 +158,20 @@ export function createFileName(
 export async function CreateFileNameDBNote(
   ownerId: number,
   fileType: string,
-  signed = true
+  ready_id: number,
+  signed = true,
+  save = false,
 ): Promise<{ id: number; name: string }> {
-  const fileId = await GetNewFileId();
+  const fileId = ready_id || await GetNewFileId();
 
   const newFileName = createFileName(ownerId, fileType, fileId, signed);
   const fileAddQuery = `
    INSERT INTO public.user_files(
-	file_name, file_type, owner_id)
-	VALUES ('${newFileName}', '${fileType}', ${ownerId});
+	id, file_name, file_type, owner_id, is_deleted)
+	VALUES ($1, $2, $3, $4, false) ;
    `;
   try {
-    const result = await pool.query(fileAddQuery);
+    if (save) await pool.query(fileAddQuery, [fileId, newFileName, fileType, ownerId]);
     return { id: fileId, name: newFileName };
   } catch (e: any) {
     console.log(e.message);
@@ -223,6 +225,7 @@ export async function CheckAndCreateOwnerFolder(
     }
   }
 }
+
 export async function GetDownloads(
   userId: number
 ): Promise<FileDownloadData[]> {
@@ -257,4 +260,42 @@ export async function getDownloadById(
   }
 
   return files;
+}
+
+export async function deleteOldFiles(daysOld: number = 30): Promise<number> {
+  let deletionCounter = 0;
+
+  // UNIX timestamp: now - N days
+  const limitTimestamp = Math.floor(Date.now() / 1000) - daysOld * 24 * 60 * 60;
+
+  const idSelectQuery = `
+    SELECT DISTINCT unnest(document_ids) AS document_id
+    FROM order_history
+    WHERE order_date < $1;
+  `;
+
+  try {
+    const result = await pool.query(idSelectQuery, [limitTimestamp]);
+    const documentIds = new Set<number>();
+
+    for (const row of result.rows) {
+      const id = Number(row.document_id);
+      if (!isNaN(id)) {
+        documentIds.add(id);
+      }
+    }
+
+    for (const id of documentIds) {
+      try {
+        await deleteFile(id);
+        deletionCounter++;
+      } catch (err) {
+        console.log(`Failed to delete file with id ${id}:`, err);
+      }
+    }
+  } catch (e: any) {
+    console.log("Error during old file deletion:", e.message);
+  }
+
+  return deletionCounter;
 }

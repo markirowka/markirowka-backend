@@ -30,15 +30,19 @@ CREATE TABLE IF NOT EXISTS user_files (
     id serial PRIMARY KEY,
     file_name varchar(256),
     file_type varchar(64),
-    owner_id Integer
+    owner_id Integer,
+    date_created Boolean,
+    is_deleted Boolean
  );
 
 CREATE TABLE IF NOT EXISTS order_history (
     id serial PRIMARY KEY,
     user_id Integer,
     order_date Integer,
+    paid_date Integer,
     order_status varchar(64),
     order_status_id integer,
+    has_specify boolean,
     document_ids integer[]
  );
 

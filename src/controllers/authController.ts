@@ -59,7 +59,7 @@ const signup = async (req: Request, res: Response) => {
 
     // Send verification email logic here
     const token = jwt.sign({ userId }, authPrivateKey, {
-        expiresIn: "1d",
+        expiresIn: "7d",
       });
     
     const protocol = process.env.HTTP_PROTOCOL

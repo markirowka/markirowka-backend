@@ -239,9 +239,9 @@ export function getClosestDate(dates: { date: string }[]): string | undefined {
   return closestDate.date;
 }
 
-export function checkDateDiapasone (value: string, categories: string[]) {
+export function checkDateDiapasone (value: string, with_specify?: boolean) {
     // const hasMarkables = hasCommonElement(markableCategories, categories);
-    const daysLimit = 30; // hasMarkables ? 7 : 30
+    const daysLimit = with_specify ? 4 : 30; // hasMarkables ? 7 : 30
     const dt = new Date(value);
     const today = new Date();
     const thirtyDaysAgo = new Date(today);

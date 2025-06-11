@@ -11,23 +11,43 @@ export const orderSatusList = {
 };
 
 export async function writeOrder(
-  documentIds: number[],
-  user_id: number,
-  status = "new",
-  date?: number
+  data: {
+    documents: { id: number }[],
+    user_id: number,
+    paid_date?: number,
+    status: string,
+    has_specify?: boolean,
+    date?: number
+  } = { status: "new", documents: [], user_id: 0 }
 ) {
-  const orderDate = date || Math.round(new Date().getTime() / 1000);
+  const {
+    documents,
+    user_id,
+    paid_date,
+    status,
+    has_specify = false,
+    date,
+  } = data;
+
+  const orderDate = date || Math.round(Date.now() / 1000);
+  const defaultPaidDate = Math.round((Date.now() + 30 * 24 * 60 * 60 * 1000) / 1000);
+  const finalPaidDate = paid_date || defaultPaidDate;
+
+  const documentIds = documents.map(doc => doc.id);
 
   const query = `
-      INSERT INTO order_history (order_date, user_id, order_status, document_ids)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id;
-    `;
+    INSERT INTO order_history (order_date, user_id, order_status, document_ids, paid_date, has_specify)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id;
+  `;
+
   const values = [
     orderDate,
     user_id,
     status,
     arrayToPostgresArrayString(documentIds),
+    finalPaidDate,
+    has_specify,
   ];
 
   try {
